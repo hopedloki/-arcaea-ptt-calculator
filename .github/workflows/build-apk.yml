@@ -35,29 +35,32 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install Capacitor
-      run: npx cap install
+    - name: Create capacitor.config.ts if missing
+      run: |
+        if [ ! -f capacitor.config.ts ]; then
+          echo 'File not found, creating default config'
+          touch capacitor.config.ts
+        fi
+
+    - name: Initialize Capacitor
+      run: npx @capacitor/cli init
 
     - name: Add Android platform
-      run: npx cap add android
+      run: |
+        npx @capacitor/cli add android || echo "Android platform already exists"
 
     - name: Sync Android project
-      run: npx cap sync android
+      run: npx @capacitor/cli sync android
 
     - name: Grant execute permission for gradlew
-      run: cd android && chmod +x gradlew
+      run: |
+        cd android
+        chmod +x gradlew
 
     - name: Build Debug APK
       run: |
         cd android
-        ./gradlew assembleDebug
-
-    - name: Build Release APK (if release)
-      if: github.event_name == 'release'
-      run: |
-        cd android
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
-        ./gradlew assembleRelease
+        ./gradlew assembleDebug --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
@@ -65,20 +68,4 @@ jobs:
         name: debug-apk
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
-
-    - name: Upload Release APK (if release)
-      if: github.event_name == 'release'
-      uses: actions/upload-artifact@v4
-      with:
-        name: release-apk
-        path: android/app/build/outputs/apk/release/app-release.apk
-        retention-days: 90
-
-    - name: Upload APK to Release (if release)
-      if: github.event_name == 'release'
-      uses: softprops/action-gh-release@v2
-      with:
-        files: |
-          android/app/build/outputs/apk/release/app-release.apk
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if-no-files-found: error
