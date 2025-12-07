@@ -166,14 +166,8 @@ jobs:
       run: |
         cd android
         
-        # Initialize gradle wrapper
-        ./gradlew wrapper --gradle-version 8.0
-        
-        # Make gradlew executable
-        chmod +x gradlew
-        
-        # Build debug APK
-        ./gradlew assembleDebug --stacktrace
+        # Build debug APK using system gradle
+        gradle assembleDebug --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
