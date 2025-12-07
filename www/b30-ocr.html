@@ -362,10 +362,13 @@
         
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             uploadArea.classList.add('active');
         });
         
-        uploadArea.addEventListener('dragleave', () => {
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             uploadArea.classList.remove('active');
         });
         
@@ -439,7 +442,7 @@
                 
                 // 设置进度回调
                 worker.setParameters({
-                    tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]':
+                    tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]'
                 });
                 
                 showStatus('正在识别图片文字...', 'info');
