@@ -26,8 +26,7 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+
 
     - name: Create Simple Android Project
       run: |
@@ -165,22 +164,28 @@ jobs:
       run: |
         cp index.html android/app/src/main/assets/
 
-    - name: Build APK
+    - name: Build APK with Direct Commands
       run: |
         cd android
         
-        # List files for debugging
-        echo "Current directory contents:"
+        # Show current directory
+        echo "Directory contents:"
         ls -la
         
-        # Create gradle wrapper with specific version
-        gradle wrapper --gradle-version 8.5
-        
-        # Make gradlew executable
-        chmod +x gradlew
-        
-        # Build debug APK using gradlew
-        ./gradlew assembleDebug --stacktrace --info
+        # Try using system gradle first
+        if command -v gradle &> /dev/null; then
+            echo "Using system gradle"
+            gradle --version
+            gradle assembleDebug --stacktrace
+        else
+            echo "Installing gradle manually"
+            # Download gradle
+            wget https://services.gradle.org/distributions/gradle-8.0-bin.zip -O gradle.zip
+            unzip gradle.zip
+            export PATH=$PWD/gradle-8.0/bin:$PATH
+            gradle --version
+            gradle assembleDebug --stacktrace
+        fi
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
