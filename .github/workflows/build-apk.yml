@@ -102,6 +102,10 @@ jobs:
                 mavenCentral()
             }
         }
+        
+        task clean(type: Delete) {
+            delete rootProject.buildDir
+        }
         EOF
         
         cat > android/app/build.gradle << 'EOF'
@@ -111,14 +115,15 @@ jobs:
         
         android {
             namespace 'com.arcaea.ptt.calculator'
-            compileSdk 33
+            compileSdk 34
             
             defaultConfig {
                 applicationId "com.arcaea.ptt.calculator"
                 minSdk 21
-                targetSdk 33
+                targetSdk 34
                 versionCode 1
                 versionName "1.0.0"
+                multiDexEnabled true
             }
             
             compileOptions {
@@ -129,12 +134,22 @@ jobs:
             buildTypes {
                 release {
                     minifyEnabled false
+                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
                 }
                 debug {
                     minifyEnabled false
                     debuggable true
                 }
             }
+            
+            dexOptions {
+                javaMaxHeapSize "2g"
+            }
+        }
+        
+        dependencies {
+            implementation 'androidx.appcompat:appcompat:1.6.1'
+            implementation 'androidx.multidex:multidex:2.0.1'
         }
         EOF
         
@@ -155,9 +170,15 @@ jobs:
     - name: Build APK
       run: |
         cd android
-        ./gradlew wrapper --gradle-version 7.6
-        chmod +x gradlew
-        ./gradlew assembleDebug
+        
+        # Create gradle.properties with proper settings
+        echo "android.useAndroidX=true" >> gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
+        echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
+        echo "android.nonTransitiveRClass=true" >> gradle.properties
+        
+        # Use system gradle instead of wrapper
+        gradle assembleDebug --stacktrace --info
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
