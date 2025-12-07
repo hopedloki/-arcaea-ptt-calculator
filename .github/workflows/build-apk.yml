@@ -20,9 +20,6 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install dependencies
-      run: npm install --verbose
-
     - name: Setup Java JDK
       uses: actions/setup-java@v4
       with:
@@ -32,37 +29,62 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Create Android project structure
+    - name: Create Simple Android Project
       run: |
-        mkdir -p android/app/src/main/res/values
-        mkdir -p android/app/src/main/res/mipmap-anydpi-v26
-        mkdir -p android/app/src/main/res/drawable
-
-    - name: Create Android manifest
-      run: |
+        # Create basic Android project structure
+        mkdir -p android/app/src/main/{java/com/arcaea/ptt/calculator,res/{values,layout},assets}
+        
+        # Create AndroidManifest.xml
         cat > android/app/src/main/AndroidManifest.xml << 'EOF'
         <?xml version="1.0" encoding="utf-8"?>
         <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <application
                 android:allowBackup="true"
-                android:icon="@mipmap/ic_launcher"
+                android:icon="@android:drawable/sym_def_app_icon"
                 android:label="Arcaea PTT Calculator"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+                android:theme="@android:style/Theme.Material.Light">
                 <activity
                     android:name=".MainActivity"
-                    android:exported="true"
-                    android:screenOrientation="portrait">
+                    android:exported="true">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
                         <category android:name="android.intent.category.LAUNCHER" />
                     </intent-filter>
                 </activity>
             </application>
+            <uses-permission android:name="android.permission.INTERNET" />
         </manifest>
         EOF
 
-    - name: Create Gradle files
-      run: |
+        # Create MainActivity.java
+        cat > android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java << 'EOF'
+        package com.arcaea.ptt.calculator;
+        
+        import android.app.Activity;
+        import android.os.Bundle;
+        import android.webkit.WebView;
+        import android.webkit.WebViewClient;
+        import android.webkit.WebSettings;
+        
+        public class MainActivity extends Activity {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                
+                WebView webView = new WebView(this);
+                setContentView(webView);
+                
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true);
+                
+                webView.setWebViewClient(new WebViewClient());
+                webView.loadUrl("file:///android_asset/index.html");
+            }
+        }
+        EOF
+
+        # Create build.gradle files
         cat > android/build.gradle << 'EOF'
         buildscript {
             repositories {
@@ -70,7 +92,7 @@ jobs:
                 mavenCentral()
             }
             dependencies {
-                classpath 'com.android.tools.build:gradle:8.0.2'
+                classpath 'com.android.tools.build:gradle:7.4.2'
             }
         }
         
@@ -83,23 +105,34 @@ jobs:
         EOF
         
         cat > android/app/build.gradle << 'EOF'
-        apply plugin: 'com.android.application'
+        plugins {
+            id 'com.android.application'
+        }
         
         android {
-            compileSdkVersion 33
+            namespace 'com.arcaea.ptt.calculator'
+            compileSdk 33
+            
             defaultConfig {
                 applicationId "com.arcaea.ptt.calculator"
-                minSdkVersion 21
-                targetSdkVersion 33
+                minSdk 21
+                targetSdk 33
                 versionCode 1
                 versionName "1.0.0"
             }
+            
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+            
             buildTypes {
                 release {
                     minifyEnabled false
                 }
                 debug {
                     minifyEnabled false
+                    debuggable true
                 }
             }
         }
@@ -112,88 +145,19 @@ jobs:
         cat > android/gradle.properties << 'EOF'
         android.useAndroidX=true
         android.enableJetifier=true
-        org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+        org.gradle.jvmargs=-Xmx2048m
         EOF
 
-    - name: Create MainActivity
+    - name: Copy HTML file
       run: |
-        mkdir -p android/app/src/main/java/com/arcaea/ptt/calculator
-        cat > android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java << 'EOF'
-        package com.arcaea.ptt.calculator;
-        
-        import android.app.Activity;
-        import android.content.Intent;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.webkit.WebSettings;
-        import android.webkit.WebView;
-        import android.webkit.WebViewClient;
-        
-        public class MainActivity extends Activity {
-            private WebView webView;
-            
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_main);
-                
-                webView = new WebView(this);
-                setContentView(webView);
-                
-                WebSettings webSettings = webView.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-                webSettings.setDomStorageEnabled(true);
-                webSettings.setAllowFileAccess(true);
-                webSettings.setAllowContentAccess(true);
-                
-                webView.setWebViewClient(new WebViewClient());
-                webView.loadUrl("file:///android_asset/index.html");
-            }
-        }
-        EOF
-
-    - name: Copy HTML file to Android assets
-      run: |
-        mkdir -p android/app/src/main/assets
         cp index.html android/app/src/main/assets/
 
-    - name: Create app icon
-      run: |
-        # Create simple launcher icon
-        cat > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml << 'EOF'
-        <?xml version="1.0" encoding="utf-8"?>
-        <vector xmlns:android="http://schemas.android.com/apk/res/android"
-            android:width="108dp"
-            android:height="108dp"
-            android:viewportWidth="108"
-            android:viewportHeight="108">
-            <path
-                android:fillColor="#667eea"
-                android:pathData="M0,0h108v108h-108z"/>
-            <path
-                android:fillColor="#ffffff"
-                android:pathData="M54,30c13.25,0 24,10.75 24,24s-10.75,24-24,24s-24-10.75-24-24S40.75,30 54,30z"/>
-            <path
-                android:fillColor="#667eea"
-                android:pathData="M54,40c7.73,0 14,6.27 14,14s-6.27,14-14,14s-14-6.27-14-14S46.27,40 54,40z"/>
-        </vector>
-        EOF
-
-    - name: Grant execute permission for gradlew
+    - name: Build APK
       run: |
         cd android
-        wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
-        unzip gradle-8.0-bin.zip
-        export GRADLE_HOME=$PWD/gradle-8.0
-        export PATH=$PATH:$GRADLE_HOME/bin
+        ./gradlew wrapper --gradle-version 7.6
         chmod +x gradlew
-
-    - name: Build Debug APK
-      run: |
-        cd android
-        export GRADLE_HOME=$PWD/gradle-8.0
-        export PATH=$PATH:$GRADLE_HOME/bin
-        ./gradlew assembleDebug --stacktrace --info
+        ./gradlew assembleDebug
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
