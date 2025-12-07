@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcaea PTT 计算器</title>
+    
+    <!-- PWA 支持 -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Arcaea PTT">
+    <meta name="application-name" content="Arcaea PTT Calculator">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfNSkiLz4KPHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI2IiB5PSI2Ij4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCI+UFQ8L3RleHQ+Cjwvc3ZnPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==">
+    
+    <!-- 图标支持 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfNSkiLz4KPHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI2IiB5PSI2Ij4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCI+UFQ8L3RleHQ+Cjwvc3ZnPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .result-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result-formula {
+            font-size: 12px;
+            color: #888;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .grade-pm { background: #ffd700; color: #333; }
+        .grade-ex { background: #87ceeb; color: #333; }
+        .grade-uc { background: #98fb98; color: #333; }
+        .grade-c { background: #dda0dd; color: #333; }
+        .grade-b { background: #f0e68c; color: #333; }
+        .grade-a { background: #ffb6c1; color: #333; }
+        .grade-d { background: #d3d3d3; color: #333; }
+        
+        .tolerance-details {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        .tolerance-mode-toggle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            padding: 3px;
+        }
+
+        .tolerance-mode-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin: 0 1px;
+        }
+
+        .tolerance-mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 1px 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .tolerance-input-section {
+            display: none;
+        }
+
+        .tolerance-input-section.active {
+            display: block;
+        }
+
+        .info-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .formula-table {
+            width: 100%;
+            font-size: 11px;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+
+        .formula-table th,
+        .formula-table td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .formula-table th {
+            background: rgba(102, 126, 234, 0.1);
+            color: #333;
+            font-weight: 600;
+        }
+
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .input-section {
+            display: none;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .result-value {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Arcaea PTT 计算器</h1>
+        <p class="subtitle">双向计算工具 - 支持PTT与成绩互转</p>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="switchMode('ptt')">成绩→PTT</button>
+            <button class="mode-btn" onclick="switchMode('score')">PTT→成绩</button>
+            <button class="mode-btn" onclick="switchMode('tolerance')">容错计算</button>
+        </div>
+        
+        <!-- 成绩转PTT模式 -->
+        <div id="ptt-mode" class="input-section active">
+            <div class="input-group">
+                <label for="chart-constant-ptt">谱面定数 (Chart Constant)</label>
+                <input type="number" id="chart-constant-ptt" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+            </div>
+            
+            <div class="input-group">
+                <label for="score-ptt">单曲成绩 (Score)</label>
+                <input type="number" id="score-ptt" step="10000" min="0" max="10000000" placeholder="例如: 9690000" />
+            </div>
+        </div>
+        
+        <!-- PTT转成绩模式 -->
+        <div id="score-mode" class="input-section">
+            <div class="input-group">
+                <label for="chart-constant-score">谱面定数 (Chart Constant)</label>
+                <input type="number" id="chart-constant-score" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+            </div>
+            
+            <div class="input-group">
+                <label for="ptt-score">单曲PTT (Single PTT)</label>
+                <input type="number" id="ptt-score" step="0.01" min="0" max="15" placeholder="例如: 11.73" />
+            </div>
+        </div>
+        
+        <!-- 容错计算模式 -->
+        <div id="tolerance-mode" class="input-section">
+            <div class="tolerance-mode-toggle">
+                <button class="tolerance-mode-btn active" onclick="switchToleranceMode('grade')">评级容错</button>
+                <button class="tolerance-mode-btn" onclick="switchToleranceMode('score')">成绩容错</button>
+                <button class="tolerance-mode-btn" onclick="switchToleranceMode('ptt')">PTT容错</button>
+            </div>
+            
+            <!-- 评级容错模式 -->
+            <div id="grade-tolerance" class="tolerance-input-section active">
+                <div class="input-group">
+                    <label for="note-count-grade">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-grade" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-grade">目标评级 (Target Grade)</label>
+                    <select id="target-grade" style="width: 100%; padding: 12px 16px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; background: white; transition: all 0.3s ease;">
+                        <option value="PM">PM (Pure Memory) - 10,000,000分</option>
+                        <option value="EX+">EX+ - 9,900,000分</option>
+                        <option value="EX" selected>EX - 9,800,000分</option>
+                        <option value="UC">UC - 9,700,000分</option>
+                        <option value="C">C - 9,500,000分</option>
+                        <option value="B">B - 9,200,000分</option>
+                        <option value="A">A - 8,900,000分</option>
+                        <option value="D">D - 8,900,000分以下</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 成绩容错模式 -->
+            <div id="score-tolerance" class="tolerance-input-section">
+                <div class="input-group">
+                    <label for="note-count-score">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-score" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-score">目标成绩 (Target Score)</label>
+                    <input type="number" id="target-score" step="10000" min="0" max="10000000" placeholder="例如: 9850000" />
+                </div>
+            </div>
+            
+            <!-- PTT容错模式 -->
+            <div id="ptt-tolerance" class="tolerance-input-section">
+                <div class="input-group">
+                    <label for="note-count-ptt">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-ptt" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="chart-constant-ptt-tolerance">谱面定数 (Chart Constant)</label>
+                    <input type="number" id="chart-constant-ptt-tolerance" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-ptt">目标单曲PTT (Target Single PTT)</label>
+                    <input type="number" id="target-ptt" step="0.01" min="0" max="15" placeholder="例如: 11.5" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-label" id="result-label">计算结果</div>
+            <div class="result-value" id="result-value">-</div>
+            <div id="grade-badge"></div>
+            <div class="result-formula" id="result-formula">请输入数据开始计算</div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">📊 PTT 计算公式</div>
+            <div class="info-content">
+                <table class="formula-table">
+                    <thead>
+                        <tr>
+                            <th>得分区间</th>
+                            <th>计算公式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>≥ 10,000,000 (PM)</td>
+                            <td>定数 + 2.0</td>
+                        </tr>
+                        <tr>
+                            <td>9,950,000 ~ 9,999,999</td>
+                            <td>定数 + 1.5 + (得分-9,950,000)/100,000</td>
+                        </tr>
+                        <tr>
+                            <td>9,800,000 ~ 9,949,999</td>
+                            <td>定数 + 1.0 + (得分-9,800,000)/400,000</td>
+                        </tr>
+                        <tr>
+                            <td>≤ 9,800,000</td>
+                            <td>定数 + (得分-9,500,000)/300,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ptt';
+        let toleranceMode = 'grade';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // 切换按钮状态
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换输入区域
+            document.querySelectorAll('.input-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`${mode}-mode`).classList.add('active');
+            
+            // 清空结果
+            document.getElementById('result-value').textContent = '-';
+            document.getElementById('result-formula').textContent = '请输入数据开始计算';
+            document.getElementById('grade-badge').innerHTML = '';
+            
+            // 更新结果标签
+            if (mode === 'ptt') {
+                document.getElementById('result-label').textContent = '单曲PTT';
+            } else if (mode === 'score') {
+                document.getElementById('result-label').textContent = '所需成绩';
+            } else {
+                document.getElementById('result-label').textContent = 'Far容错';
+            }
+        }
+
+        function calculatePTT(chartConstant, score) {
+            let ptt;
+            let formula;
+            
+            if (score >= 10000000) {
+                ptt = chartConstant + 2.0;
+                formula = `${chartConstant} + 2.0`;
+            } else if (score >= 9950000) {
+                const bonus = (score - 9950000) / 100000;
+                ptt = chartConstant + 1.5 + bonus;
+                formula = `${chartConstant} + 1.5 + (${score.toLocaleString()} - 9,950,000)/100,000`;
+            } else if (score >= 9800000) {
+                const bonus = (score - 9800000) / 400000;
+                ptt = chartConstant + 1.0 + bonus;
+                formula = `${chartConstant} + 1.0 + (${score.toLocaleString()} - 9,800,000)/400,000`;
+            } else {
+                const bonus = Math.max(0, (score - 9500000) / 300000);
+                ptt = chartConstant + bonus;
+                formula = `${chartConstant} + (${score.toLocaleString()} - 9,500,000)/300,000`;
+            }
+            
+            return {
+                ptt: Math.max(0, ptt),
+                formula: formula,
+                grade: getGrade(score)
+            };
+        }
+
+        function calculateScore(chartConstant, targetPTT) {
+            let score;
+            let formula;
+            let possible = true;
+            
+            // 检查目标PTT是否可能达到
+            const maxPTT = chartConstant + 2.0; // PM时的最高PTT
+            if (targetPTT > maxPTT) {
+                possible = false;
+                return {
+                    score: 0,
+                    formula: `目标PTT ${targetPTT.toFixed(2)} 超过理论最大值 ${maxPTT.toFixed(2)}`,
+                    possible: false
+                };
+            }
+            
+            const targetBonus = targetPTT - chartConstant;
+            
+            if (targetBonus >= 2.0) {
+                score = 10000000;
+                formula = `目标PTT ≥ 定数+2.0，需要达到 PM (10,000,000分)`;
+            } else if (targetBonus >= 1.5) {
+                score = 9950000 + (targetBonus - 1.5) * 100000;
+                formula = `9950000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.5) × 100,000`;
+            } else if (targetBonus >= 1.0) {
+                score = 9800000 + (targetBonus - 1.0) * 400000;
+                formula = `9800000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.0) × 400,000`;
+            } else if (targetBonus > 0) {
+                score = 9500000 + targetBonus * 300000;
+                formula = `9500000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+            } else {
+                score = 9500000 + targetBonus * 300000; // 可能为负数
+                formula = `9500000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+            }
+            
+            // 限制分数范围
+            score = Math.max(0, Math.min(10000000, Math.round(score)));
+            
+            return {
+                score: score,
+                formula: formula,
+                possible: true,
+                grade: getGrade(score)
+            };
+        }
+        
+        function getGrade(score) {
+            if (score >= 10000000) return { name: 'PM', class: 'grade-pm' };
+            if (score >= 9900000) return { name: 'EX+', class: 'grade-ex' };
+            if (score >= 9800000) return { name: 'EX', class: 'grade-ex' };
+            if (score >= 9700000) return { name: 'UC', class: 'grade-uc' };
+            if (score >= 9500000) return { name: 'C', class: 'grade-c' };
+            if (score >= 9200000) return { name: 'B', class: 'grade-b' };
+            if (score >= 8900000) return { name: 'A', class: 'grade-a' };
+            return { name: 'D', class: 'grade-d' };
+        }
+        
+        function updateResult() {
+            if (currentMode === 'ptt') {
+                updatePTTResult();
+            } else if (currentMode === 'score') {
+                updateScoreResult();
+            } else {
+                updateToleranceResult();
+            }
+        }
+
+        function updatePTTResult() {
+            const chartConstant = parseFloat(document.getElementById('chart-constant-ptt').value);
+            const score = parseInt(document.getElementById('score-ptt').value);
+            
+            if (isNaN(chartConstant) || isNaN(score)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的定数和成绩';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (score < 0 || score > 10000000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '成绩应在 0-10,000,000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            const result = calculatePTT(chartConstant, score);
+            
+            document.getElementById('result-value').textContent = result.ptt.toFixed(2);
+            document.getElementById('result-formula').textContent = `${result.formula} = ${result.ptt.toFixed(2)}`;
+            
+            const grade = result.grade;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+        }
+
+        function updateScoreResult() {
+            const chartConstant = parseFloat(document.getElementById('chart-constant-score').value);
+            const targetPTT = parseFloat(document.getElementById('ptt-score').value);
+            
+            if (isNaN(chartConstant) || isNaN(targetPTT)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的定数和PTT';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (targetPTT < 0 || targetPTT > 15) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = 'PTT应在 0-15 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            const result = calculateScore(chartConstant, targetPTT);
+            
+            if (!result.possible) {
+                document.getElementById('result-value').textContent = '不可能';
+                document.getElementById('result-formula').textContent = result.formula;
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            document.getElementById('result-value').textContent = result.score.toLocaleString();
+            document.getElementById('result-formula').textContent = `${result.formula} = ${result.score.toLocaleString()}`;
+            
+            const grade = result.grade;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+        }
+
+        function calculateTolerance(noteCount, targetGrade) {
+            const gradeScores = {
+                'PM': 10000000,
+                'EX+': 9900000,
+                'EX': 9800000,
+                'UC': 9700000,
+                'C': 9500000,
+                'B': 9200000,
+                'A': 8900000,
+                'D': 8899999 // 使用8899999来表示D评级
+            };
+
+            const targetScore = gradeScores[targetGrade];
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+
+            let maxFarCount;
+            let resultText;
+
+            if (targetGrade === 'PM') {
+                // PM需要0个Far，全是Pure
+                maxFarCount = 0;
+                resultText = `PM需要全Pure判定，不允许任何Far`;
+            } else if (targetGrade === 'D') {
+                // D评级容错太多，计算到所有Far
+                maxFarCount = Math.floor(noteCount * 0.9); // 90%为Far
+                resultText = `D评级容错极大，这里计算90%容错`;
+            } else {
+                // 其他评级计算最大Far数量
+                const maxLostScore = 10000000 - targetScore;
+                maxFarCount = Math.floor(maxLostScore / farLoss);
+                
+                // 确保不超过总Note数
+                maxFarCount = Math.min(maxFarCount, noteCount);
+                
+                const pureCount = noteCount - maxFarCount;
+                const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+                
+                resultText = `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分`;
+            }
+
+            const pureCount = noteCount - maxFarCount;
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            return {
+                maxFarCount: maxFarCount,
+                pureCount: pureCount,
+                farPercentage: farPercentage,
+                purePercentage: purePercentage,
+                targetScore: targetScore,
+                resultText: resultText,
+                singleNoteScore: singleNoteScore,
+                farLoss: farLoss
+            };
+        }
+
+        function switchToleranceMode(mode) {
+            toleranceMode = mode;
+            
+            // 切换按钮状态
+            document.querySelectorAll('.tolerance-mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换输入区域
+            document.querySelectorAll('.tolerance-input-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`${mode}-tolerance`).classList.add('active');
+            
+            // 清空结果
+            document.getElementById('result-value').textContent = '-';
+            document.getElementById('result-formula').textContent = '请输入数据开始计算';
+            document.getElementById('grade-badge').innerHTML = '';
+        }
+
+        function updateToleranceResult() {
+            if (toleranceMode === 'grade') {
+                updateGradeToleranceResult();
+            } else if (toleranceMode === 'score') {
+                updateScoreToleranceResult();
+            } else {
+                updatePTTToleranceResult();
+            }
+        }
+
+        function updateGradeToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-grade').value);
+            const targetGrade = document.getElementById('target-grade').value;
+
+            if (isNaN(noteCount) || noteCount <= 0) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const result = calculateTolerance(noteCount, targetGrade);
+            
+            document.getElementById('result-value').textContent = result.maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge grade-${targetGrade.toLowerCase().replace('+', '')}">${targetGrade}</span>`;
+
+            let detailedInfo = `${result.resultText}\n`;
+            detailedInfo += `单Note基础分: ${result.singleNoteScore.toFixed(2)}分\n`;
+            detailedInfo += `单个Far损失: ${result.farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${result.farPercentage}% | Pure需求率: ${result.purePercentage}%`;
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function updateScoreToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-score').value);
+            const targetScore = parseInt(document.getElementById('target-score').value);
+
+            if (isNaN(noteCount) || noteCount <= 0 || isNaN(targetScore)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量和目标成绩';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (targetScore < 0 || targetScore > 10000000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '成绩应在 0-10,000,000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+            const maxLostScore = 10000000 - targetScore;
+            
+            // 计算最大Far数量
+            let maxFarCount = Math.floor(maxLostScore / farLoss);
+            maxFarCount = Math.min(maxFarCount, noteCount);
+            maxFarCount = Math.max(0, maxFarCount);
+            
+            const pureCount = noteCount - maxFarCount;
+            const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+            const grade = getGrade(targetScore);
+            
+            // 计算还有多少分到下一个评级
+            const nextGradeScore = getNextGradeScore(targetScore);
+            const scoreToNextGrade = nextGradeScore > targetScore ? nextGradeScore - targetScore : 0;
+            const farToNextGrade = scoreToNextGrade > 0 ? Math.ceil(scoreToNextGrade / farLoss) : 0;
+
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            document.getElementById('result-value').textContent = maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+
+            let detailedInfo = `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `目标成绩: ${targetScore.toLocaleString()}分 | 实际可达: ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `单Note基础分: ${singleNoteScore.toFixed(2)}分 | 单个Far损失: ${farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${farPercentage}% | Pure需求率: ${purePercentage}%`;
+            
+            if (scoreToNextGrade > 0 && farToNextGrade > 0) {
+                detailedInfo += `\n距离上一评级还需减少 ${farToNextGrade} 个Far`;
+            }
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function updatePTTToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-ptt').value);
+            const chartConstant = parseFloat(document.getElementById('chart-constant-ptt-tolerance').value);
+            const targetPTT = parseFloat(document.getElementById('target-ptt').value);
+
+            if (isNaN(noteCount) || noteCount <= 0 || isNaN(chartConstant) || isNaN(targetPTT)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量、定数和目标PTT';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (targetPTT < 0 || targetPTT > 15) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = 'PTT应在 0-15 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            // 将PTT转换为对应的成绩
+            const scoreResult = calculateScore(chartConstant, targetPTT);
+            
+            if (!scoreResult.possible) {
+                document.getElementById('result-value').textContent = '不可能';
+                document.getElementById('result-formula').textContent = scoreResult.formula;
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const targetScore = scoreResult.score;
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+            const maxLostScore = 10000000 - targetScore;
+            
+            // 计算最大Far数量
+            let maxFarCount = Math.floor(maxLostScore / farLoss);
+            maxFarCount = Math.min(maxFarCount, noteCount);
+            maxFarCount = Math.max(0, maxFarCount);
+            
+            const pureCount = noteCount - maxFarCount;
+            const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+            const grade = getGrade(targetScore);
+            
+            // 计算PTT提升空间
+            const maxPTT = chartConstant + 2.0;
+            const pttToNextLevel = getPTTToNextLevel(targetPTT);
+
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            document.getElementById('result-value').textContent = maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+
+            let detailedInfo = `目标PTT ${targetPTT.toFixed(2)} 需要 ${targetScore.toLocaleString()}分\n`;
+            detailedInfo += `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `单Note基础分: ${singleNoteScore.toFixed(2)}分 | 单个Far损失: ${farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${farPercentage}% | Pure需求率: ${purePercentage}%\n`;
+            detailedInfo += `谱面最高PTT: ${maxPTT.toFixed(2)} | 当前PTT目标: ${targetPTT.toFixed(2)}`;
+            
+            if (pttToNextLevel.nextPTT > targetPTT) {
+                const farNeededToNext = Math.ceil((pttToNextLevel.scoreNeeded - targetScore) / farLoss);
+                detailedInfo += `\n达到${pttToNextLevel.nextPTT.toFixed(2)}PTT还需减少${farNeededToNext}个Far`;
+            }
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function getPTTToNextLevel(currentPTT) {
+            // 计算下一个重要的PTT里程碑（通常是整数或0.5的倍数）
+            const nextMilestone = Math.ceil(currentPTT * 2) / 2; // 向上取整到0.5
+            if (nextMilestone <= currentPTT) {
+                return { nextPTT: currentPTT + 0.5, scoreNeeded: 0 };
+            }
+            
+            // 这里简化处理，实际需要更复杂的计算
+            return { 
+                nextPTT: nextMilestone, 
+                scoreNeeded: 0 // 实际应该计算对应分数
+            };
+        }
+
+        function getNextGradeScore(currentScore) {
+            if (currentScore >= 10000000) return 10000000;
+            if (currentScore >= 9900000) return 10000000;  // EX+ to PM
+            if (currentScore >= 9800000) return 9900000;  // EX to EX+
+            if (currentScore >= 9700000) return 9800000;  // UC to EX
+            if (currentScore >= 9500000) return 9700000;  // C to UC
+            if (currentScore >= 9200000) return 9500000;  // B to C
+            if (currentScore >= 8900000) return 9200000;  // A to B
+            return 8900000;  // Below A to A
+        }
+        
+        // 实时计算
+        document.getElementById('chart-constant-ptt').addEventListener('input', updateResult);
+        document.getElementById('score-ptt').addEventListener('input', updateResult);
+        document.getElementById('chart-constant-score').addEventListener('input', updateResult);
+        document.getElementById('ptt-score').addEventListener('input', updateResult);
+        document.getElementById('note-count-grade').addEventListener('input', updateResult);
+        document.getElementById('note-count-score').addEventListener('input', updateResult);
+        document.getElementById('note-count-ptt').addEventListener('input', updateResult);
+        document.getElementById('target-score').addEventListener('input', updateResult);
+        document.getElementById('target-ptt').addEventListener('input', updateResult);
+        document.getElementById('chart-constant-ptt-tolerance').addEventListener('input', updateResult);
+        document.getElementById('target-grade').addEventListener('change', updateResult);
+        
+        // 添加示例计算
+        document.getElementById('chart-constant-ptt').value = '11.1';
+        document.getElementById('score-ptt').value = '9690000';
+        
+        // 容错模式示例
+        document.getElementById('note-count-grade').value = '1200';
+        document.getElementById('note-count-score').value = '1200';
+        document.getElementById('note-count-ptt').value = '1200';
+        document.getElementById('target-score').value = '9850000';
+        document.getElementById('chart-constant-ptt-tolerance').value = '11.1';
+        document.getElementById('target-ptt').value = '11.5';
+        document.getElementById('target-grade').value = 'EX';
+        
+        updateResult();
+    </script>
+</body>
+</html>
