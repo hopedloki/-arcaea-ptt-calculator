@@ -52,138 +52,124 @@ jobs:
     - name: Create Android Source Files
       run: |
         # Create AndroidManifest.xml
-        cat > android/app/src/main/AndroidManifest.xml << 'EOF'
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.arcaea.ptt.calculator">
-    
-    <uses-permission android:name="android.permission.INTERNET" />
-    
-    <application
-        android:allowBackup="true"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:label="Arcaea PTT Calculator"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
-        
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
-</manifest>
-EOF
+        echo '<?xml version="1.0" encoding="utf-8"?>' > android/app/src/main/AndroidManifest.xml
+        echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android"' >> android/app/src/main/AndroidManifest.xml
+        echo '    package="com.arcaea.ptt.calculator">' >> android/app/src/main/AndroidManifest.xml
+        echo '' >> android/app/src/main/AndroidManifest.xml
+        echo '    <uses-permission android:name="android.permission.INTERNET" />' >> android/app/src/main/AndroidManifest.xml
+        echo '' >> android/app/src/main/AndroidManifest.xml
+        echo '    <application' >> android/app/src/main/AndroidManifest.xml
+        echo '        android:allowBackup="true"' >> android/app/src/main/AndroidManifest.xml
+        echo '        android:icon="@android:drawable/ic_menu_info_details"' >> android/app/src/main/AndroidManifest.xml
+        echo '        android:label="Arcaea PTT Calculator"' >> android/app/src/main/AndroidManifest.xml
+        echo '        android:theme="@android:style/Theme.Light.NoTitleBar">' >> android/app/src/main/AndroidManifest.xml
+        echo '' >> android/app/src/main/AndroidManifest.xml
+        echo '        <activity' >> android/app/src/main/AndroidManifest.xml
+        echo '            android:name=".MainActivity"' >> android/app/src/main/AndroidManifest.xml
+        echo '            android:exported="true">' >> android/app/src/main/AndroidManifest.xml
+        echo '            <intent-filter>' >> android/app/src/main/AndroidManifest.xml
+        echo '                <action android:name="android.intent.action.MAIN" />' >> android/app/src/main/AndroidManifest.xml
+        echo '                <category android:name="android.intent.category.LAUNCHER" />' >> android/app/src/main/AndroidManifest.xml
+        echo '            </intent-filter>' >> android/app/src/main/AndroidManifest.xml
+        echo '        </activity>' >> android/app/src/main/AndroidManifest.xml
+        echo '    </application>' >> android/app/src/main/AndroidManifest.xml
+        echo '</manifest>' >> android/app/src/main/AndroidManifest.xml
 
         # Create MainActivity.java
-        cat > android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java << 'EOF'
-package com.arcaea.ptt.calculator;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.webkit.WebSettings;
-
-public class MainActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        WebView webView = new WebView(this);
-        setContentView(webView);
-        
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_asset/index.html");
-    }
-}
-EOF
+        echo 'package com.arcaea.ptt.calculator;' > android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'import android.app.Activity;' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'import android.os.Bundle;' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'import android.webkit.WebView;' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'import android.webkit.WebViewClient;' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'import android.webkit.WebSettings;' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo 'public class MainActivity extends Activity {' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '    @Override' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '    protected void onCreate(Bundle savedInstanceState) {' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        super.onCreate(savedInstanceState);' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        ' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        WebView webView = new WebView(this);' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        setContentView(webView);' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        ' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        WebSettings webSettings = webView.getSettings();' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        webSettings.setJavaScriptEnabled(true);' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        webSettings.setDomStorageEnabled(true);' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        ' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        webView.setWebViewClient(new WebViewClient());' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '        webView.loadUrl("file:///android_asset/index.html");' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '    }' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
+        echo '}' >> android/app/src/main/java/com/arcaea/ptt/calculator/MainActivity.java
 
         # Create strings.xml
-        cat > android/app/src/main/res/values/strings.xml << 'EOF'
-<resources>
-    <string name="app_name">Arcaea PTT Calculator</string>
-</resources>
-EOF
+        echo '<resources>' > android/app/src/main/res/values/strings.xml
+        echo '    <string name="app_name">Arcaea PTT Calculator</string>' >> android/app/src/main/res/values/strings.xml
+        echo '</resources>' >> android/app/src/main/res/values/strings.xml
 
     - name: Create Gradle Build Files
       run: |
         # Create root build.gradle
-        cat > android/build.gradle << 'EOF'
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.2'
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-EOF
+        echo 'buildscript {' > android/build.gradle
+        echo '    repositories {' >> android/build.gradle
+        echo '        google()' >> android/build.gradle
+        echo '        mavenCentral()' >> android/build.gradle
+        echo '    }' >> android/build.gradle
+        echo '    dependencies {' >> android/build.gradle
+        echo '        classpath '"'"'com.android.tools.build:gradle:8.1.2'"'"'' >> android/build.gradle
+        echo '    }' >> android/build.gradle
+        echo '}' >> android/build.gradle
+        echo '' >> android/build.gradle
+        echo 'allprojects {' >> android/build.gradle
+        echo '    repositories {' >> android/build.gradle
+        echo '        google()' >> android/build.gradle
+        echo '        mavenCentral()' >> android/build.gradle
+        echo '    }' >> android/build.gradle
+        echo '}' >> android/build.gradle
+        echo '' >> android/build.gradle
+        echo 'task clean(type: Delete) {' >> android/build.gradle
+        echo '    delete rootProject.buildDir' >> android/build.gradle
+        echo '}' >> android/build.gradle
 
         # Create app build.gradle
-        cat > android/app/build.gradle << 'EOF'
-apply plugin: 'com.android.application'
-
-android {
-    namespace 'com.arcaea.ptt.calculator'
-    compileSdk 34
-    
-    defaultConfig {
-        applicationId "com.arcaea.ptt.calculator"
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            debuggable true
-        }
-    }
-}
-EOF
+        echo 'apply plugin: '"'"'com.android.application'"'"'' > android/app/build.gradle
+        echo '' >> android/app/build.gradle
+        echo 'android {' >> android/app/build.gradle
+        echo '    namespace '"'"'com.arcaea.ptt.calculator'"'"'' >> android/app/build.gradle
+        echo '    compileSdk 34' >> android/app/build.gradle
+        echo '    ' >> android/app/build.gradle
+        echo '    defaultConfig {' >> android/app/build.gradle
+        echo '        applicationId "com.arcaea.ptt.calculator"' >> android/app/build.gradle
+        echo '        minSdk 21' >> android/app/build.gradle
+        echo '        targetSdk 34' >> android/app/build.gradle
+        echo '        versionCode 1' >> android/app/build.gradle
+        echo '        versionName "1.0.0"' >> android/app/build.gradle
+        echo '    }' >> android/app/build.gradle
+        echo '    ' >> android/app/build.gradle
+        echo '    compileOptions {' >> android/app/build.gradle
+        echo '        sourceCompatibility JavaVersion.VERSION_1_8' >> android/app/build.gradle
+        echo '        targetCompatibility JavaVersion.VERSION_1_8' >> android/app/build.gradle
+        echo '    }' >> android/app/build.gradle
+        echo '    ' >> android/app/build.gradle
+        echo '    buildTypes {' >> android/app/build.gradle
+        echo '        release {' >> android/app/build.gradle
+        echo '            minifyEnabled false' >> android/app/build.gradle
+        echo '        }' >> android/app/build.gradle
+        echo '        debug {' >> android/app/build.gradle
+        echo '            minifyEnabled false' >> android/app/build.gradle
+        echo '            debuggable true' >> android/app/build.gradle
+        echo '        }' >> android/app/build.gradle
+        echo '    }' >> android/app/build.gradle
+        echo '}' >> android/app/build.gradle
 
         # Create settings.gradle
-        cat > android/settings.gradle << 'EOF'
-include ':app'
-rootProject.name = "Arcaea PTT Calculator"
-EOF
+        echo 'include '"'"':app'"'"'' > android/settings.gradle
+        echo 'rootProject.name = "Arcaea PTT Calculator"' >> android/settings.gradle
 
         # Create gradle.properties
-        cat > android/gradle.properties << 'EOF'
-android.useAndroidX=true
-android.enableJetifier=true
-org.gradle.jvmargs=-Xmx2048m
-android.nonFinalResIds=false
-EOF
+        echo 'android.useAndroidX=true' > android/gradle.properties
+        echo 'android.enableJetifier=true' >> android/gradle.properties
+        echo 'org.gradle.jvmargs=-Xmx2048m' >> android/gradle.properties
+        echo 'android.nonFinalResIds=false' >> android/gradle.properties
 
     - name: Copy HTML file to assets
       run: |
