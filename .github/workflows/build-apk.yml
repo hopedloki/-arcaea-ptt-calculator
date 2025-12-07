@@ -15,10 +15,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+
 
     - name: Setup Java JDK
       uses: actions/setup-java@v4
@@ -37,12 +34,15 @@ jobs:
         # Create AndroidManifest.xml
         cat > android/app/src/main/AndroidManifest.xml << 'EOF'
         <?xml version="1.0" encoding="utf-8"?>
-        <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+            package="com.arcaea.ptt.calculator">
+            
             <application
                 android:allowBackup="true"
-                android:icon="@android:drawable/sym_def_app_icon"
+                android:icon="@android:drawable/ic_menu_info_details"
                 android:label="Arcaea PTT Calculator"
-                android:theme="@android:style/Theme.Material.Light">
+                android:theme="@android:style/Theme.Light.NoTitleBar">
+                
                 <activity
                     android:name=".MainActivity"
                     android:exported="true">
@@ -52,6 +52,7 @@ jobs:
                     </intent-filter>
                 </activity>
             </application>
+            
             <uses-permission android:name="android.permission.INTERNET" />
         </manifest>
         EOF
@@ -84,6 +85,13 @@ jobs:
         }
         EOF
 
+        # Create strings.xml
+        cat > android/app/src/main/res/values/strings.xml << 'EOF'
+        <resources>
+            <string name="app_name">Arcaea PTT Calculator</string>
+        </resources>
+        EOF
+
         # Create build.gradle files
         cat > android/build.gradle << 'EOF'
         buildscript {
@@ -92,7 +100,7 @@ jobs:
                 mavenCentral()
             }
             dependencies {
-                classpath 'com.android.tools.build:gradle:7.4.2'
+                classpath 'com.android.tools.build:gradle:8.0.2'
             }
         }
         
@@ -109,9 +117,7 @@ jobs:
         EOF
         
         cat > android/app/build.gradle << 'EOF'
-        plugins {
-            id 'com.android.application'
-        }
+        apply plugin: 'com.android.application'
         
         android {
             namespace 'com.arcaea.ptt.calculator'
@@ -123,7 +129,6 @@ jobs:
                 targetSdk 34
                 versionCode 1
                 versionName "1.0.0"
-                multiDexEnabled true
             }
             
             compileOptions {
@@ -134,22 +139,12 @@ jobs:
             buildTypes {
                 release {
                     minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
                 }
                 debug {
                     minifyEnabled false
                     debuggable true
                 }
             }
-            
-            dexOptions {
-                javaMaxHeapSize "2g"
-            }
-        }
-        
-        dependencies {
-            implementation 'androidx.appcompat:appcompat:1.6.1'
-            implementation 'androidx.multidex:multidex:2.0.1'
         }
         EOF
         
@@ -171,14 +166,14 @@ jobs:
       run: |
         cd android
         
-        # Create gradle.properties with proper settings
-        echo "android.useAndroidX=true" >> gradle.properties
-        echo "android.enableJetifier=true" >> gradle.properties
-        echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
-        echo "android.nonTransitiveRClass=true" >> gradle.properties
+        # Initialize gradle wrapper
+        ./gradlew wrapper --gradle-version 8.0
         
-        # Use system gradle instead of wrapper
-        gradle assembleDebug --stacktrace --info
+        # Make gradlew executable
+        chmod +x gradlew
+        
+        # Build debug APK
+        ./gradlew assembleDebug --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
