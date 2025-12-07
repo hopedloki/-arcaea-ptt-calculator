@@ -486,24 +486,30 @@
             
             try {
                 // 创建 Tesseract Worker (只使用英文，提高速度)
-                const worker = await Tesseract.createWorker('eng');
+                showStatus('正在初始化 OCR 引擎...', 'info');
+                updateProgress(30);
                 
-                // 优化参数提高识别速度
-                await worker.setParameters({
-                    tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]',
-                    tessedit_ocr_engine_mode: '1', // LSTM OCR引擎模式
-                    tessedit_pageseg_mode: '6', // 假设单一文本块
-                    preserve_interword_spaces: '1',
-                    tessedit_zero_rejection: 'T'
-                });
+                const worker = await Tesseract.createWorker('eng');
+                showStatus('OCR 引擎初始化完成，准备识别...', 'info');
+                updateProgress(40);
+                
+                // 简化参数设置
+                try {
+                    await worker.setParameters({
+                        tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]'
+                    });
+                } catch (paramError) {
+                    console.warn('参数设置失败，使用默认设置:', paramError);
+                }
                 
                 showStatus('正在识别图片文字...', 'info');
+                updateProgress(50);
                 
                 // 执行 OCR (使用预处理后的图片)
                 const { data: { text, confidence } } = await worker.recognize(processedImage, {
                     logger: m => {
                         if (m.status === 'recognizing text') {
-                            const progressPercent = Math.round(m.progress * 100);
+                            const progressPercent = Math.round(40 + (m.progress * 50)); // 40% 到 90%
                             updateProgress(progressPercent);
                             showStatus(`识别中... ${progressPercent}%`, 'info');
                         }
@@ -524,7 +530,8 @@
                 
             } catch (error) {
                 console.error('OCR 处理错误:', error);
-                showStatus('OCR 处理失败：' + error.message, 'error');
+                const errorMessage = error.message || error.toString() || '未知错误';
+                showStatus('OCR 处理失败：' + errorMessage, 'error');
                 processBtn.disabled = false;
                 processBtn.innerHTML = '🔍 开始 OCR 识别';
                 progressBar.style.display = 'none';
