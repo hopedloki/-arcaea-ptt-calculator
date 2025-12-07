@@ -17,27 +17,32 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
+        cache: 'npm' # 启用npm缓存，但我们会先清理它
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Install Capacitor CLI
-      run: npm install @capacitor/cli
-
-    - name: Build web assets
+    - name: Clean npm artifacts and install dependencies
       run: |
-        # 如果有构建步骤，先构建Web资源
-        npm run build || echo "No build script, using source files"
+        # 方案A的核心修复步骤：强制清理缓存和旧文件
+        npm cache clean --force
+        rm -rf node_modules
+        rm -f package-lock.json
+        
+        # 使用网络重试机制安装，避免因网络波动失败
+        npm install --no-save --retry=3 --fetch-retries=3
 
-    - name: Add Android platform
+    - name: Build web assets (if any)
       run: |
-        # 删除可能存在的旧android目录
+        # 如果有构建步骤（如Vue/React项目），先构建Web资源
+        # 如果没有，这步会跳过，不影响后续流程
+        npm run build || echo "No build script found, proceeding with source files"
+
+    - name: Add Android platform with Capacitor
+      run: |
+        # 删除可能存在的、不完整的旧android目录
         rm -rf android
-        # 让Capacitor创建正确的Android项目
+        # 让Capacitor自动创建正确且完整的Android项目结构
         npx cap add android
 
-    - name: Sync Capacitor
+    - name: Sync project to Android platform
       run: npx cap sync android
 
     - name: Setup Java JDK
@@ -49,6 +54,7 @@ jobs:
     - name: Build APK with Gradle
       run: |
         cd android
+        # 确保gradlew有执行权限并使用stacktrace以便调试
         chmod +x gradlew
         ./gradlew assembleDebug --stacktrace
 
