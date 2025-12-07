@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.arcaea.pttcalculator',
   appName: 'Arcaea PTT Calculator',
-  webDir: '.',
+  webDir: 'www',
   server: {
     androidScheme: 'https'
   },
