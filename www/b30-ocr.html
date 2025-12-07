@@ -414,6 +414,12 @@
                 return;
             }
             
+            // 检查文件大小，限制在5MB以内
+            if (file.size > 5 * 1024 * 1024) {
+                showStatus('图片文件过大，请使用小于5MB的图片以加快处理速度！', 'error');
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = (e) => {
                 uploadedImage = e.target.result;
@@ -426,6 +432,42 @@
             reader.readAsDataURL(file);
         }
         
+        // 图片预处理以提高OCR速度和准确率
+        async function preprocessImage(imageSrc) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // 缩小图片以提高处理速度
+                    const maxWidth = 1200;
+                    const scale = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scale;
+                    
+                    // 绘制并应用对比度增强
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // 增强对比度，使文字更清晰
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = imageData.data;
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        // 增强对比度
+                        data[i] = Math.min(255, data[i] * 1.2);     // R
+                        data[i + 1] = Math.min(255, data[i + 1] * 1.2); // G
+                        data[i + 2] = Math.min(255, data[i + 2] * 1.2); // B
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0);
+                    const processedSrc = canvas.toDataURL('image/jpeg', 0.8);
+                    resolve(processedSrc);
+                };
+                img.src = imageSrc;
+            });
+        }
+        
         // 处理图片 OCR
         async function processImage() {
             if (!uploadedImage) return;
@@ -434,21 +476,31 @@
             processBtn.disabled = true;
             processBtn.innerHTML = '<span class="loading-spinner"></span>正在处理...';
             progressBar.style.display = 'block';
+            showStatus('正在预处理图片...', 'info');
+            updateProgress(10);
+            
+            // 预处理图片
+            const processedImage = await preprocessImage(uploadedImage);
             showStatus('正在初始化 OCR 引擎...', 'info');
+            updateProgress(20);
             
             try {
-                // 创建 Tesseract Worker
-                const worker = await Tesseract.createWorker('eng+chi_sim+chi_tra');
+                // 创建 Tesseract Worker (只使用英文，提高速度)
+                const worker = await Tesseract.createWorker('eng');
                 
-                // 设置进度回调
-                worker.setParameters({
-                    tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]'
+                // 优化参数提高识别速度
+                await worker.setParameters({
+                    tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-.,()[]',
+                    tessedit_ocr_engine_mode: '1', // LSTM OCR引擎模式
+                    tessedit_pageseg_mode: '6', // 假设单一文本块
+                    preserve_interword_spaces: '1',
+                    tessedit_zero_rejection: 'T'
                 });
                 
                 showStatus('正在识别图片文字...', 'info');
                 
-                // 执行 OCR
-                const { data: { text, confidence } } = await worker.recognize(uploadedImage, {
+                // 执行 OCR (使用预处理后的图片)
+                const { data: { text, confidence } } = await worker.recognize(processedImage, {
                     logger: m => {
                         if (m.status === 'recognizing text') {
                             const progressPercent = Math.round(m.progress * 100);
