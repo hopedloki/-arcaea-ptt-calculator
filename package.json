@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "serve": "capacitor run android",
-    "build": "npm run build",
+    "build": "npx cap sync && cd android && ./gradlew assembleDebug",
     "android:open": "capacitor open android",
     "android:build": "cd android && ./gradlew assembleDebug"
   },
