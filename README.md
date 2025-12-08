@@ -4,21 +4,33 @@
 
 ## 下载
 
-### 最新版本 v1.1.0
-- 下载 APK: [app-debug.apk](https://github.com/hopedloki/-arcaea-ptt-calculator/releases/download/v1.1.0/app-debug.apk) (3.76 MB)
+### 最新版本 v1.2.0 ⭐
+- 下载 APK: [app-debug.apk](https://github.com/hopedloki/-arcaea-ptt-calculator/releases/download/v1.2.0/app-debug.apk) (约 4 MB)
 - 系统要求: Android 5.0+ (API 21)
-- 更新时间: 2025-12-07
+- 更新时间: 2025-12-08
+
+### 上一版本
+- v1.1.0 下载: [app-debug.apk](https://github.com/hopedloki/-arcaea-ptt-calculator/releases/download/v1.1.0/app-debug.apk) (3.76 MB)
 
 [所有版本下载](https://github.com/hopedloki/-arcaea-ptt-calculator/releases)
 
 ## 主要功能
 
-- 双向计算: 成绩 ↔ PTT 相互转换
-- 精准计算: 基于官方算法的精确 PTT 计算  
-- 容错分析: 不同评级下的 Far 容错数量
-- 原生体验: 专为 Android 优化的流畅界面
-- 现代设计: 渐变色主题 + 流畅动画
-- 实时响应: 输入即时显示计算结果
+- **双向计算**: 成绩 ↔ PTT 相互转换
+- **精准计算**: 基于官方算法的精确 PTT 计算  
+- **容错分析**: 不同评级下的 Far 容错数量
+- **B30管理**: 完整的B30成绩列表管理功能
+  - 添加/删除单首歌曲成绩
+  - 一键清空B30列表
+  - 实时统计B30/B10/地板PTT
+  - 智能重复检测和更新
+  - 数据导入导出功能
+- **数据库支持**: 内置800+首歌曲完整数据
+- **数据管理**: 本地存储，支持导入导出
+- **原生体验**: 专为 Android 优化的流畅界面
+- **现代设计**: 渐变色主题 + 流畅动画
+- **实时响应**: 输入即时显示计算结果
+- **操作反馈**: 友好的通知系统
 
 ## 使用指南
 
@@ -32,10 +44,35 @@
 1. **成绩转 PTT**: 输入您的分数，立即获得对应的 PTT 值
 2. **PTT 转成绩**: 输入目标 PTT，查看需要的分数
 3. **容错计算**: 查看在不同评级下可以失误的 Far 数量
+4. **B30管理**:
+   - 选择歌曲和难度，输入分数添加到B30列表
+   - 点击"删除"按钮移除单首歌曲
+   - 点击"清空B30"一键清空所有记录
+   - 查看B30统计信息（平均PTT、B10、地板）
+   - 使用导入导出功能备份和分享数据
 
 ## 版本历史
 
+### v1.2.0 (2025-12-08) 🎯
+**🐛 问题修复**
+- 修复"清空B30"按钮无响应的问题
+- 修复"删除"歌曲功能不工作的问题
+- 解决confirm函数导致的操作卡顿问题
+
+**✨ 用户体验优化**
+- 移除多余的确认步骤，操作更流畅
+- 添加友好的操作通知系统
+- 清晰的操作反馈和状态提示
+
+**🔧 技术改进**
+- 简化了删除和清空逻辑
+- 优化了事件处理机制
+- 改进了CSS动画效果
+
 ### v1.1.0 (2025-12-07)
+- 添加B30成绩管理功能
+- 集成完整歌曲数据库(800+首)
+- 实现数据导入导出功能
 - 修复构建脚本问题
 - 优化用户体验
 
@@ -52,10 +89,11 @@
 |------|----------|
 | **应用名称** | Arcaea PTT Calculator |
 | **包名** | com.arcaea.pttcalculator |
-| **版本** | v1.1.0 |
+| **版本** | v1.2.0 |
 | **最低系统** | Android 5.0+ (API 21) |
-| **文件大小** | 3.76 MB |
+| **文件大小** | 约 4 MB |
 | **开发状态** | 已发布可用 |
+| **更新日志** | 查看[版本历史](#版本历史) |
 
 ## 特色亮点
 
@@ -188,6 +226,19 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ---
 
-如果这个应用对您有帮助，请给项目一个 Star！
+如果这个应用对您有帮助，请给项目一个 Star！⭐
 
-[下载 APK](https://github.com/hopedloki/-arcaea-ptt-calculator/releases/download/v1.1.0/app-debug.apk) | [Star 本项目](https://github.com/hopedloki/-arcaea-ptt-calculator) | [查看源码](https://github.com/hopedloki/-arcaea-ptt-calculator)
+[📥 下载 v1.2.0 APK](https://github.com/hopedloki/-arcaea-ptt-calculator/releases/download/v1.2.0/app-debug.apk) | [⭐ Star 本项目](https://github.com/hopedloki/-arcaea-ptt-calculator) | [🔍 查看源码](https://github.com/hopedloki/-arcaea-ptt-calculator)
+
+---
+
+## 更新提醒
+
+🔥 **强烈推荐升级到 v1.2.0！**
+
+如果您遇到以下问题，请立即更新：
+- "清空B30"按钮点击无反应
+- "删除"歌曲功能不工作
+- 操作卡顿或无响应
+
+v1.2.0 版本已完全修复以上问题，并提供更流畅的用户体验！
