@@ -283,6 +283,279 @@
                 font-size: 28px;
             }
         }
+
+        /* B30模式样式 */
+        .search-results {
+            position: absolute;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* 自定义下拉列表样式 */
+        .custom-select {
+            position: relative;
+        }
+        
+        .difficulty-results {
+            position: absolute;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .difficulty-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .difficulty-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .difficulty-item:last-child {
+            border-bottom: none;
+        }
+
+        .b30-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .b30-controls-row {
+            grid-column: span 2;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .add-btn, .clear-btn, .export-btn, .import-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .add-btn, .export-btn {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-btn:hover, .export-btn:hover {
+            background: #5a67d8;
+            box-shadow: 0 6px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+            box-shadow: 0 6px 10px rgba(231, 76, 60, 0.4);
+        }
+
+        .import-btn {
+            background: #9b59b6;
+            color: white;
+            box-shadow: 0 2px 5px rgba(155, 89, 182, 0.3);
+        }
+
+        .import-btn:hover {
+            background: #8e44ad;
+            box-shadow: 0 6px 10px rgba(155, 89, 182, 0.4);
+        }
+
+
+
+        .b30-list-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .b30-list-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .b30-songs {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .b30-song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .b30-song-item:last-child {
+            border-bottom: none;
+        }
+
+        .b30-song-info {
+            flex: 1;
+        }
+
+        .b30-song-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .b30-song-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .b30-song-score {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .b30-song-score-value {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .b30-song-ptt {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .b30-song-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .b30-edit-btn, .b30-delete-btn {
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .b30-edit-btn {
+            background: #3498db;
+        }
+
+        .b30-edit-btn:hover {
+            background: #2980b9;
+        }
+
+        .b30-delete-btn {
+            background: #e74c3c;
+        }
+
+        .b30-delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .b30-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .b30-summary h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .b30-stats {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .b30-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .b30-buttons {
+                grid-column: span 1;
+            }
+            
+            .b30-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -294,6 +567,7 @@
             <button class="mode-btn active" onclick="switchMode('ptt')">成绩→PTT</button>
             <button class="mode-btn" onclick="switchMode('score')">PTT→成绩</button>
             <button class="mode-btn" onclick="switchMode('tolerance')">容错计算</button>
+            <button class="mode-btn" onclick="switchMode('b30')">B30录入</button>
         </div>
         
         <!-- 成绩转PTT模式 -->
@@ -384,6 +658,76 @@
             </div>
         </div>
         
+        <!-- B30录入模式 -->
+        <div id="b30-mode" class="input-section">
+            <div class="input-group">
+                <label for="song-search">搜索歌曲 (歌名或定数)</label>
+                <input type="text" id="song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs()" />
+                <div id="search-results" class="search-results"></div>
+            </div>
+            
+            <div class="b30-controls">
+                <div class="input-group">
+                    <label for="selected-song-name">已选择歌曲</label>
+                    <input type="text" id="selected-song-name" readonly placeholder="搜索后自动填充" />
+                    <input type="hidden" id="selected-song" value="" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="difficulty-select">选择难度</label>
+                    <div class="custom-select">
+                        <input type="text" id="difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown()" />
+                        <div id="difficulty-results" class="difficulty-results"></div>
+                        <input type="hidden" id="difficulty-select" value="" />
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="song-constant">定数</label>
+                    <input type="number" id="song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="song-score">成绩 (0-10,000,000)</label>
+                    <input type="number" id="song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
+                </div>
+                
+                <div class="b30-controls-row">
+                    <button class="add-btn" id="add-to-b30-btn">添加到B30</button>
+                    <button class="clear-btn" id="clear-b30-btn">清空B30</button>
+                </div>
+                
+                <div class="b30-controls-row">
+                    <button class="export-btn" onclick="exportB30Data()">导出数据</button>
+                    <button class="import-btn" onclick="document.getElementById('import-file').click()">导入数据</button>
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importB30Data(event)" />
+                </div>
+            </div>
+            
+            <div class="b30-list-container">
+                <h3>B30成绩列表 (<span id="b30-count">0</span>/30)</h3>
+                <div id="b30-songs" class="b30-songs">暂无数据，请添加成绩</div>
+                
+                <div class="b30-summary" id="b30-summary" style="display: none;">
+                    <h4>B30统计</h4>
+                    <div class="b30-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">B30 PTT</div>
+                            <div class="stat-value" id="b30-ptt">0.00</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">B10 PTT平均值</div>
+                            <div class="stat-value" id="b10-ptt">0.00</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">地板PTT</div>
+                            <div class="stat-value" id="floor-ptt">0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="result-container" id="result-container">
             <div class="result-label" id="result-label">计算结果</div>
             <div class="result-value" id="result-value">-</div>
@@ -449,8 +793,10 @@
                 document.getElementById('result-label').textContent = '单曲PTT';
             } else if (mode === 'score') {
                 document.getElementById('result-label').textContent = '所需成绩';
-            } else {
+            } else if (mode === 'tolerance') {
                 document.getElementById('result-label').textContent = 'Far容错';
+            } else if (mode === 'b30') {
+                document.getElementById('result-label').textContent = 'B30管理';
             }
         }
 
@@ -938,6 +1284,761 @@
         document.getElementById('target-grade').value = 'EX';
         
         updateResult();
+        
+        // B30录入功能
+        let songConstants = {}; // 用于存储歌曲定数数据
+        let b30Data = []; // 用于存储B30成绩数据
+        
+        // 加载歌曲定数数据
+        async function loadSongConstants() {
+            try {
+                const response = await fetch('./song-constants.json');
+                songConstants = await response.json();
+                console.log('歌曲定数数据加载成功，共', Object.keys(songConstants).length, '首歌曲');
+            } catch (error) {
+                console.error('加载歌曲定数数据失败:', error);
+            }
+        }
+        
+        // 搜索歌曲
+        function searchSongs() {
+            const searchTerm = document.getElementById('song-search').value.toLowerCase().trim();
+            const searchResults = document.getElementById('search-results');
+            
+            console.log('搜索词:', searchTerm);
+            console.log('歌曲数据总数:', Object.keys(songConstants).length);
+            
+            if (searchTerm.length < 1) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            let results = [];
+            
+            // 搜索歌名
+            for (const songName in songConstants) {
+                if (songName.toLowerCase().includes(searchTerm)) {
+                    results.push({ name: songName, type: 'name' });
+                }
+            }
+            
+            // 搜索定数
+            const searchConstant = parseFloat(searchTerm);
+            if (!isNaN(searchConstant)) {
+                for (const songName in songConstants) {
+                    const difficulties = songConstants[songName];
+                    for (const diff in difficulties) {
+                        if (difficulties[diff] !== null && Math.abs(difficulties[diff] - searchConstant) < 0.01) {
+                            if (!results.find(r => r.name === songName)) {
+                                results.push({ name: songName, type: 'constant', constant: searchConstant });
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // 限制结果数量
+            if (results.length > 10) {
+                results = results.slice(0, 10);
+            }
+            
+            // 显示搜索结果
+            displaySearchResults(results);
+        }
+        
+        // 显示搜索结果
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('search-results');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item">未找到匹配的歌曲</div>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach(result => {
+                const displayText = result.type === 'constant' 
+                    ? `${result.name} (定数: ${result.constant})` 
+                    : result.name;
+                html += `<div class="search-result-item" onclick="selectSong('${result.name}')">${displayText}</div>`;
+            });
+            
+            searchResults.innerHTML = html;
+        }
+        
+        // 选择歌曲
+        function selectSong(songName) {
+            document.getElementById('song-search').value = songName;
+            document.getElementById('selected-song-name').value = songName;
+            document.getElementById('selected-song').value = songName;
+            document.getElementById('search-results').innerHTML = '';
+            updateDifficultySelect();
+        }
+        
+        // 更新难度选择
+        function updateDifficultySelect() {
+            const selectedSongInput = document.getElementById('selected-song');
+            const difficultyInput = document.getElementById('difficulty-input');
+            const difficultySelect = document.getElementById('difficulty-select');
+            const difficultyResults = document.getElementById('difficulty-results');
+            const constantInput = document.getElementById('song-constant');
+            
+            // 清空难度选择
+            difficultyInput.value = '请选择难度';
+            difficultySelect.value = '';
+            difficultyResults.innerHTML = '';
+            constantInput.value = '';
+            
+            // 获取选中的歌曲
+            const selectedSong = selectedSongInput.value;
+            console.log('更新难度选择，当前歌曲:', selectedSong);
+            
+            if (!selectedSong || !songConstants[selectedSong]) {
+                difficultyInput.value = '请先选择歌曲';
+                console.log('未找到歌曲数据或未选择歌曲');
+                return;
+            }
+            
+            const difficulties = songConstants[selectedSong];
+            const difficultyOrder = ['byd', 'ftr', 'prs', 'pst', 'etr'];
+            
+            // 按难度顺序添加选项
+            let html = '';
+            difficultyOrder.forEach(diff => {
+                const constant = difficulties[diff];
+                if (constant !== null && constant !== undefined) {
+                    html += `<div class="difficulty-item" onclick="selectDifficulty('${diff}', '${diff.toUpperCase()} (${constant.toFixed(1)})')">${diff.toUpperCase()} (${constant.toFixed(1)})</div>`;
+                }
+            });
+            
+            difficultyResults.innerHTML = html;
+            
+            // 如果有已选择的难度，显示它
+            if (difficultySelect.value) {
+                const selectedDifficulty = difficultySelect.value;
+                const constant = difficulties[selectedDifficulty];
+                if (constant !== null && constant !== undefined) {
+                    difficultyInput.value = `${selectedDifficulty.toUpperCase()} (${constant.toFixed(1)})`;
+                }
+            } else {
+                difficultyInput.value = '点击选择难度';
+            }
+        }
+        
+        // 切换难度下拉列表
+        function toggleDifficultyDropdown() {
+            const difficultyResults = document.getElementById('difficulty-results');
+            const isHidden = difficultyResults.style.display === 'none';
+            
+            // 关闭所有下拉列表
+            document.getElementById('difficulty-results').style.display = 'none';
+            document.getElementById('search-results').innerHTML = '';
+            
+            // 切换当前下拉列表
+            if (isHidden && document.getElementById('difficulty-input').value !== '请先选择歌曲') {
+                difficultyResults.style.display = 'block';
+            }
+        }
+        
+        // 选择难度
+        function selectDifficulty(difficulty, displayText) {
+            document.getElementById('difficulty-input').value = displayText;
+            document.getElementById('difficulty-select').value = difficulty;
+            document.getElementById('difficulty-results').style.display = 'none';
+            updateConstant();
+        }
+        
+        // 更新定数
+        function updateConstant() {
+            const selectedSongInput = document.getElementById('selected-song');
+            const difficultySelect = document.getElementById('difficulty-select');
+            const constantInput = document.getElementById('song-constant');
+            
+            const selectedSong = selectedSongInput.value;
+            const selectedDifficulty = difficultySelect.value;
+            
+            if (!selectedSong || !selectedDifficulty || !songConstants[selectedSong]) {
+                constantInput.value = '';
+                return;
+            }
+            
+            const constant = songConstants[selectedSong][selectedDifficulty];
+            if (constant !== null && constant !== undefined) {
+                constantInput.value = constant.toFixed(1);
+            } else {
+                constantInput.value = '';
+            }
+        }
+        
+        // 添加歌曲到B30
+        function addSongToB30() {
+            console.log('addSongToB30 函数被调用');
+            
+            const selectedSongInput = document.getElementById('selected-song');
+            const difficultySelect = document.getElementById('difficulty-select');
+            const constantInput = document.getElementById('song-constant');
+            const scoreInput = document.getElementById('song-score');
+            
+            const song = selectedSongInput.value;
+            const difficulty = difficultySelect.value;
+            const constant = parseFloat(constantInput.value);
+            const score = parseInt(scoreInput.value);
+            
+            console.log('输入值:', { song, difficulty, constant, score });
+            
+            if (!song || !difficulty || isNaN(constant) || isNaN(score)) {
+                alert('请完整填写曲目、难度、定数和成绩');
+                return;
+            }
+            
+            if (score < 0 || score > 10000000) {
+                alert('成绩应在 0-10,000,000 范围内');
+                return;
+            }
+            
+            // 检查成绩是否超过最高分
+            if (score > 10000000) {
+                alert('成绩不能超过10,000,000（满分）');
+                return;
+            }
+            
+            // 提供成绩评级参考
+            if (score < 9500000) {
+                const confirmLowScore = confirm(`您的成绩为 ${score.toLocaleString()}，评级较低 (D级)。\n确定要添加这个成绩吗？`);
+                if (!confirmLowScore) {
+                    return;
+                }
+            }
+            
+            // 检查是否已存在相同曲目和难度
+            const existingIndex = b30Data.findIndex(item => 
+                item.song_id === song && item.difficulty === difficulty
+            );
+            
+            if (existingIndex >= 0) {
+                // 更新已存在的记录
+                b30Data[existingIndex] = {
+                    song_id: song,
+                    difficulty: difficulty,
+                    constant: constant,
+                    score: score,
+                    single_ptt: calculateSinglePTT(score, constant)
+                };
+            } else {
+                // 添加新记录
+                if (b30Data.length >= 30) {
+                    alert('B30列表已满，最多只能添加30首歌曲');
+                    return;
+                }
+                
+                b30Data.push({
+                    song_id: song,
+                    difficulty: difficulty,
+                    constant: constant,
+                    score: score,
+                    single_ptt: calculateSinglePTT(score, constant)
+                });
+            }
+            
+            // 更新显示
+            updateB30ListDisplay();
+            updateB30Stats();
+            
+            // 重置输入
+            scoreInput.value = '';
+            
+            // 显示成功提示
+            const b30SongsDiv = document.getElementById('b30-songs');
+            b30SongsDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+            setTimeout(() => {
+                b30SongsDiv.style.background = 'white';
+            }, 500);
+        }
+        
+        // 计算单曲PTT
+        function calculateSinglePTT(score, constant) {
+            if (score >= 10000000) {
+                return constant + 2.0;
+            } else if (score >= 9900000) {
+                return constant + 1.5 + (score - 9900000) / 100000;
+            } else if (score >= 9800000) {
+                return constant + 1.0 + (score - 9800000) / 400000;
+            } else {
+                return Math.max(0, constant + (score - 9500000) / 300000);
+            }
+        }
+        
+        // 更新B30列表显示
+        function updateB30ListDisplay() {
+            const b30SongsDiv = document.getElementById('b30-songs');
+            const b30CountSpan = document.getElementById('b30-count');
+            
+            if (b30Data.length === 0) {
+                b30SongsDiv.innerHTML = '暂无数据，请添加成绩';
+                b30CountSpan.textContent = '0';
+                return;
+            }
+            
+            b30CountSpan.textContent = b30Data.length.toString();
+            
+            // 按单曲PTT从高到低排序显示
+            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+            
+            let html = '';
+            sortedData.forEach((item, index) => {
+                const grade = getGrade(item.score);
+                html += `
+                    <div class="b30-song-item">
+                        <div class="b30-song-info">
+                            <div class="b30-song-name">${item.song_id}</div>
+                            <div class="b30-song-details">${item.difficulty.toUpperCase()} (定数: ${item.constant.toFixed(1)})</div>
+                        </div>
+                        <div class="b30-song-score">
+                            <div class="b30-song-score-value">${item.score.toLocaleString()}</div>
+                            <div class="b30-song-ptt">单曲PTT: ${item.single_ptt.toFixed(2)}</div>
+                        </div>
+                        <div class="b30-song-actions">
+                            <button class="b30-edit-btn" onclick="editB30Item(${index})">编辑</button>
+                            <button class="b30-delete-btn" onclick="deleteFromB30(${index})">删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            b30SongsDiv.innerHTML = html;
+        }
+        
+        // 编辑B30项目
+        function editB30Item(index) {
+            // 获取实际排序后的索引
+            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+            const itemToEdit = sortedData[index];
+            
+            // 填充表单
+            document.getElementById('selected-song-name').value = itemToEdit.song_id;
+            document.getElementById('selected-song').value = itemToEdit.song_id;
+            document.getElementById('song-score').value = itemToEdit.score;
+            
+            // 设置难度
+            updateDifficultySelect();
+            document.getElementById('difficulty-select').value = itemToEdit.difficulty;
+            updateConstant();
+            
+            // 滚动到输入区域
+            document.getElementById('b30-mode').scrollIntoView({ behavior: 'smooth' });
+            
+            // 删除原记录
+            const actualIndex = b30Data.findIndex(item => 
+                item.song_id === itemToEdit.song_id && 
+                item.difficulty === itemToEdit.difficulty
+            );
+            
+            if (actualIndex !== -1) {
+                b30Data.splice(actualIndex, 1);
+                updateB30ListDisplay();
+                updateB30Stats();
+            }
+        }
+        
+        // 从B30中删除
+        function deleteFromB30(index) {
+            // 获取要删除的歌曲信息，用于显示反馈
+            const songToDelete = b30Data[index];
+            const songName = songToDelete ? songToDelete.song_id : '未知歌曲';
+            
+            b30Data.splice(index, 1);
+            updateB30ListDisplay();
+            updateB30Stats();
+            
+            // 显示操作反馈
+            showNotification(`已删除歌曲: ${songName}`);
+        }
+        
+        // 清空B30
+        function clearB30() {
+            // 记录清空前的数量，用于显示反馈
+            const countBefore = b30Data.length;
+            b30Data = [];
+            updateB30ListDisplay();
+            updateB30Stats();
+            
+            // 显示操作反馈
+            if (countBefore > 0) {
+                showNotification(`已清空 ${countBefore} 首歌曲的成绩`);
+            }
+        }
+        
+        // 显示通知消息
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            // 添加到页面
+            document.body.appendChild(notification);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+        
+        // 自定义确认对话框
+        function confirmClearB30() {
+            // 创建对话框容器
+            const dialog = document.createElement('div');
+            dialog.className = 'confirm-dialog';
+            dialog.innerHTML = `
+                <div class="confirm-content">
+                    <h3>确认操作</h3>
+                    <p>确定要清空B30列表吗？</p>
+                    <div class="confirm-buttons">
+                        <button id="confirm-yes" class="confirm-btn confirm-yes">确定</button>
+                        <button id="confirm-no" class="confirm-btn confirm-no">取消</button>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(dialog);
+            
+            // 返回Promise
+            return new Promise((resolve) => {
+                // 绑定事件
+                document.getElementById('confirm-yes').addEventListener('click', () => {
+                    document.body.removeChild(dialog);
+                    resolve(true);
+                });
+                
+                document.getElementById('confirm-no').addEventListener('click', () => {
+                    document.body.removeChild(dialog);
+                    resolve(false);
+                });
+                
+                // ESC键关闭对话框
+                const handleEsc = (e) => {
+                    if (e.key === 'Escape') {
+                        document.removeEventListener('keydown', handleEsc);
+                        if (document.body.contains(dialog)) {
+                            document.body.removeChild(dialog);
+                        }
+                        resolve(false);
+                    }
+                };
+                
+                document.addEventListener('keydown', handleEsc);
+            }).then(result => result);
+        }
+        
+        // 显示成功消息
+        function showSuccessMessage(message) {
+            // 创建消息元素
+            const msgElement = document.createElement('div');
+            msgElement.className = 'success-message';
+            msgElement.textContent = message;
+            
+            // 添加到页面
+            document.body.appendChild(msgElement);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                if (document.body.contains(msgElement)) {
+                    document.body.removeChild(msgElement);
+                }
+            }, 3000);
+        }
+        
+        // 导出B30数据
+        function exportB30Data() {
+            if (b30Data.length === 0) {
+                alert('没有可导出的数据');
+                return;
+            }
+            
+            // 准备导出数据
+            const exportData = {
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                data: b30Data
+            };
+            
+            // 创建Blob对象
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            
+            // 创建下载链接
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = `arcaea-b30-${new Date().toISOString().slice(0, 10)}.json`;
+            
+            // 触发下载
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            // 释放URL对象
+            URL.revokeObjectURL(url);
+            
+            // 显示成功提示
+            alert(`成功导出 ${b30Data.length} 条B30数据`);
+        }
+        
+        // 导入B30数据
+        function importB30Data(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // 验证文件类型
+            if (!file.name.endsWith('.json')) {
+                alert('请选择JSON格式的数据文件');
+                event.target.value = '';
+                return;
+            }
+            
+            // 读取文件内容
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // 解析JSON数据
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // 验证数据格式
+                    if (!importedData.data || !Array.isArray(importedData.data)) {
+                        alert('数据格式无效，请选择正确的B30数据文件');
+                        return;
+                    }
+                    
+                    // 确认导入
+                    const itemCount = importedData.data.length;
+                    if (itemCount === 0) {
+                        alert('文件中没有有效的B30数据');
+                        return;
+                    }
+                    
+                    const confirmImport = confirm(
+                        `即将导入 ${itemCount} 条B30数据。` +
+                        (b30Data.length > 0 ? '\n\n注意：导入会清空当前已有的数据。' : '') +
+                        '\n\n确定要继续吗？'
+                    );
+                    
+                    if (!confirmImport) {
+                        event.target.value = '';
+                        return;
+                    }
+                    
+                    // 验证每条数据的完整性
+                    const validData = [];
+                    for (const item of importedData.data) {
+                        if (item.song_id && item.difficulty && item.constant && item.score) {
+                            validData.push(item);
+                        }
+                    }
+                    
+                    if (validData.length === 0) {
+                        alert('文件中没有有效的B30数据');
+                        return;
+                    }
+                    
+                    if (validData.length < importedData.data.length) {
+                        const skippedCount = importedData.data.length - validData.length;
+                        if (!confirm(`验证发现 ${skippedCount} 条无效数据将被跳过，继续导入 ${validData.length} 条有效数据吗？`)) {
+                            event.target.value = '';
+                            return;
+                        }
+                    }
+                    
+                    // 导入数据
+                    b30Data = validData;
+                    updateB30ListDisplay();
+                    updateB30Stats();
+                    
+                    // 重置文件输入
+                    event.target.value = '';
+                    
+                    // 显示成功提示
+                    alert(`成功导入 ${validData.length} 条B30数据`);
+                    
+                } catch (error) {
+                    console.error('导入数据时出错:', error);
+                    alert('导入数据失败，请检查文件格式是否正确');
+                    event.target.value = '';
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('读取文件失败');
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // 更新B30统计
+        function updateB30Stats() {
+            const b30SummaryDiv = document.getElementById('b30-summary');
+            
+            if (b30Data.length === 0) {
+                b30SummaryDiv.style.display = 'none';
+                return;
+            }
+            
+            b30SummaryDiv.style.display = 'block';
+            
+            // 计算B30 PTT平均值
+            const totalPTT = b30Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            const b30PTT = totalPTT / b30Data.length;
+            
+            // 计算B10 PTT平均值（取前10名最高PTT）
+            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+            const top10Data = sortedData.slice(0, 10);
+            const b10TotalPTT = top10Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            const b10PTT = b10TotalPTT / Math.min(10, top10Data.length);
+            
+            // 计算地板PTT（取B30中单曲PTT最低的那首歌的PTT）
+            const sortedByPTT = [...b30Data].sort((a, b) => a.single_ptt - b.single_ptt);
+            const floorPTT = sortedByPTT.length > 0 ? sortedByPTT[0].single_ptt : 0;
+            
+            // 更新显示
+            document.getElementById('b30-ptt').textContent = b30PTT.toFixed(2);
+            document.getElementById('b10-ptt').textContent = b10PTT.toFixed(2);
+            document.getElementById('floor-ptt').textContent = floorPTT.toFixed(2);
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSongConstants();
+            
+            // 添加到B30按钮
+            const addToB30Btn = document.getElementById('add-to-b30-btn');
+            if (addToB30Btn) {
+                addToB30Btn.addEventListener('click', function() {
+                    console.log('添加到B30按钮被点击');
+                    addSongToB30();
+                });
+            }
+            
+            // 清空B30按钮
+            const clearB30Btn = document.getElementById('clear-b30-btn');
+            if (clearB30Btn) {
+                clearB30Btn.addEventListener('click', function() {
+                    console.log('清空B30按钮被点击');
+                    clearB30();
+                });
+            }
+        });
+        
+        // 隐藏搜索结果和难度下拉列表当点击其他地方时
+        document.addEventListener('click', function(event) {
+            const searchContainer = document.getElementById('song-search').parentNode;
+            const difficultyContainer = document.getElementById('difficulty-input').parentNode;
+            
+            if (!searchContainer.contains(event.target)) {
+                document.getElementById('search-results').innerHTML = '';
+            }
+            
+            if (!difficultyContainer.contains(event.target)) {
+                document.getElementById('difficulty-results').style.display = 'none';
+            }
+        });
     </script>
 </body>
+    <style>
+        /* 自定义确认对话框样式 */
+        .confirm-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .confirm-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .confirm-content h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .confirm-content p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confirm-yes {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .confirm-yes:hover {
+            background-color: #c0392b;
+        }
+        
+        .confirm-no {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .confirm-no:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* 通知消息样式 */
+        .notification, .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </html>
