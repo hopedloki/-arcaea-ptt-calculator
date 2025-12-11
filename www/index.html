@@ -805,20 +805,23 @@
             let formula;
             
             if (score >= 10000000) {
+                // PM (Perfect Memory)
                 ptt = chartConstant + 2.0;
                 formula = `${chartConstant} + 2.0`;
-            } else if (score >= 9900000) {
-                const bonus = (score - 9900000) / 100000;
-                ptt = chartConstant + 1.5 + bonus;
-                formula = `${chartConstant} + 1.5 + (${score.toLocaleString()} - 9,900,000)/100,000`;
             } else if (score >= 9800000) {
-                const bonus = (score - 9800000) / 400000;
+                // 9,800,000 ≤ score < 10,000,000: 定数 + 1 + (分数 - 9,800,000)/200,000
+                const bonus = (score - 9800000) / 200000;
                 ptt = chartConstant + 1.0 + bonus;
-                formula = `${chartConstant} + 1.0 + (${score.toLocaleString()} - 9,800,000)/400,000`;
+                formula = `${chartConstant} + 1.0 + (${score.toLocaleString()} - 9,800,000)/200,000`;
             } else {
+                // score < 9,800,000: 定数 + (分数 - 9,500,000)/300,000 (下限为0)
                 const bonus = Math.max(0, (score - 9500000) / 300000);
                 ptt = chartConstant + bonus;
-                formula = `${chartConstant} + (${score.toLocaleString()} - 9,500,000)/300,000`;
+                if (score >= 9500000) {
+                    formula = `${chartConstant} + (${score.toLocaleString()} - 9,500,000)/300,000`;
+                } else {
+                    formula = `0 (分数低于 ${Math.max(0, 9500000 - chartConstant * 300000).toLocaleString()})`;
+                }
             }
             
             return {
@@ -847,20 +850,23 @@
             const targetBonus = targetPTT - chartConstant;
             
             if (targetBonus >= 2.0) {
+                // PM (Perfect Memory)
                 score = 10000000;
                 formula = `目标PTT ≥ 定数+2.0，需要达到 PM (10,000,000分)`;
-            } else if (targetBonus >= 1.5) {
-                score = 9900000 + (targetBonus - 1.5) * 100000;
-                formula = `9900000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.5) × 100,000`;
             } else if (targetBonus >= 1.0) {
-                score = 9800000 + (targetBonus - 1.0) * 400000;
-                formula = `9800000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.0) × 400,000`;
-            } else if (targetBonus > 0) {
-                score = 9500000 + targetBonus * 300000;
-                formula = `9500000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+                // 9,800,000 ≤ score < 10,000,000: 定数 + 1 + (分数 - 9,800,000)/200,000
+                // 反向计算: (PTT - 定数 - 1) × 200,000 + 9,800,000
+                score = 9800000 + (targetBonus - 1.0) * 200000;
+                formula = `9,800,000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.0) × 200,000`;
             } else {
-                score = 9500000 + targetBonus * 300000; // 可能为负数
-                formula = `9500000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+                // score < 9,800,000: 定数 + (分数 - 9,500,000)/300,000
+                // 反向计算: (PTT - 定数) × 300,000 + 9,500,000
+                score = 9500000 + targetBonus * 300000;
+                if (targetBonus > 0) {
+                    formula = `9,500,000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+                } else {
+                    formula = `分数 ≤ 9,500,000 - ${chartConstant} × 300,000 = ${Math.max(0, Math.round(9500000 - chartConstant * 300000)).toLocaleString()}`;
+                }
             }
             
             // 限制分数范围
@@ -878,10 +884,10 @@
             if (score >= 10000000) return { name: 'PM', class: 'grade-pm' };
             if (score >= 9900000) return { name: 'EX+', class: 'grade-ex' };
             if (score >= 9800000) return { name: 'EX', class: 'grade-ex' };
-            if (score >= 9700000) return { name: 'UC', class: 'grade-uc' };
-            if (score >= 9500000) return { name: 'C', class: 'grade-c' };
-            if (score >= 9200000) return { name: 'B', class: 'grade-b' };
-            if (score >= 8900000) return { name: 'A', class: 'grade-a' };
+            if (score >= 9500000) return { name: 'AA', class: 'grade-aa' };
+            if (score >= 9200000) return { name: 'A', class: 'grade-a' };
+            if (score >= 8900000) return { name: 'B', class: 'grade-b' };
+            if (score >= 8600000) return { name: 'C', class: 'grade-c' };
             return { name: 'D', class: 'grade-d' };
         }
         
