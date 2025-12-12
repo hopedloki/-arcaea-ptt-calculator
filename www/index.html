@@ -11,7 +11,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Arcaea PTT">
-    <meta name="application-name" content="Arcaea PTT Calculator">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfNSkiLz4KPHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI2IiB5PSI2Ij4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCI+UFQ8L3RleHQ+Cjwvc3ZnPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==">
     
@@ -144,6 +143,7 @@
         .grade-b { background: #f0e68c; color: #333; }
         .grade-a { background: #ffb6c1; color: #333; }
         .grade-d { background: #d3d3d3; color: #333; }
+        .grade-aa { background: #add8e6; color: #333; }
         
         .tolerance-details {
             font-size: 11px;
@@ -261,6 +261,11 @@
             color: #667eea;
             box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
         }
+        
+        .crawler-mode-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
 
         .input-section {
             display: none;
@@ -284,7 +289,7 @@
             }
         }
 
-        /* B30模式样式 */
+        /* B30/R10模式样式 */
         .search-results {
             position: absolute;
             background: white;
@@ -389,6 +394,17 @@
             background: #e74c3c;
             color: white;
             box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+        }
+        
+        .crawler-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            box-shadow: 0 2px 5px rgba(230, 126, 34, 0.3);
+        }
+        
+        .crawler-btn:hover {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            box-shadow: 0 6px 10px rgba(230, 126, 34, 0.4);
         }
 
         .clear-btn:hover {
@@ -541,17 +557,127 @@
             position: relative;
         }
 
+        /* R10模式样式 */
+        .r10-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .r10-controls-row {
+            grid-column: span 2;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .r10-list-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .r10-list-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .r10-songs {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .r10-song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .r10-song-item:last-child {
+            border-bottom: none;
+        }
+
+        .r10-song-info {
+            flex: 1;
+        }
+
+        .r10-song-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .r10-song-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .r10-song-score {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .r10-song-score-value {
+            font-weight: 600;
+            color: #9b59b6;
+        }
+
+        .r10-song-ptt {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .r10-song-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .r10-edit-btn, .r10-delete-btn {
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .r10-edit-btn {
+            background: #3498db;
+        }
+
+        .r10-edit-btn:hover {
+            background: #2980b9;
+        }
+
+        .r10-delete-btn {
+            background: #e74c3c;
+        }
+
+        .r10-delete-btn:hover {
+            background: #c0392b;
+        }
+
         /* 移动端适配 */
         @media (max-width: 600px) {
-            .b30-controls {
+            .b30-controls, .r10-controls {
                 grid-template-columns: 1fr;
             }
             
-            .b30-buttons {
+            .b30-buttons, .r10-buttons {
                 grid-column: span 1;
             }
             
-            .b30-stats {
+            .b30-stats, .r10-stats {
                 flex-direction: column;
                 gap: 15px;
             }
@@ -568,6 +694,8 @@
             <button class="mode-btn" onclick="switchMode('score')">PTT→成绩</button>
             <button class="mode-btn" onclick="switchMode('tolerance')">容错计算</button>
             <button class="mode-btn" onclick="switchMode('b30')">B30录入</button>
+            <button class="mode-btn" onclick="switchMode('r10')">R10录入</button>
+            <button class="mode-btn crawler-mode-btn" onclick="importCrawlerData()">爬虫导入</button>
         </div>
         
         <!-- 成绩转PTT模式 -->
@@ -661,35 +789,35 @@
         <!-- B30录入模式 -->
         <div id="b30-mode" class="input-section">
             <div class="input-group">
-                <label for="song-search">搜索歌曲 (歌名或定数)</label>
-                <input type="text" id="song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs()" />
-                <div id="search-results" class="search-results"></div>
+                <label for="b30-song-search">搜索歌曲 (歌名或定数)</label>
+                <input type="text" id="b30-song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs('b30')" />
+                <div id="b30-search-results" class="search-results"></div>
             </div>
             
             <div class="b30-controls">
                 <div class="input-group">
-                    <label for="selected-song-name">已选择歌曲</label>
-                    <input type="text" id="selected-song-name" readonly placeholder="搜索后自动填充" />
-                    <input type="hidden" id="selected-song" value="" />
+                    <label for="b30-selected-song-name">已选择歌曲</label>
+                    <input type="text" id="b30-selected-song-name" readonly placeholder="搜索后自动填充" />
+                    <input type="hidden" id="b30-selected-song" value="" />
                 </div>
                 
                 <div class="input-group">
-                    <label for="difficulty-select">选择难度</label>
+                    <label for="b30-difficulty-select">选择难度</label>
                     <div class="custom-select">
-                        <input type="text" id="difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown()" />
-                        <div id="difficulty-results" class="difficulty-results"></div>
-                        <input type="hidden" id="difficulty-select" value="" />
+                        <input type="text" id="b30-difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown('b30')" />
+                        <div id="b30-difficulty-results" class="difficulty-results"></div>
+                        <input type="hidden" id="b30-difficulty-select" value="" />
                     </div>
                 </div>
                 
                 <div class="input-group">
-                    <label for="song-constant">定数</label>
-                    <input type="number" id="song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
+                    <label for="b30-song-constant">定数</label>
+                    <input type="number" id="b30-song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
                 </div>
                 
                 <div class="input-group">
-                    <label for="song-score">成绩 (0-10,000,000)</label>
-                    <input type="number" id="song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
+                    <label for="b30-song-score">成绩 (0-10,000,000)</label>
+                    <input type="number" id="b30-song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
                 </div>
                 
                 <div class="b30-controls-row">
@@ -698,9 +826,10 @@
                 </div>
                 
                 <div class="b30-controls-row">
-                    <button class="export-btn" onclick="exportB30Data()">导出数据</button>
-                    <button class="import-btn" onclick="document.getElementById('import-file').click()">导入数据</button>
-                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importB30Data(event)" />
+                    <button class="export-btn" onclick="exportData('b30')">导出数据</button>
+                    <button class="import-btn" onclick="document.getElementById('b30-import-file').click()">导入数据</button>
+                    <input type="file" id="b30-import-file" accept=".json" style="display: none;" onchange="importData('b30', event)" />
+                    <button class="crawler-btn" onclick="importCrawlerData()">爬虫导入</button>
                 </div>
             </div>
             
@@ -712,12 +841,12 @@
                     <h4>B30统计</h4>
                     <div class="b30-stats">
                         <div class="stat-item">
-                            <div class="stat-label">B30 PTT</div>
-                            <div class="stat-value" id="b30-ptt">0.00</div>
+                            <div class="stat-label">玩家PTT</div>
+                            <div class="stat-value" id="player-ptt">0.00</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-label">B10 PTT平均值</div>
-                            <div class="stat-value" id="b10-ptt">0.00</div>
+                            <div class="stat-label">R10 平均值</div>
+                            <div class="stat-value" id="r10-average-ptt">0.00</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">地板PTT</div>
@@ -725,6 +854,59 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- R10录入模式 -->
+        <div id="r10-mode" class="input-section">
+            <div class="input-group">
+                <label for="r10-song-search">搜索歌曲 (歌名或定数)</label>
+                <input type="text" id="r10-song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs('r10')" />
+                <div id="r10-search-results" class="search-results"></div>
+            </div>
+            
+            <div class="r10-controls">
+                <div class="input-group">
+                    <label for="r10-selected-song-name">已选择歌曲</label>
+                    <input type="text" id="r10-selected-song-name" readonly placeholder="搜索后自动填充" />
+                    <input type="hidden" id="r10-selected-song" value="" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-difficulty-select">选择难度</label>
+                    <div class="custom-select">
+                        <input type="text" id="r10-difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown('r10')" />
+                        <div id="r10-difficulty-results" class="difficulty-results"></div>
+                        <input type="hidden" id="r10-difficulty-select" value="" />
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-song-constant">定数</label>
+                    <input type="number" id="r10-song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-song-score">成绩 (0-10,000,000)</label>
+                    <input type="number" id="r10-song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
+                </div>
+                
+                <div class="r10-controls-row">
+                    <button class="add-btn" id="add-to-r10-btn" style="background-color: #9b59b6;">添加到R10</button>
+                    <button class="clear-btn" id="clear-r10-btn">清空R10</button>
+                </div>
+                
+                <div class="r10-controls-row">
+                    <button class="export-btn" onclick="exportData('r10')" style="background-color: #9b59b6;">导出数据</button>
+                    <button class="import-btn" onclick="document.getElementById('r10-import-file').click()">导入数据</button>
+                    <input type="file" id="r10-import-file" accept=".json" style="display: none;" onchange="importData('r10', event)" />
+                    <button class="crawler-btn" onclick="importCrawlerData()">爬虫导入</button>
+                </div>
+            </div>
+            
+            <div class="r10-list-container">
+                <h3>R10成绩列表 (<span id="r10-count">0</span>/10)</h3>
+                <div id="r10-songs" class="r10-songs">暂无数据，请添加成绩</div>
             </div>
         </div>
         
@@ -797,6 +979,8 @@
                 document.getElementById('result-label').textContent = 'Far容错';
             } else if (mode === 'b30') {
                 document.getElementById('result-label').textContent = 'B30管理';
+            } else if (mode === 'r10') {
+                document.getElementById('result-label').textContent = 'R10管理';
             }
         }
 
@@ -1291,9 +1475,10 @@
         
         updateResult();
         
-        // B30录入功能
+        // B30/R30录入功能
         let songConstants = {}; // 用于存储歌曲定数数据
         let b30Data = []; // 用于存储B30成绩数据
+        let r10Data = []; // 用于存储R10成绩数据
         
         // 加载歌曲定数数据
         async function loadSongConstants() {
@@ -1307,9 +1492,9 @@
         }
         
         // 搜索歌曲
-        function searchSongs() {
-            const searchTerm = document.getElementById('song-search').value.toLowerCase().trim();
-            const searchResults = document.getElementById('search-results');
+        function searchSongs(mode) {
+            const searchTerm = document.getElementById(`${mode}-song-search`).value.toLowerCase().trim();
+            const searchResults = document.getElementById(`${mode}-search-results`);
             
             console.log('搜索词:', searchTerm);
             console.log('歌曲数据总数:', Object.keys(songConstants).length);
@@ -1350,12 +1535,12 @@
             }
             
             // 显示搜索结果
-            displaySearchResults(results);
+            displaySearchResults(results, mode);
         }
         
         // 显示搜索结果
-        function displaySearchResults(results) {
-            const searchResults = document.getElementById('search-results');
+        function displaySearchResults(results, mode) {
+            const searchResults = document.getElementById(`${mode}-search-results`);
             
             if (results.length === 0) {
                 searchResults.innerHTML = '<div class="search-result-item">未找到匹配的歌曲</div>';
@@ -1367,28 +1552,28 @@
                 const displayText = result.type === 'constant' 
                     ? `${result.name} (定数: ${result.constant})` 
                     : result.name;
-                html += `<div class="search-result-item" onclick="selectSong('${result.name}')">${displayText}</div>`;
+                html += `<div class="search-result-item" onclick="selectSong('${result.name}', '${mode}')">${displayText}</div>`;
             });
             
             searchResults.innerHTML = html;
         }
         
         // 选择歌曲
-        function selectSong(songName) {
-            document.getElementById('song-search').value = songName;
-            document.getElementById('selected-song-name').value = songName;
-            document.getElementById('selected-song').value = songName;
-            document.getElementById('search-results').innerHTML = '';
-            updateDifficultySelect();
+        function selectSong(songName, mode) {
+            document.getElementById(`${mode}-song-search`).value = songName;
+            document.getElementById(`${mode}-selected-song-name`).value = songName;
+            document.getElementById(`${mode}-selected-song`).value = songName;
+            document.getElementById(`${mode}-search-results`).innerHTML = '';
+            updateDifficultySelect(mode);
         }
         
         // 更新难度选择
-        function updateDifficultySelect() {
-            const selectedSongInput = document.getElementById('selected-song');
-            const difficultyInput = document.getElementById('difficulty-input');
-            const difficultySelect = document.getElementById('difficulty-select');
-            const difficultyResults = document.getElementById('difficulty-results');
-            const constantInput = document.getElementById('song-constant');
+        function updateDifficultySelect(mode) {
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultyInput = document.getElementById(`${mode}-difficulty-input`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const difficultyResults = document.getElementById(`${mode}-difficulty-results`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
             
             // 清空难度选择
             difficultyInput.value = '请选择难度';
@@ -1414,7 +1599,7 @@
             difficultyOrder.forEach(diff => {
                 const constant = difficulties[diff];
                 if (constant !== null && constant !== undefined) {
-                    html += `<div class="difficulty-item" onclick="selectDifficulty('${diff}', '${diff.toUpperCase()} (${constant.toFixed(1)})')">${diff.toUpperCase()} (${constant.toFixed(1)})</div>`;
+                    html += `<div class="difficulty-item" onclick="selectDifficulty('${diff}', '${diff.toUpperCase()} (${constant.toFixed(1)})', '${mode}')">${diff.toUpperCase()} (${constant.toFixed(1)})</div>`;
                 }
             });
             
@@ -1433,33 +1618,35 @@
         }
         
         // 切换难度下拉列表
-        function toggleDifficultyDropdown() {
-            const difficultyResults = document.getElementById('difficulty-results');
+        function toggleDifficultyDropdown(mode) {
+            const difficultyResults = document.getElementById(`${mode}-difficulty-results`);
             const isHidden = difficultyResults.style.display === 'none';
             
             // 关闭所有下拉列表
-            document.getElementById('difficulty-results').style.display = 'none';
-            document.getElementById('search-results').innerHTML = '';
+            document.getElementById('b30-difficulty-results').style.display = 'none';
+            document.getElementById('r10-difficulty-results').style.display = 'none';
+            document.getElementById('b30-search-results').innerHTML = '';
+            document.getElementById('r10-search-results').innerHTML = '';
             
             // 切换当前下拉列表
-            if (isHidden && document.getElementById('difficulty-input').value !== '请先选择歌曲') {
+            if (isHidden && document.getElementById(`${mode}-difficulty-input`).value !== '请先选择歌曲') {
                 difficultyResults.style.display = 'block';
             }
         }
         
         // 选择难度
-        function selectDifficulty(difficulty, displayText) {
-            document.getElementById('difficulty-input').value = displayText;
-            document.getElementById('difficulty-select').value = difficulty;
-            document.getElementById('difficulty-results').style.display = 'none';
-            updateConstant();
+        function selectDifficulty(difficulty, displayText, mode) {
+            document.getElementById(`${mode}-difficulty-input`).value = displayText;
+            document.getElementById(`${mode}-difficulty-select`).value = difficulty;
+            document.getElementById(`${mode}-difficulty-results`).style.display = 'none';
+            updateConstant(mode);
         }
         
         // 更新定数
-        function updateConstant() {
-            const selectedSongInput = document.getElementById('selected-song');
-            const difficultySelect = document.getElementById('difficulty-select');
-            const constantInput = document.getElementById('song-constant');
+        function updateConstant(mode) {
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
             
             const selectedSong = selectedSongInput.value;
             const selectedDifficulty = difficultySelect.value;
@@ -1478,13 +1665,13 @@
         }
         
         // 添加歌曲到B30
-        function addSongToB30() {
-            console.log('addSongToB30 函数被调用');
+        function addSongToList(mode) {
+            console.log(`addSongToList 函数被调用，模式: ${mode}`);
             
-            const selectedSongInput = document.getElementById('selected-song');
-            const difficultySelect = document.getElementById('difficulty-select');
-            const constantInput = document.getElementById('song-constant');
-            const scoreInput = document.getElementById('song-score');
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
+            const scoreInput = document.getElementById(`${mode}-song-score`);
             
             const song = selectedSongInput.value;
             const difficulty = difficultySelect.value;
@@ -1517,14 +1704,31 @@
                 }
             }
             
+            let data;
+            let maxCount;
+            let listElement;
+            let countElement;
+            
+            if (mode === 'b30') {
+                data = b30Data;
+                maxCount = 30;
+                listElement = 'b30-songs';
+                countElement = 'b30-count';
+            } else if (mode === 'r10') {
+                data = r10Data;
+                maxCount = 10;
+                listElement = 'r10-songs';
+                countElement = 'r10-count';
+            }
+            
             // 检查是否已存在相同曲目和难度
-            const existingIndex = b30Data.findIndex(item => 
+            const existingIndex = data.findIndex(item => 
                 item.song_id === song && item.difficulty === difficulty
             );
             
             if (existingIndex >= 0) {
                 // 更新已存在的记录
-                b30Data[existingIndex] = {
+                data[existingIndex] = {
                     song_id: song,
                     difficulty: difficulty,
                     constant: constant,
@@ -1533,12 +1737,12 @@
                 };
             } else {
                 // 添加新记录
-                if (b30Data.length >= 30) {
-                    alert('B30列表已满，最多只能添加30首歌曲');
+                if (data.length >= maxCount) {
+                    alert(`${mode.toUpperCase()}列表已满，最多只能添加${maxCount}首歌曲`);
                     return;
                 }
                 
-                b30Data.push({
+                data.push({
                     song_id: song,
                     difficulty: difficulty,
                     constant: constant,
@@ -1548,17 +1752,17 @@
             }
             
             // 更新显示
-            updateB30ListDisplay();
-            updateB30Stats();
+            updateListDisplay(mode);
+            updateStats();
             
             // 重置输入
             scoreInput.value = '';
             
             // 显示成功提示
-            const b30SongsDiv = document.getElementById('b30-songs');
-            b30SongsDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+            const songsDiv = document.getElementById(listElement);
+            songsDiv.style.background = mode === 'b30' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(155, 89, 182, 0.1)';
             setTimeout(() => {
-                b30SongsDiv.style.background = 'white';
+                songsDiv.style.background = 'white';
             }, 500);
         }
         
@@ -1575,104 +1779,164 @@
             }
         }
         
-        // 更新B30列表显示
-        function updateB30ListDisplay() {
-            const b30SongsDiv = document.getElementById('b30-songs');
-            const b30CountSpan = document.getElementById('b30-count');
+        // 更新列表显示
+        function updateListDisplay(mode) {
+            const data = mode === 'b30' ? b30Data : r10Data;
+            const songsDiv = document.getElementById(`${mode}-songs`);
+            const countSpan = document.getElementById(`${mode}-count`);
             
-            if (b30Data.length === 0) {
-                b30SongsDiv.innerHTML = '暂无数据，请添加成绩';
-                b30CountSpan.textContent = '0';
+            if (data.length === 0) {
+                songsDiv.innerHTML = '暂无数据，请添加成绩';
+                countSpan.textContent = '0';
                 return;
             }
             
-            b30CountSpan.textContent = b30Data.length.toString();
+            countSpan.textContent = data.length.toString();
             
             // 按单曲PTT从高到低排序显示
-            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+            const sortedData = [...data].sort((a, b) => b.single_ptt - a.single_ptt);
             
             let html = '';
             sortedData.forEach((item, index) => {
                 const grade = getGrade(item.score);
+                const colorClass = mode === 'b30' ? 'b30' : 'r10';
                 html += `
-                    <div class="b30-song-item">
-                        <div class="b30-song-info">
-                            <div class="b30-song-name">${item.song_id}</div>
-                            <div class="b30-song-details">${item.difficulty.toUpperCase()} (定数: ${item.constant.toFixed(1)})</div>
+                    <div class="${colorClass}-song-item">
+                        <div class="${colorClass}-song-info">
+                            <div class="${colorClass}-song-name">${item.song_id}</div>
+                            <div class="${colorClass}-song-details">${item.difficulty.toUpperCase()} (定数: ${item.constant.toFixed(1)})</div>
                         </div>
-                        <div class="b30-song-score">
-                            <div class="b30-song-score-value">${item.score.toLocaleString()}</div>
-                            <div class="b30-song-ptt">单曲PTT: ${item.single_ptt.toFixed(2)}</div>
+                        <div class="${colorClass}-song-score">
+                            <div class="${colorClass}-song-score-value">${item.score.toLocaleString()}</div>
+                            <div class="${colorClass}-song-ptt">单曲PTT: ${item.single_ptt.toFixed(2)}</div>
                         </div>
-                        <div class="b30-song-actions">
-                            <button class="b30-edit-btn" onclick="editB30Item(${index})">编辑</button>
-                            <button class="b30-delete-btn" onclick="deleteFromB30(${index})">删除</button>
+                        <div class="${colorClass}-song-actions">
+                            <button class="${colorClass}-edit-btn" onclick="editItem('${mode}', ${index})">编辑</button>
+                            <button class="${colorClass}-delete-btn" onclick="deleteFromList('${mode}', ${index})">删除</button>
                         </div>
                     </div>
                 `;
             });
             
-            b30SongsDiv.innerHTML = html;
+            songsDiv.innerHTML = html;
         }
         
-        // 编辑B30项目
-        function editB30Item(index) {
+        // 编辑列表项目
+        function editItem(mode, index) {
+            const data = mode === 'b30' ? b30Data : r10Data;
             // 获取实际排序后的索引
-            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+            const sortedData = [...data].sort((a, b) => b.single_ptt - a.single_ptt);
             const itemToEdit = sortedData[index];
             
             // 填充表单
-            document.getElementById('selected-song-name').value = itemToEdit.song_id;
-            document.getElementById('selected-song').value = itemToEdit.song_id;
-            document.getElementById('song-score').value = itemToEdit.score;
+            document.getElementById(`${mode}-selected-song-name`).value = itemToEdit.song_id;
+            document.getElementById(`${mode}-selected-song`).value = itemToEdit.song_id;
+            document.getElementById(`${mode}-song-score`).value = itemToEdit.score;
             
             // 设置难度
-            updateDifficultySelect();
-            document.getElementById('difficulty-select').value = itemToEdit.difficulty;
-            updateConstant();
+            updateDifficultySelect(mode);
+            document.getElementById(`${mode}-difficulty-select`).value = itemToEdit.difficulty;
+            updateConstant(mode);
             
             // 滚动到输入区域
-            document.getElementById('b30-mode').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById(`${mode}-mode`).scrollIntoView({ behavior: 'smooth' });
             
             // 删除原记录
-            const actualIndex = b30Data.findIndex(item => 
+            const actualIndex = data.findIndex(item => 
                 item.song_id === itemToEdit.song_id && 
                 item.difficulty === itemToEdit.difficulty
             );
             
             if (actualIndex !== -1) {
-                b30Data.splice(actualIndex, 1);
-                updateB30ListDisplay();
-                updateB30Stats();
+                data.splice(actualIndex, 1);
+                updateListDisplay(mode);
+                updateStats();
             }
         }
         
-        // 从B30中删除
-        function deleteFromB30(index) {
+        // 从列表中删除
+        function deleteFromList(mode, index) {
+            const data = mode === 'b30' ? b30Data : r10Data;
             // 获取要删除的歌曲信息，用于显示反馈
-            const songToDelete = b30Data[index];
+            const songToDelete = data[index];
             const songName = songToDelete ? songToDelete.song_id : '未知歌曲';
             
-            b30Data.splice(index, 1);
-            updateB30ListDisplay();
-            updateB30Stats();
+            data.splice(index, 1);
+            updateListDisplay(mode);
+            updateStats();
             
             // 显示操作反馈
             showNotification(`已删除歌曲: ${songName}`);
         }
         
-        // 清空B30
-        function clearB30() {
+        // 清空列表
+        function clearList(mode) {
             // 记录清空前的数量，用于显示反馈
-            const countBefore = b30Data.length;
-            b30Data = [];
-            updateB30ListDisplay();
-            updateB30Stats();
+            const data = mode === 'b30' ? b30Data : r10Data;
+            const countBefore = data.length;
+            
+            if (mode === 'b30') {
+                b30Data = [];
+            } else if (mode === 'r10') {
+                r10Data = [];
+            }
+            
+            updateListDisplay(mode);
+            updateStats();
             
             // 显示操作反馈
             if (countBefore > 0) {
                 showNotification(`已清空 ${countBefore} 首歌曲的成绩`);
             }
+        }
+        
+        // 更新统计信息
+        function updateStats() {
+            const b30SummaryDiv = document.getElementById('b30-summary');
+            
+            if (b30Data.length === 0 && r10Data.length === 0) {
+                b30SummaryDiv.style.display = 'none';
+                return;
+            }
+            
+            b30SummaryDiv.style.display = 'block';
+            
+            // 计算玩家PTT：(B30各单曲ptt总和+R10各单曲ptt总和)/40
+            let totalPTT = 0;
+            if (b30Data.length > 0) {
+                totalPTT += b30Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            }
+            if (r10Data.length > 0) {
+                totalPTT += r10Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            }
+            
+            const totalCount = Math.max(b30Data.length + r10Data.length, 1);
+            const playerPTT = totalPTT / Math.max(totalCount, 1);
+            
+            // 计算R10平均值
+            let r10Average = 0;
+            if (r10Data.length > 0) {
+                r10Average = r10Data.reduce((sum, item) => sum + item.single_ptt, 0) / r10Data.length;
+            } else {
+                // 如果没有R10数据，使用B10平均值作为R10平均值
+                const sortedB30 = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+                const top10 = sortedB30.slice(0, Math.min(10, sortedB30.length));
+                if (top10.length > 0) {
+                    r10Average = top10.reduce((sum, item) => sum + item.single_ptt, 0) / top10.length;
+                }
+            }
+            
+            // 计算地板PTT（取B30中单曲PTT最低的那首歌的PTT）
+            let floorPTT = 0;
+            if (b30Data.length > 0) {
+                const sortedByPTT = [...b30Data].sort((a, b) => a.single_ptt - b.single_ptt);
+                floorPTT = sortedByPTT[0].single_ptt;
+            }
+            
+            // 更新显示
+            document.getElementById('player-ptt').textContent = playerPTT.toFixed(2);
+            document.getElementById('r10-average-ptt').textContent = r10Average.toFixed(2);
+            document.getElementById('floor-ptt').textContent = floorPTT.toFixed(2);
         }
         
         // 显示通知消息
@@ -1693,83 +1957,21 @@
             }, 3000);
         }
         
-        // 自定义确认对话框
-        function confirmClearB30() {
-            // 创建对话框容器
-            const dialog = document.createElement('div');
-            dialog.className = 'confirm-dialog';
-            dialog.innerHTML = `
-                <div class="confirm-content">
-                    <h3>确认操作</h3>
-                    <p>确定要清空B30列表吗？</p>
-                    <div class="confirm-buttons">
-                        <button id="confirm-yes" class="confirm-btn confirm-yes">确定</button>
-                        <button id="confirm-no" class="confirm-btn confirm-no">取消</button>
-                    </div>
-                </div>
-            `;
+        // 导出数据
+        function exportData(mode) {
+            const data = mode === 'b30' ? b30Data : r10Data;
             
-            // 添加到页面
-            document.body.appendChild(dialog);
-            
-            // 返回Promise
-            return new Promise((resolve) => {
-                // 绑定事件
-                document.getElementById('confirm-yes').addEventListener('click', () => {
-                    document.body.removeChild(dialog);
-                    resolve(true);
-                });
-                
-                document.getElementById('confirm-no').addEventListener('click', () => {
-                    document.body.removeChild(dialog);
-                    resolve(false);
-                });
-                
-                // ESC键关闭对话框
-                const handleEsc = (e) => {
-                    if (e.key === 'Escape') {
-                        document.removeEventListener('keydown', handleEsc);
-                        if (document.body.contains(dialog)) {
-                            document.body.removeChild(dialog);
-                        }
-                        resolve(false);
-                    }
-                };
-                
-                document.addEventListener('keydown', handleEsc);
-            }).then(result => result);
-        }
-        
-        // 显示成功消息
-        function showSuccessMessage(message) {
-            // 创建消息元素
-            const msgElement = document.createElement('div');
-            msgElement.className = 'success-message';
-            msgElement.textContent = message;
-            
-            // 添加到页面
-            document.body.appendChild(msgElement);
-            
-            // 3秒后自动移除
-            setTimeout(() => {
-                if (document.body.contains(msgElement)) {
-                    document.body.removeChild(msgElement);
-                }
-            }, 3000);
-        }
-        
-        // 导出B30数据
-        function exportB30Data() {
-            if (b30Data.length === 0) {
-                alert('没有可导出的数据');
+            if (data.length === 0) {
+                alert(`没有可导出的${mode.toUpperCase()}数据`);
                 return;
             }
             
             // 准备导出数据
             const exportData = {
                 version: '1.0',
+                type: mode.toUpperCase(),
                 exportDate: new Date().toISOString(),
-                data: b30Data
+                data: data
             };
             
             // 创建Blob对象
@@ -1779,7 +1981,7 @@
             const url = URL.createObjectURL(blob);
             const downloadLink = document.createElement('a');
             downloadLink.href = url;
-            downloadLink.download = `arcaea-b30-${new Date().toISOString().slice(0, 10)}.json`;
+            downloadLink.download = `arcaea-${mode}-${new Date().toISOString().slice(0, 10)}.json`;
             
             // 触发下载
             document.body.appendChild(downloadLink);
@@ -1790,11 +1992,11 @@
             URL.revokeObjectURL(url);
             
             // 显示成功提示
-            alert(`成功导出 ${b30Data.length} 条B30数据`);
+            alert(`成功导出 ${data.length} 条${mode.toUpperCase()}数据`);
         }
         
-        // 导入B30数据
-        function importB30Data(event) {
+        // 导入数据
+        function importData(mode, event) {
             const file = event.target.files[0];
             if (!file) return;
             
@@ -1814,20 +2016,23 @@
                     
                     // 验证数据格式
                     if (!importedData.data || !Array.isArray(importedData.data)) {
-                        alert('数据格式无效，请选择正确的B30数据文件');
+                        alert('数据格式无效，请选择正确的数据文件');
                         return;
                     }
                     
                     // 确认导入
                     const itemCount = importedData.data.length;
                     if (itemCount === 0) {
-                        alert('文件中没有有效的B30数据');
+                        alert('文件中没有有效的数据');
                         return;
                     }
                     
+                    const maxCount = mode === 'b30' ? 30 : 10;
                     const confirmImport = confirm(
-                        `即将导入 ${itemCount} 条B30数据。` +
-                        (b30Data.length > 0 ? '\n\n注意：导入会清空当前已有的数据。' : '') +
+                        `即将导入 ${itemCount} 条${mode.toUpperCase()}数据。` +
+                        (itemCount > maxCount ? `\n注意：最多只能导入${maxCount}条数据。` : '') +
+                        (mode === 'b30' && b30Data.length > 0 ? '\n注意：导入会清空当前已有的B30数据。' : '') +
+                        (mode === 'r10' && r10Data.length > 0 ? '\n注意：导入会清空当前已有的R10数据。' : '') +
                         '\n\n确定要继续吗？'
                     );
                     
@@ -1838,35 +2043,37 @@
                     
                     // 验证每条数据的完整性
                     const validData = [];
-                    for (const item of importedData.data) {
+                    for (let i = 0; i < Math.min(itemCount, maxCount); i++) {
+                        const item = importedData.data[i];
                         if (item.song_id && item.difficulty && item.constant && item.score) {
+                            // 确保有single_ptt
+                            if (!item.single_ptt) {
+                                item.single_ptt = calculateSinglePTT(item.score, item.constant);
+                            }
                             validData.push(item);
                         }
                     }
                     
                     if (validData.length === 0) {
-                        alert('文件中没有有效的B30数据');
+                        alert('文件中没有有效的数据');
                         return;
                     }
                     
-                    if (validData.length < importedData.data.length) {
-                        const skippedCount = importedData.data.length - validData.length;
-                        if (!confirm(`验证发现 ${skippedCount} 条无效数据将被跳过，继续导入 ${validData.length} 条有效数据吗？`)) {
-                            event.target.value = '';
-                            return;
-                        }
+                    // 导入数据
+                    if (mode === 'b30') {
+                        b30Data = validData;
+                    } else if (mode === 'r10') {
+                        r10Data = validData;
                     }
                     
-                    // 导入数据
-                    b30Data = validData;
-                    updateB30ListDisplay();
-                    updateB30Stats();
+                    updateListDisplay(mode);
+                    updateStats();
                     
                     // 重置文件输入
                     event.target.value = '';
                     
                     // 显示成功提示
-                    alert(`成功导入 ${validData.length} 条B30数据`);
+                    showNotification(`成功导入 ${validData.length} 条${mode.toUpperCase()}数据`);
                     
                 } catch (error) {
                     console.error('导入数据时出错:', error);
@@ -1883,35 +2090,806 @@
             reader.readAsText(file);
         }
         
-        // 更新B30统计
-        function updateB30Stats() {
-            const b30SummaryDiv = document.getElementById('b30-summary');
-            
-            if (b30Data.length === 0) {
-                b30SummaryDiv.style.display = 'none';
+        // 爬虫数据导入功能
+        function importCrawlerData() {
+            // 创建一个模态对话框用于选择爬虫导入方式
+            const modal = document.createElement('div');
+            modal.className = 'confirm-dialog';
+            modal.innerHTML = `
+                <div class="confirm-content crawler-modal">
+                    <h3>导入爬虫数据</h3>
+                    <p>请选择一种方式导入您的B30和R10数据：</p>
+                    <div class="crawler-method-tabs">
+                        <button class="crawler-tab active" onclick="switchCrawlerTab('manual')">手动粘贴数据</button>
+                        <button class="crawler-tab" onclick="switchCrawlerTab('auto')">自动获取数据</button>
+                        <button class="crawler-tab" onclick="switchCrawlerTab('tutorial')">爬虫教程</button>
+                    </div>
+                    
+                    <div id="manual-method" class="crawler-method active">
+                        <h4>手动粘贴爬虫数据 - 详细步骤</h4>
+                        <div class="manual-steps">
+                            <div class="manual-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>获取爬虫数据</h5>
+                                    <p>使用您已有的爬虫工具或从其他来源获取Arcaea B30和R10数据</p>
+                                    <div class="data-format-examples">
+                                        <h6>支持的数据格式示例：</h6>
+                                        <div class="format-example">
+                                            <strong>格式1：</strong>
+                                            <code>B30数据：<br>歌曲名1 - 难度 - 分数<br>歌曲名2 - 难度 - 分数<br>...</code>
+                                        </div>
+                                        <div class="format-example">
+                                            <strong>格式2：</strong>
+                                            <code>R10数据：<br>1. 歌曲名1 [FTR] 9750000<br>2. 歌曲名2 [BYD] 9950000<br>...</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>复制数据</h5>
+                                    <p>选中所有爬虫数据，按 Ctrl+C (Windows) 或 Cmd+C (Mac) 复制到剪贴板</p>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>粘贴数据</h5>
+                                    <p>点击下方文本框，按 Ctrl+V (Windows) 或 Cmd+V (Mac) 粘贴数据</p>
+                                    <textarea id="crawler-data-input" placeholder="请在此粘贴爬虫获取的数据..."></textarea>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>导入数据</h5>
+                                    <p>点击"导入数据"按钮，系统将自动解析并填充到B30和R10列表中</p>
+                                    <div class="confirm-buttons">
+                                        <button class="confirm-btn confirm-yes" onclick="processCrawlerData()">导入数据</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="auto-method" class="crawler-method">
+                        <p>此功能需要安装专用工具才能自动获取Arcaea Online数据。</p>
+                        <p>请选择适合您的自动化方案：</p>
+                        <div class="crawler-tools">
+                            <div class="tool-card">
+                                <h4>Chrome扩展爬虫</h4>
+                                <p>安装我们的Chrome扩展程序，一键导入您的B30和R10数据。</p>
+                                <div class="extension-steps">
+                                    <h5>使用步骤：</h5>
+                                    <ol>
+                                        <li>点击下方"获取扩展"按钮</li>
+                                        <li>在Chrome网上应用店安装扩展</li>
+                                        <li>打开Arcaea Online并登录</li>
+                                        <li>点击扩展图标，选择"导出B30/R10"</li>
+                                        <li>数据将自动复制到剪贴板</li>
+                                        <li>返回PTT计算器，使用"手动粘贴"功能导入</li>
+                                    </ol>
+                                </div>
+                                <button class="tool-btn" onclick="openExtensionPage()">获取扩展</button>
+                            </div>
+                            <div class="tool-card">
+                                <h4>独立爬虫程序</h4>
+                                <p>下载独立的爬虫程序，自动获取您的Arcaea数据并生成导入文件。</p>
+                                <div class="crawler-usage">
+                                    <h5>下载后的使用步骤：</h5>
+                                    <ol>
+                                        <li><strong>解压程序：</strong>右键点击下载的压缩包，选择"解压到当前文件夹"</li>
+                                        <li><strong>准备账号信息：</strong>确保您知道Arcaea Online的用户名和密码</li>
+                                        <li><strong>运行程序：</strong>双击解压后的爬虫程序文件（Windows: crawler.exe，Mac: crawler.app）</li>
+                                        <li><strong>输入凭证：</strong>在程序界面输入您的Arcaea Online账号和密码</li>
+                                        <li><strong>开始爬取：</strong>点击"开始爬取"按钮，程序将自动获取您的B30和R10数据</li>
+                                        <li><strong>获取结果：</strong>爬取完成后，程序将显示成功消息并自动将数据复制到剪贴板</li>
+                                        <li><strong>导入数据：</strong>返回PTT计算器，使用"手动粘贴"功能，按Ctrl+V粘贴数据</li>
+                                    </ol>
+                                    <div class="tips">
+                                        <h6>💡 小贴士：</h6>
+                                        <ul>
+                                            <li>爬虫程序会将数据自动格式化，您无需手动调整</li>
+                                            <li>程序支持自动识别B30和R10区域</li>
+                                            <li>如果爬取失败，请检查网络连接和账号信息</li>
+                                            <li>程序不会保存您的密码，使用后安全退出</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button class="tool-btn" onclick="downloadCrawler()">下载爬虫</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tutorial-method" class="crawler-method">
+                        <h4>如何使用爬虫获取数据</h4>
+                        <div class="tutorial-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>安装爬虫工具</h5>
+                                    <p>从GitHub下载适用于您的操作系统的爬虫程序</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>获取授权令牌</h5>
+                                    <p>在Arcaea Online设置中获取您的API访问令牌</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>运行爬虫</h5>
+                                    <p>执行爬虫程序，它将自动获取您的B30和R10数据</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>导入数据</h5>
+                                    <p>将爬虫生成的数据复制到上面的"手动粘贴数据"选项卡中</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeCrawlerModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        // 处理爬虫数据
+        function processCrawlerData() {
+            const input = document.getElementById('crawler-data-input').value;
+            if (!input.trim()) {
+                alert('请输入爬虫数据');
                 return;
             }
             
-            b30SummaryDiv.style.display = 'block';
+            try {
+                // 尝试解析不同格式的爬虫数据
+                let b30Items = [];
+                let r10Items = [];
+                
+                // 尝试解析爬虫输出格式
+                // 格式1: "B30数据：歌曲名 - 难度 - 分数"
+                // 格式2: "R10数据：歌曲名 - 难度 - 分数"
+                // 格式3: "排名. 歌曲名 [难度] 分数"
+                
+                const lines = input.split('\n').filter(line => line.trim());
+                let currentMode = null; // 'b30' 或 'r10'
+                
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+                    
+                    // 检测B30/R10数据区域
+                    if (trimmedLine.includes('B30') || trimmedLine.includes('b30')) {
+                        currentMode = 'b30';
+                        continue;
+                    }
+                    if (trimmedLine.includes('R10') || trimmedLine.includes('r10')) {
+                        currentMode = 'r10';
+                        continue;
+                    }
+                    
+                    // 尝试匹配数据行
+                    // 格式1: "歌曲名 - 难度 - 分数"
+                    let match = trimmedLine.match(/^(.+?)\s*-\s*([A-Z]+)\s*-\s*(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                    
+                    // 格式2: "排名. 歌曲名 [难度] 分数"
+                    match = trimmedLine.match(/^\d+\.\s+(.+?)\s*\[([A-Z]+)\]\s+(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                    
+                    // 格式3: "歌曲名 难度 分数"
+                    match = trimmedLine.match(/^(.+?)\s+([A-Z]+)\s+(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                }
+                
+                // 如果没有检测到明确的B30/R10区域，尝试智能分割
+                if (b30Items.length === 0 && r10Items.length === 0 && lines.length > 0) {
+                    // 假设前30条是B30，后10条是R10
+                    const allItems = [];
+                    
+                    for (const line of lines) {
+                        const trimmedLine = line.trim();
+                        if (!trimmedLine) continue;
+                        
+                        // 尝试匹配任意格式的数据行
+                        let match = trimmedLine.match(/^(.+?)\s*-\s*([A-Z]+)\s*-\s*(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                            continue;
+                        }
+                        
+                        match = trimmedLine.match(/^\d+\.\s+(.+?)\s*\[([A-Z]+)\]\s+(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                            continue;
+                        }
+                        
+                        match = trimmedLine.match(/^(.+?)\s+([A-Z]+)\s+(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                        }
+                    }
+                    
+                    // 分割为B30和R10
+                    if (allItems.length >= 10) {
+                        b30Items = allItems.slice(0, Math.min(30, allItems.length - 10));
+                        r10Items = allItems.slice(Math.min(30, allItems.length - 10), Math.min(allItems.length, 40));
+                    } else if (allItems.length > 0) {
+                        // 如果数据不足，全部放入B30
+                        b30Items = allItems.slice(0, 30);
+                    }
+                }
+                
+                if (b30Items.length === 0 && r10Items.length === 0) {
+                    alert('未能识别有效的数据格式，请检查输入数据格式');
+                    return;
+                }
+                
+                // 转换为标准格式并检查歌曲数据库
+                const processedB30 = [];
+                const processedR10 = [];
+                
+                for (const item of b30Items) {
+                    const processed = processCrawlerItem(item);
+                    if (processed) {
+                        processedB30.push(processed);
+                    }
+                }
+                
+                for (const item of r10Items) {
+                    const processed = processCrawlerItem(item);
+                    if (processed) {
+                        processedR10.push(processed);
+                    }
+                }
+                
+                // 导入数据
+                let successCount = 0;
+                
+                if (processedB30.length > 0) {
+                    b30Data = processedB30.slice(0, 30); // 限制为30首
+                    updateListDisplay('b30');
+                    successCount += processedB30.length;
+                }
+                
+                if (processedR10.length > 0) {
+                    r10Data = processedR10.slice(0, 10); // 限制为10首
+                    updateListDisplay('r10');
+                    successCount += processedR10.length;
+                }
+                
+                updateStats();
+                closeCrawlerModal();
+                
+                showNotification(`成功导入 ${successCount} 条歌曲数据 (B30: ${processedB30.length}, R10: ${processedR10.length})`);
+                
+            } catch (error) {
+                console.error('处理爬虫数据时出错:', error);
+                alert('处理爬虫数据时出错，请检查数据格式是否正确');
+            }
+        }
+        
+        // 处理单个爬虫数据项
+        function processCrawlerItem(item) {
+            const { songName, difficulty, score } = item;
             
-            // 计算B30 PTT平均值
-            const totalPTT = b30Data.reduce((sum, item) => sum + item.single_ptt, 0);
-            const b30PTT = totalPTT / b30Data.length;
+            // 查找歌曲数据库中最接近的匹配
+            let bestMatch = null;
+            let bestScore = 0;
             
-            // 计算B10 PTT平均值（取前10名最高PTT）
-            const sortedData = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
-            const top10Data = sortedData.slice(0, 10);
-            const b10TotalPTT = top10Data.reduce((sum, item) => sum + item.single_ptt, 0);
-            const b10PTT = b10TotalPTT / Math.min(10, top10Data.length);
+            for (const dbSongName in songConstants) {
+                // 完全匹配
+                if (dbSongName === songName) {
+                    bestMatch = dbSongName;
+                    break;
+                }
+                
+                // 模糊匹配
+                const similarity = calculateSimilarity(songName.toLowerCase(), dbSongName.toLowerCase());
+                if (similarity > bestScore && similarity > 0.7) { // 相似度阈值
+                    bestScore = similarity;
+                    bestMatch = dbSongName;
+                }
+            }
             
-            // 计算地板PTT（取B30中单曲PTT最低的那首歌的PTT）
-            const sortedByPTT = [...b30Data].sort((a, b) => a.single_ptt - b.single_ptt);
-            const floorPTT = sortedByPTT.length > 0 ? sortedByPTT[0].single_ptt : 0;
+            if (!bestMatch) {
+                console.warn(`未找到歌曲: ${songName}`);
+                return null;
+            }
             
-            // 更新显示
-            document.getElementById('b30-ptt').textContent = b30PTT.toFixed(2);
-            document.getElementById('b10-ptt').textContent = b10PTT.toFixed(2);
-            document.getElementById('floor-ptt').textContent = floorPTT.toFixed(2);
+            // 获取难度
+            const diffLower = difficulty.toLowerCase();
+            let diffKey = null;
+            
+            // 检查所有可能的难度表示
+            if (diffLower === 'pst' || diffLower === 'past') {
+                diffKey = 'pst';
+            } else if (diffLower === 'prs' || diffLower === 'present') {
+                diffKey = 'prs';
+            } else if (diffLower === 'ftr' || diffLower === 'future') {
+                diffKey = 'ftr';
+            } else if (diffLower === 'byd' || diffLower === 'beyond') {
+                diffKey = 'byd';
+            } else if (diffLower === 'etr' || diffLower === 'eternal') {
+                diffKey = 'etr';
+            }
+            
+            if (!diffKey) {
+                console.warn(`无效的难度: ${difficulty}`);
+                return null;
+            }
+            
+            const songConstant = songConstants[bestMatch];
+            if (!songConstant || songConstant[diffKey] === null || songConstant[diffKey] === undefined) {
+                console.warn(`歌曲 ${bestMatch} 没有难度 ${difficulty}`);
+                return null;
+            }
+            
+            const constant = songConstant[diffKey];
+            
+            return {
+                song_id: bestMatch,
+                difficulty: diffKey,
+                constant: constant,
+                score: score,
+                single_ptt: calculateSinglePTT(score, constant)
+            };
+        }
+        
+        // 计算字符串相似度（简单的Levenshtein距离）
+        function calculateSimilarity(str1, str2) {
+            if (str1 === str2) return 1;
+            
+            const matrix = [];
+            for (let i = 0; i <= str1.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str2.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str1.length; i++) {
+                for (let j = 1; j <= str2.length; j++) {
+                    if (str1.charAt(i - 1) === str2.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            const distance = matrix[str1.length][str2.length];
+            const maxLen = Math.max(str1.length, str2.length);
+            return (maxLen - distance) / maxLen;
+        }
+        
+        // 切换爬虫选项卡
+        function switchCrawlerTab(tabName) {
+            // 切换选项卡样式
+            document.querySelectorAll('.crawler-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换内容显示
+            document.querySelectorAll('.crawler-method').forEach(method => method.classList.remove('active'));
+            document.getElementById(`${tabName}-method`).classList.add('active');
+        }
+        
+        // 打开扩展程序页面
+        function openExtensionPage() {
+            // 创建一个包含扩展下载信息的模态框
+            const extensionModal = document.createElement('div');
+            extensionModal.className = 'confirm-dialog extension-dialog';
+            extensionModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>浏览器扩展程序</h3>
+                    <p>我们正在开发Chrome和Firefox扩展程序，可以让您一键导入Arcaea数据。</p>
+                    <p>目前扩展程序仍在审核中，请稍后关注我们的更新。</p>
+                    <div class="extension-info">
+                        <div class="info-item">
+                            <div class="info-icon">🚀</div>
+                            <div class="info-text">
+                                <h4>即将推出</h4>
+                                <p>Chrome和Firefox扩展程序</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🔧</div>
+                            <div class="info-text">
+                                <h4>功能特性</h4>
+                                <p>自动登录、数据获取、一键导入</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-yes" onclick="closeExtensionModal()">了解</button>
+                        <button class="confirm-btn confirm-no" onclick="closeExtensionModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(extensionModal);
+        }
+        
+        // 关闭扩展程序模态框
+        function closeExtensionModal() {
+            const modal = document.querySelector('.extension-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 下载爬虫程序
+        function downloadCrawler() {
+            // 创建一个包含爬虫下载信息的模态框
+            const crawlerModal = document.createElement('div');
+            crawlerModal.className = 'confirm-dialog';
+            crawlerModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>爬虫程序下载</h3>
+                    <p>请选择适用于您操作系统的爬虫程序：</p>
+                    <div class="crawler-downloads">
+                        <div class="download-card">
+                            <div class="os-icon">🪟</div>
+                            <h4>Windows</h4>
+                            <p>适用于Windows 10/11</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('windows')">下载Windows版</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="os-icon">🍎</div>
+                            <h4>macOS</h4>
+                            <p>适用于macOS 10.15+</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('macos')">下载macOS版</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="os-icon">🐧</div>
+                            <h4>Linux</h4>
+                            <p>适用于大多数Linux发行版</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('linux')">下载Linux版</button>
+                        </div>
+                    </div>
+                    <div class="crawler-notes">
+                        <h4>使用说明</h4>
+                        <ol>
+                            <li>下载并解压爬虫程序</li>
+                            <li>运行程序并输入您的Arcaea Online账号信息</li>
+                            <li>程序将自动获取您的B30和R10数据</li>
+                            <li>生成的数据将自动复制到剪贴板，可直接粘贴到PTT计算器中</li>
+                        </ol>
+                        <p class="warning">注意：爬虫程序仅用于个人数据整理，请勿用于商业用途或违反Arcaea服务条款。</p>
+                    </div>
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeCrawlerModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(crawlerModal);
+        }
+        
+        // 下载爬虫文件
+        function downloadCrawlerFile(os) {
+            // 创建下载链接
+            const downloadLinks = {
+                windows: './crawler/arcaea_crawler.py',
+                macos: './crawler/arcaea_crawler.py',
+                linux: './crawler/arcaea_crawler.py'
+            };
+            
+            const launcherFiles = {
+                windows: './crawler/run_windows.bat',
+                macos: './crawler/run_unix.sh',
+                linux: './crawler/run_unix.sh'
+            };
+            
+            // 创建一个模态框，显示下载说明
+            const downloadModal = document.createElement('div');
+            downloadModal.className = 'confirm-dialog download-dialog';
+            
+            const osNames = {
+                windows: 'Windows',
+                macos: 'macOS',
+                linux: 'Linux'
+            };
+            
+            const instructions = {
+                windows: {
+                    title: 'Windows用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '双击运行"run_windows.bat"文件（推荐）',
+                        '或者在命令提示符中运行"python arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                },
+                macos: {
+                    title: 'macOS用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '打开终端，进入下载目录',
+                        '运行"chmod +x run_unix.sh"赋予执行权限',
+                        '运行"./run_unix.sh"启动爬虫',
+                        '或者直接运行"python3 arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                },
+                linux: {
+                    title: 'Linux用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '打开终端，进入下载目录',
+                        '运行"chmod +x run_unix.sh"赋予执行权限',
+                        '运行"./run_unix.sh"启动爬虫',
+                        '或者直接运行"python3 arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                }
+            };
+            
+            const currentOs = instructions[os];
+            
+            downloadModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>爬虫程序下载 - ${osNames[os]}版</h3>
+                    
+                    <div class="download-file-info">
+                        <h4>文件信息</h4>
+                        <p><strong>主程序：</strong>arcaea_crawler.py (Python脚本)</p>
+                        <p><strong>启动脚本：</strong>${os === 'windows' ? 'run_windows.bat' : 'run_unix.sh'}</p>
+                        <p><strong>说明文档：</strong>README.md</p>
+                    </div>
+                    
+                    <div class="download-steps">
+                        <h4>${currentOs.title}</h4>
+                        <ol>
+                            ${currentOs.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                        
+                        <h4>依赖要求</h4>
+                        <ul>
+                            <li>Python 3.6或更高版本</li>
+                            <li>依赖库：requests, beautifulsoup4, pyperclip</li>
+                            <li>启动脚本会自动安装依赖库</li>
+                        </ul>
+                        
+                        <div class="download-buttons">
+                            <button class="download-file-btn" onclick="downloadFile('${downloadLinks[os]}')">
+                                下载爬虫程序
+                            </button>
+                            <button class="download-file-btn" onclick="downloadFile('${launcherFiles[os]}')">
+                                下载启动脚本
+                            </button>
+                            <button class="download-file-btn" onclick="downloadFile('./crawler/README.md')">
+                                下载说明文档
+                            </button>
+                        </div>
+                        
+                        <div class="security-note">
+                            <h6>🔒 安全提示</h6>
+                            <p>这是开源的Python脚本，您可以在运行前查看源代码以确保安全性。</p>
+                            <p>程序仅用于获取您自己的游戏数据，不会保存或分享您的密码。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-yes" onclick="copyDownloadLink('${os}')">复制下载链接</button>
+                        <button class="confirm-btn confirm-no" onclick="closeDownloadModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(downloadModal);
+        }
+        
+        // 下载文件
+        function downloadFile(fileUrl) {
+            // 创建一个通知，告知用户下载已开始
+            const fileName = fileUrl.split('/').pop();
+            showNotification(`正在下载 ${fileName}...`);
+            
+            // 创建一个下载链接
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileName;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 延迟显示成功消息
+            setTimeout(() => {
+                showNotification(`${fileName} 下载已开始，请查看您的下载文件夹`);
+            }, 1000);
+        }
+        
+        // 复制下载链接
+        function copyDownloadLink(os) {
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            const downloadLinks = {
+                windows: baseUrl + 'crawler/arcaea_crawler.py',
+                macos: baseUrl + 'crawler/arcaea_crawler.py',
+                linux: baseUrl + 'crawler/arcaea_crawler.py'
+            };
+            
+            // 复制链接到剪贴板
+            navigator.clipboard.writeText(downloadLinks[os]).then(() => {
+                showNotification('下载链接已复制到剪贴板');
+            }).catch(() => {
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = downloadLinks[os];
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('下载链接已复制到剪贴板');
+            });
+        }
+        
+        // 显示开发者指南
+        function showDevGuide() {
+            const devModal = document.createElement('div');
+            devModal.className = 'confirm-dialog dev-dialog';
+            devModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>开发者指南</h3>
+                    <div class="dev-content">
+                        <h4>如何构建自己的Arcaea爬虫</h4>
+                        <div class="dev-steps">
+                            <div class="dev-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>选择技术栈</h5>
+                                    <p>推荐使用Python + requests + BeautifulSoup，或Node.js + axios + cheerio</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>分析API</h5>
+                                    <p>研究Arcaea Online的API接口和数据格式</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>实现登录</h5>
+                                    <p>处理登录认证，获取session token或API key</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>获取数据</h5>
+                                    <p>调用API获取B30和R10数据，解析JSON或HTML响应</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h5>格式化输出</h5>
+                                    <p>将数据格式化为PTT计算器可识别的格式，自动复制到剪贴板</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-example">
+                            <h5>Python代码示例</h5>
+                            <pre><code># Arcaea爬虫示例
+import requests
+import json
+import pyperclip
+
+def get_arcaea_data(username, password):
+    # 登录获取token
+    login_data = {"username": username, "password": password}
+    response = requests.post("https://arcaea.online/api/login", json=login_data)
+    token = response.json()["token"]
+    
+    # 获取B30数据
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get("https://arcaea.online/api/best30", headers=headers)
+    b30_data = response.json()["data"]
+    
+    # 格式化数据
+    formatted_data = format_for_ptt_calculator(b30_data)
+    
+    # 复制到剪贴板
+    pyperclip.copy(formatted_data)
+    print("数据已复制到剪贴板，可粘贴到PTT计算器")
+    
+def format_for_ptt_calculator(data):
+    # 实现数据格式化逻辑
+    pass</code></pre>
+                        </div>
+                        
+                        <div class="legal-note">
+                            <h6>⚠️ 法律和道德提醒</h6>
+                            <p>请确保您的爬虫程序：</p>
+                            <ul>
+                                <li>遵守Arcaea Online的服务条款</li>
+                                <li>不要过于频繁地请求服务器</li>
+                                <li>不要分发他人的私人数据</li>
+                                <li>仅用于个人使用，不要用于商业目的</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeDevModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(devModal);
+        }
+        
+        // 关闭下载模态框
+        function closeDownloadModal() {
+            const modal = document.querySelector('.download-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 关闭开发者指南模态框
+        function closeDevModal() {
+            const modal = document.querySelector('.dev-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 关闭爬虫数据导入模态框
+        function closeCrawlerModal() {
+            const modal = document.querySelector('.confirm-dialog');
+            if (modal && modal.querySelector('.crawler-modal')) {
+                document.body.removeChild(modal);
+            }
         }
         
         // 初始化
@@ -1923,7 +2901,7 @@
             if (addToB30Btn) {
                 addToB30Btn.addEventListener('click', function() {
                     console.log('添加到B30按钮被点击');
-                    addSongToB30();
+                    addSongToList('b30');
                 });
             }
             
@@ -1932,22 +2910,53 @@
             if (clearB30Btn) {
                 clearB30Btn.addEventListener('click', function() {
                     console.log('清空B30按钮被点击');
-                    clearB30();
+                    clearList('b30');
+                });
+            }
+            
+            // 添加到R10按钮
+            const addToR10Btn = document.getElementById('add-to-r10-btn');
+            if (addToR10Btn) {
+                addToR10Btn.addEventListener('click', function() {
+                    console.log('添加到R10按钮被点击');
+                    addSongToList('r10');
+                });
+            }
+            
+            // 清空R10按钮
+            const clearR10Btn = document.getElementById('clear-r10-btn');
+            if (clearR10Btn) {
+                clearR10Btn.addEventListener('click', function() {
+                    console.log('清空R10按钮被点击');
+                    clearList('r10');
                 });
             }
         });
         
         // 隐藏搜索结果和难度下拉列表当点击其他地方时
         document.addEventListener('click', function(event) {
-            const searchContainer = document.getElementById('song-search').parentNode;
-            const difficultyContainer = document.getElementById('difficulty-input').parentNode;
+            // B30相关
+            const b30SearchContainer = document.getElementById('b30-song-search').parentNode;
+            const b30DifficultyContainer = document.getElementById('b30-difficulty-input').parentNode;
             
-            if (!searchContainer.contains(event.target)) {
-                document.getElementById('search-results').innerHTML = '';
+            if (!b30SearchContainer.contains(event.target)) {
+                document.getElementById('b30-search-results').innerHTML = '';
             }
             
-            if (!difficultyContainer.contains(event.target)) {
-                document.getElementById('difficulty-results').style.display = 'none';
+            if (!b30DifficultyContainer.contains(event.target)) {
+                document.getElementById('b30-difficulty-results').style.display = 'none';
+            }
+            
+            // R10相关
+            const r10SearchContainer = document.getElementById('r10-song-search').parentNode;
+            const r10DifficultyContainer = document.getElementById('r10-difficulty-input').parentNode;
+            
+            if (!r10SearchContainer.contains(event.target)) {
+                document.getElementById('r10-search-results').innerHTML = '';
+            }
+            
+            if (!r10DifficultyContainer.contains(event.target)) {
+                document.getElementById('r10-difficulty-results').style.display = 'none';
             }
         });
     </script>
@@ -1975,6 +2984,16 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .confirm-content.crawler-modal {
+            text-align: left;
+            max-width: 700px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .confirm-content h3 {
@@ -2022,6 +3041,188 @@
             background-color: #7f8c8d;
         }
         
+        .download-steps {
+            margin: 15px 0;
+        }
+        
+        .download-steps h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .download-steps ol, .download-steps ul {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .download-steps li {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .demo-note {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ffc107;
+            margin-top: 15px;
+        }
+        
+        .demo-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .demo-note a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        
+        .dev-content {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .dev-steps {
+            margin: 15px 0;
+        }
+        
+        .dev-step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .code-example {
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .code-example h5 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .code-example pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .legal-note {
+            background: #f8d7da;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #dc3545;
+            margin-top: 15px;
+        }
+        
+        .legal-note h6 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #721c24;
+        }
+        
+        .legal-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #721c24;
+        }
+        
+        .legal-note ul {
+            margin: 10px 0 0 0;
+            padding-left: 18px;
+        }
+        
+        .legal-note li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #721c24;
+        }
+        
+        .download-file-info {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #2196f3;
+            margin-bottom: 15px;
+        }
+        
+        .download-file-info h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #1976d2;
+        }
+        
+        .download-file-info p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .download-file-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .download-file-btn:hover {
+            background: #218838;
+        }
+        
+        .download-file-btn::before {
+            content: "⬇";
+            font-size: 14px;
+        }
+        
+        .security-note {
+            background: #d4edda;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+            margin-top: 15px;
+        }
+        
+        .security-note h6 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #155724;
+        }
+        
+        .security-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #155724;
+        }
+        
         /* 通知消息样式 */
         .notification, .success-message {
             position: fixed;
@@ -2045,6 +3246,348 @@
                 transform: translateX(0);
                 opacity: 1;
             }
+        }
+        
+        /* 爬虫模态框样式 */
+        .crawler-modal {
+            max-width: 600px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .crawler-method-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .crawler-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .crawler-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .crawler-method {
+            display: none;
+        }
+        
+        .crawler-method.active {
+            display: block;
+        }
+        
+        .crawler-data-input {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        
+        .crawler-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tool-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-card h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .tool-card p {
+            margin: 0 0 12px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tool-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .tutorial-steps {
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h5 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .step-content p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .data-format-examples {
+            margin-top: 10px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        
+        .data-format-examples h6 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .format-example {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .format-example:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .format-example strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .format-example code {
+            display: block;
+            background: #f1f3f4;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #444;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .extension-steps, .crawler-usage {
+            margin-top: 15px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .extension-steps h5, .crawler-usage h5 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .extension-steps ol, .crawler-usage ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .extension-steps li, .crawler-usage li {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .extension-steps li:last-child, .crawler-usage li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #ffc107;
+        }
+        
+        .tips h6 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .tips ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+        
+        .tips li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #856404;
+        }
+        
+        .tips li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .extension-info {
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .info-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .info-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .info-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .crawler-downloads {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .download-card {
+            flex: 1;
+            min-width: 150px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .os-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .download-card h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .download-card p {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .download-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        
+        .download-btn:hover {
+            background: #219653;
+        }
+        
+        .crawler-notes {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .crawler-notes h4 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .crawler-notes ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .crawler-notes li {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .warning {
+            color: #e74c3c;
+            font-size: 13px;
+            font-style: italic;
+            margin-top: 10px;
         }
     </style>
 </html>
