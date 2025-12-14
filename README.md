@@ -1,0 +1,212 @@
+# Arcaea PTT计算器
+
+基于 UniApp 和腾讯云开发的 Arcaea PTT计算器跨平台应用，专为Arcaea玩家设计的PTT计算和管理工具，支持多平台运行：H5、微信小程序、支付宝小程序、抖音小程序以及App (iOS/Android)。
+
+[![Powered by CloudBase](https://7463-tcb-advanced-a656fc-1257967285.tcb.qcloud.la/mcp/powered-by-cloudbase-badge.svg)](https://github.com/TencentCloudBase/CloudBase-AI-ToolKit)
+
+> 本项目基于原Arcaea PTT计算器[GitHub项目](https://github.com/hopedloki/-arcaea-ptt-calculator)重构，使用UniApp实现跨平台支持。
+
+## 功能特点
+
+- 🎯 **PTT计算**：成绩↔PTT双向转换，支持不同难度（PST/PRS/FTR/BYD/ETR）
+- 📊 **B30管理**：记录和管理您的最佳30个成绩，自动计算B30 PTT
+- ⚡ **容错计算**：计算达到目标PTT所需的最小Pure数
+- 🎵 **歌曲库**：内置完整Arcaea歌曲数据库，支持搜索和筛选
+- 📱 **多平台支持**：一套代码多端运行，完美适配各种设备
+- 💾 **数据同步**：支持数据导入导出，轻松迁移成绩
+- 🌙 **深色模式**：支持明暗主题切换，适应不同环境
+- 🎨 **精美UI**：基于Arcaea风格设计，提供沉浸式体验
+
+## 应用架构
+
+### 前端架构
+
+- **框架**：UniApp (基于 Vue 3)
+- **构建工具**：Vite
+- **多端支持**：H5、微信小程序、支付宝小程序、抖音小程序、App (iOS/Android)
+- **状态管理**：Vue 3 Reactivity API
+- **类型支持**：TypeScript
+
+### 云开发资源
+
+本项目使用了以下腾讯云开发（CloudBase）资源：
+
+- **云数据库**：存储用户成绩数据和歌曲信息
+- **云存储**：存储用户导出的数据文件
+- **静态网站托管**：用于部署 H5 版本
+
+## 目录结构
+
+```
+├── src/
+│   ├── components/               # 组件目录
+│   ├── pages/                    # 页面文件
+│   │   ├── index/                # 首页
+│   │   │   └── index.vue         # 主页面
+│   │   ├── calculator/           # 计算器页面
+│   │   │   ├── score-ptt.vue     # 成绩↔PTT转换
+│   │   │   └── tolerance.vue     # 容错计算
+│   │   ├── best30/               # B30管理
+│   │   │   ├── best30.vue        # B30列表
+│   │   │   └── add.vue           # 添加成绩
+│   │   ├── songs/                # 歌曲库
+│   │   │   └── songs.vue         # 歌曲列表
+│   │   ├── data/                 # 数据管理
+│   │   │   └── data.vue          # 导入导出
+│   │   └── about/                # 关于页面
+│   │       └── about.vue         # 应用信息
+│   ├── utils/                    # 工具函数
+│   │   ├── ptt-calculator.ts     # PTT计算核心逻辑
+│   │   ├── songs-database.ts     # 歌曲数据库
+│   │   └── data-manager.ts       # 数据管理工具
+│   ├── static/                   # 静态资源
+│   │   └── tabbar/               # 导航图标
+│   ├── App.vue                   # 应用入口组件
+│   ├── main.ts                   # 应用入口文件
+│   ├── pages.json                # 页面路由配置
+│   └── manifest.json             # 应用配置文件
+├── cloudfunctions/               # 云函数目录
+├── index.html                    # H5 模板
+├── vite.config.ts                # Vite 配置
+├── tsconfig.json                 # TypeScript 配置
+├── package.json                  # 项目依赖
+├── cloudbaserc.json              # CloudBase CLI 配置
+└── README.md                     # 项目说明
+```
+
+## 开始使用
+
+### 前提条件
+
+- 安装 Node.js (版本 16 或更高)
+- 安装 HBuilderX 或其他支持 UniApp 的开发工具
+- 腾讯云开发账号 (可在[腾讯云开发官网](https://tcb.cloud.tencent.com/)注册)
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 配置云开发环境
+
+1. 打开 `src/utils/cloudbase.ts` 文件
+2. 将 `ENV_ID` 变量的值修改为您的云开发环境 ID
+
+```typescript
+const ENV_ID = 'your-env-id'; // 替换为您的云开发环境ID
+```
+
+### 本地开发
+
+```bash
+# H5 开发
+npm run dev:h5
+
+# 微信小程序开发
+npm run dev:mp-weixin
+
+# 抖音小程序开发
+npm run dev:mp-toutiao
+
+# 支付宝小程序开发
+npm run dev:mp-alipay
+
+# App (iOS/Android) 开发
+# 1. 使用 HBuilderX 打开项目
+# 2. 在顶部菜单栏选择【运行】->【运行到手机或模拟器】-> 选择您的设备
+```
+
+### 构建生产版本
+
+```bash
+# 构建 H5 版本
+npm run build:h5
+
+# 构建微信小程序
+npm run build:mp-weixin
+
+# 构建抖音小程序
+npm run build:mp-toutiao
+
+# 构建支付宝小程序
+npm run build:mp-alipay
+```
+
+## PTT计算原理
+
+本应用使用与原项目相同的PTT计算算法：
+
+- 单曲PTT计算：基于成绩定数和评级
+- B30计算：选取最好的30个成绩计算平均值
+- 容错计算：根据目标PTT反推所需最小Pure数
+
+详细的计算公式和实现请参考 `src/utils/ptt-calculator.ts` 文件。
+
+## 部署指南
+
+### 部署到云开发静态网站托管（H5版本）
+
+1. 构建 H5 版本：`npm run build:h5`
+2. 登录腾讯云开发控制台
+3. 进入您的环境 -> 静态网站托管
+4. 上传 `dist/build/h5` 目录中的文件
+
+### 微信小程序发布
+
+1. 构建微信小程序版本：`npm run build:mp-weixin`
+2. 使用微信开发者工具打开 `dist/build/mp-weixin` 目录
+3. 上传代码包并发布
+
+### 抖音小程序发布
+
+1. 构建抖音小程序版本：`npm run build:mp-toutiao`
+2. 使用抖音开发者工具打开 `dist/build/mp-toutiao` 目录
+3. 上传代码包并发布
+
+### 支付宝小程序发布
+
+1. 构建支付宝小程序版本：`npm run build:mp-alipay`
+2. 使用支付宝开发者工具打开 `dist/build/mp-alipay` 目录
+3. 上传代码包并发布
+
+## 数据导入导出
+
+支持以下数据格式：
+
+- **导出格式**：JSON文件，包含所有成绩记录
+- **导入格式**：支持原Arcaea PTT计算器导出的JSON格式
+- **数据备份**：定期导出数据文件进行备份
+
+## 技术栈
+
+- **UniApp** - 跨平台应用开发框架
+- **Vue 3** - 渐进式 JavaScript 框架
+- **TypeScript** - JavaScript 的超集，提供类型支持
+- **Vite** - 下一代前端构建工具
+- **CloudBase JS SDK** - 腾讯云开发 JavaScript SDK
+
+## 相关链接
+
+- [原Arcaea PTT计算器项目](https://github.com/hopedloki/-arcaea-ptt-calculator)
+- [UniApp 官方文档](https://uniapp.dcloud.io/)
+- [云开发官方文档](https://cloud.tencent.com/document/product/876)
+- [云开发 JS SDK](https://docs.cloudbase.net/api-reference/webv3/initialization)
+- [CloudBase AI ToolKit](https://github.com/TencentCloudBase/CloudBase-AI-ToolKit)
+
+## 许可证
+
+MIT License
+
+## 更新日志
+
+### v1.0.0 (2023-12-14)
+
+- ✅ 基于UniApp实现跨平台支持
+- ✅ 实现成绩↔PTT双向转换
+- ✅ 实现B30管理和计算
+- ✅ 实现容错计算功能
+- ✅ 完整的歌曲数据库
+- ✅ 支持数据导入导出
+- ✅ 实现明暗主题切换
+- ✅ 适配移动端UI设计
