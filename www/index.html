@@ -1,0 +1,3593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcaea PTT 计算器</title>
+    
+    <!-- PWA 支持 -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Arcaea PTT">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfNSkiLz4KPHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI2IiB5PSI2Ij4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCI+UFQ8L3RleHQ+Cjwvc3ZnPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==">
+    
+    <!-- 图标支持 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0idXJsKCNncmFkaWVudDBfbGluZWFyXzFfNSkiLz4KPHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4PSI2IiB5PSI2Ij4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCI+UFQ8L3RleHQ+Cjwvc3ZnPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzFfNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMzIiIHkyPSIzMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .result-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result-formula {
+            font-size: 12px;
+            color: #888;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .grade-pm { background: #ffd700; color: #333; }
+        .grade-ex { background: #87ceeb; color: #333; }
+        .grade-uc { background: #98fb98; color: #333; }
+        .grade-c { background: #dda0dd; color: #333; }
+        .grade-b { background: #f0e68c; color: #333; }
+        .grade-a { background: #ffb6c1; color: #333; }
+        .grade-d { background: #d3d3d3; color: #333; }
+        .grade-aa { background: #add8e6; color: #333; }
+        
+        .tolerance-details {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        .tolerance-mode-toggle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            padding: 3px;
+        }
+
+        .tolerance-mode-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin: 0 1px;
+        }
+
+        .tolerance-mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 1px 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .tolerance-input-section {
+            display: none;
+        }
+
+        .tolerance-input-section.active {
+            display: block;
+        }
+
+        .info-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .formula-table {
+            width: 100%;
+            font-size: 11px;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+
+        .formula-table th,
+        .formula-table td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .formula-table th {
+            background: rgba(102, 126, 234, 0.1);
+            color: #333;
+            font-weight: 600;
+        }
+
+
+
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+        
+        .crawler-mode-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .input-section {
+            display: none;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .result-value {
+                font-size: 28px;
+            }
+        }
+
+        /* B30/R10模式样式 */
+        .search-results {
+            position: absolute;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* 自定义下拉列表样式 */
+        .custom-select {
+            position: relative;
+        }
+        
+        .difficulty-results {
+            position: absolute;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .difficulty-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .difficulty-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .difficulty-item:last-child {
+            border-bottom: none;
+        }
+
+        .b30-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .b30-controls-row {
+            grid-column: span 2;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .add-btn, .clear-btn, .export-btn, .import-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .add-btn, .export-btn {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-btn:hover, .export-btn:hover {
+            background: #5a67d8;
+            box-shadow: 0 6px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+        }
+        
+        .crawler-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            box-shadow: 0 2px 5px rgba(230, 126, 34, 0.3);
+        }
+        
+        .crawler-btn:hover {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            box-shadow: 0 6px 10px rgba(230, 126, 34, 0.4);
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+            box-shadow: 0 6px 10px rgba(231, 76, 60, 0.4);
+        }
+
+        .import-btn {
+            background: #9b59b6;
+            color: white;
+            box-shadow: 0 2px 5px rgba(155, 89, 182, 0.3);
+        }
+
+        .import-btn:hover {
+            background: #8e44ad;
+            box-shadow: 0 6px 10px rgba(155, 89, 182, 0.4);
+        }
+
+
+
+        .b30-list-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .b30-list-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .b30-songs {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .b30-song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .b30-song-item:last-child {
+            border-bottom: none;
+        }
+
+        .b30-song-info {
+            flex: 1;
+        }
+
+        .b30-song-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .b30-song-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .b30-song-score {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .b30-song-score-value {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .b30-song-ptt {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .b30-song-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .b30-edit-btn, .b30-delete-btn {
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .b30-edit-btn {
+            background: #3498db;
+        }
+
+        .b30-edit-btn:hover {
+            background: #2980b9;
+        }
+
+        .b30-delete-btn {
+            background: #e74c3c;
+        }
+
+        .b30-delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .b30-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .b30-summary h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .b30-stats {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        /* R10模式样式 */
+        .r10-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .r10-controls-row {
+            grid-column: span 2;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .r10-list-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .r10-list-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .r10-songs {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .r10-song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .r10-song-item:last-child {
+            border-bottom: none;
+        }
+
+        .r10-song-info {
+            flex: 1;
+        }
+
+        .r10-song-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .r10-song-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .r10-song-score {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .r10-song-score-value {
+            font-weight: 600;
+            color: #9b59b6;
+        }
+
+        .r10-song-ptt {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .r10-song-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .r10-edit-btn, .r10-delete-btn {
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .r10-edit-btn {
+            background: #3498db;
+        }
+
+        .r10-edit-btn:hover {
+            background: #2980b9;
+        }
+
+        .r10-delete-btn {
+            background: #e74c3c;
+        }
+
+        .r10-delete-btn:hover {
+            background: #c0392b;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .b30-controls, .r10-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .b30-buttons, .r10-buttons {
+                grid-column: span 1;
+            }
+            
+            .b30-stats, .r10-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Arcaea PTT 计算器</h1>
+        <p class="subtitle">双向计算工具 - 支持PTT与成绩互转</p>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="switchMode('ptt')">成绩→PTT</button>
+            <button class="mode-btn" onclick="switchMode('score')">PTT→成绩</button>
+            <button class="mode-btn" onclick="switchMode('tolerance')">容错计算</button>
+            <button class="mode-btn" onclick="switchMode('b30')">B30录入</button>
+            <button class="mode-btn" onclick="switchMode('r10')">R10录入</button>
+            <button class="mode-btn crawler-mode-btn" onclick="importCrawlerData()">爬虫导入</button>
+        </div>
+        
+        <!-- 成绩转PTT模式 -->
+        <div id="ptt-mode" class="input-section active">
+            <div class="input-group">
+                <label for="chart-constant-ptt">谱面定数 (Chart Constant)</label>
+                <input type="number" id="chart-constant-ptt" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+            </div>
+            
+            <div class="input-group">
+                <label for="score-ptt">单曲成绩 (Score)</label>
+                <input type="number" id="score-ptt" step="10000" min="0" max="10000000" placeholder="例如: 9690000" />
+            </div>
+        </div>
+        
+        <!-- PTT转成绩模式 -->
+        <div id="score-mode" class="input-section">
+            <div class="input-group">
+                <label for="chart-constant-score">谱面定数 (Chart Constant)</label>
+                <input type="number" id="chart-constant-score" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+            </div>
+            
+            <div class="input-group">
+                <label for="ptt-score">单曲PTT (Single PTT)</label>
+                <input type="number" id="ptt-score" step="0.01" min="0" max="15" placeholder="例如: 11.73" />
+            </div>
+        </div>
+        
+        <!-- 容错计算模式 -->
+        <div id="tolerance-mode" class="input-section">
+            <div class="tolerance-mode-toggle">
+                <button class="tolerance-mode-btn active" onclick="switchToleranceMode('grade')">评级容错</button>
+                <button class="tolerance-mode-btn" onclick="switchToleranceMode('score')">成绩容错</button>
+                <button class="tolerance-mode-btn" onclick="switchToleranceMode('ptt')">PTT容错</button>
+            </div>
+            
+            <!-- 评级容错模式 -->
+            <div id="grade-tolerance" class="tolerance-input-section active">
+                <div class="input-group">
+                    <label for="note-count-grade">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-grade" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-grade">目标评级 (Target Grade)</label>
+                    <select id="target-grade" style="width: 100%; padding: 12px 16px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; background: white; transition: all 0.3s ease;">
+                        <option value="PM">PM (Pure Memory) - 10,000,000分</option>
+                        <option value="EX+">EX+ - 9,900,000分</option>
+                        <option value="EX" selected>EX - 9,800,000分</option>
+                        <option value="UC">UC - 9,700,000分</option>
+                        <option value="C">C - 9,500,000分</option>
+                        <option value="B">B - 9,200,000分</option>
+                        <option value="A">A - 8,900,000分</option>
+                        <option value="D">D - 8,900,000分以下</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 成绩容错模式 -->
+            <div id="score-tolerance" class="tolerance-input-section">
+                <div class="input-group">
+                    <label for="note-count-score">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-score" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-score">目标成绩 (Target Score)</label>
+                    <input type="number" id="target-score" step="10000" min="0" max="10000000" placeholder="例如: 9850000" />
+                </div>
+            </div>
+            
+            <!-- PTT容错模式 -->
+            <div id="ptt-tolerance" class="tolerance-input-section">
+                <div class="input-group">
+                    <label for="note-count-ptt">谱面物量 (Note Count)</label>
+                    <input type="number" id="note-count-ptt" step="1" min="1" max="5000" placeholder="例如: 1200" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="chart-constant-ptt-tolerance">谱面定数 (Chart Constant)</label>
+                    <input type="number" id="chart-constant-ptt-tolerance" step="0.1" min="0" max="13" placeholder="例如: 11.1" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-ptt">目标单曲PTT (Target Single PTT)</label>
+                    <input type="number" id="target-ptt" step="0.01" min="0" max="15" placeholder="例如: 11.5" />
+                </div>
+            </div>
+        </div>
+        
+        <!-- B30录入模式 -->
+        <div id="b30-mode" class="input-section">
+            <div class="input-group">
+                <label for="b30-song-search">搜索歌曲 (歌名或定数)</label>
+                <input type="text" id="b30-song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs('b30')" />
+                <div id="b30-search-results" class="search-results"></div>
+            </div>
+            
+            <div class="b30-controls">
+                <div class="input-group">
+                    <label for="b30-selected-song-name">已选择歌曲</label>
+                    <input type="text" id="b30-selected-song-name" readonly placeholder="搜索后自动填充" />
+                    <input type="hidden" id="b30-selected-song" value="" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="b30-difficulty-select">选择难度</label>
+                    <div class="custom-select">
+                        <input type="text" id="b30-difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown('b30')" />
+                        <div id="b30-difficulty-results" class="difficulty-results"></div>
+                        <input type="hidden" id="b30-difficulty-select" value="" />
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="b30-song-constant">定数</label>
+                    <input type="number" id="b30-song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="b30-song-score">成绩 (0-10,000,000)</label>
+                    <input type="number" id="b30-song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
+                </div>
+                
+                <div class="b30-controls-row">
+                    <button class="add-btn" id="add-to-b30-btn">添加到B30</button>
+                    <button class="clear-btn" id="clear-b30-btn">清空B30</button>
+                </div>
+                
+                <div class="b30-controls-row">
+                    <button class="export-btn" onclick="exportData('b30')">导出数据</button>
+                    <button class="import-btn" onclick="document.getElementById('b30-import-file').click()">导入数据</button>
+                    <input type="file" id="b30-import-file" accept=".json" style="display: none;" onchange="importData('b30', event)" />
+                    <button class="crawler-btn" onclick="importCrawlerData()">爬虫导入</button>
+                </div>
+            </div>
+            
+            <div class="b30-list-container">
+                <h3>B30成绩列表 (<span id="b30-count">0</span>/30)</h3>
+                <div id="b30-songs" class="b30-songs">暂无数据，请添加成绩</div>
+                
+                <div class="b30-summary" id="b30-summary" style="display: none;">
+                    <h4>B30统计</h4>
+                    <div class="b30-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">玩家PTT</div>
+                            <div class="stat-value" id="player-ptt">0.00</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">R10 平均值</div>
+                            <div class="stat-value" id="r10-average-ptt">0.00</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">地板PTT</div>
+                            <div class="stat-value" id="floor-ptt">0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- R10录入模式 -->
+        <div id="r10-mode" class="input-section">
+            <div class="input-group">
+                <label for="r10-song-search">搜索歌曲 (歌名或定数)</label>
+                <input type="text" id="r10-song-search" placeholder="输入歌曲名称或定数搜索" oninput="searchSongs('r10')" />
+                <div id="r10-search-results" class="search-results"></div>
+            </div>
+            
+            <div class="r10-controls">
+                <div class="input-group">
+                    <label for="r10-selected-song-name">已选择歌曲</label>
+                    <input type="text" id="r10-selected-song-name" readonly placeholder="搜索后自动填充" />
+                    <input type="hidden" id="r10-selected-song" value="" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-difficulty-select">选择难度</label>
+                    <div class="custom-select">
+                        <input type="text" id="r10-difficulty-input" readonly placeholder="请先选择歌曲" onclick="toggleDifficultyDropdown('r10')" />
+                        <div id="r10-difficulty-results" class="difficulty-results"></div>
+                        <input type="hidden" id="r10-difficulty-select" value="" />
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-song-constant">定数</label>
+                    <input type="number" id="r10-song-constant" step="0.1" min="0" max="13" readonly placeholder="选择歌曲后自动填充" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="r10-song-score">成绩 (0-10,000,000)</label>
+                    <input type="number" id="r10-song-score" step="10000" min="0" max="10000000" placeholder="输入成绩" />
+                </div>
+                
+                <div class="r10-controls-row">
+                    <button class="add-btn" id="add-to-r10-btn" style="background-color: #9b59b6;">添加到R10</button>
+                    <button class="clear-btn" id="clear-r10-btn">清空R10</button>
+                </div>
+                
+                <div class="r10-controls-row">
+                    <button class="export-btn" onclick="exportData('r10')" style="background-color: #9b59b6;">导出数据</button>
+                    <button class="import-btn" onclick="document.getElementById('r10-import-file').click()">导入数据</button>
+                    <input type="file" id="r10-import-file" accept=".json" style="display: none;" onchange="importData('r10', event)" />
+                    <button class="crawler-btn" onclick="importCrawlerData()">爬虫导入</button>
+                </div>
+            </div>
+            
+            <div class="r10-list-container">
+                <h3>R10成绩列表 (<span id="r10-count">0</span>/10)</h3>
+                <div id="r10-songs" class="r10-songs">暂无数据，请添加成绩</div>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-label" id="result-label">计算结果</div>
+            <div class="result-value" id="result-value">-</div>
+            <div id="grade-badge"></div>
+            <div class="result-formula" id="result-formula">请输入数据开始计算</div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">📊 PTT 计算公式</div>
+            <div class="info-content">
+                <table class="formula-table">
+                    <thead>
+                        <tr>
+                            <th>得分区间</th>
+                            <th>计算公式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>≥ 10,000,000 (PM)</td>
+                            <td>定数 + 2.0</td>
+                        </tr>
+                        <tr>
+                            <td>9,900,000 ~ 9,999,999</td>
+                            <td>定数 + 1.5 + (得分-9,900,000)/100,000</td>
+                        </tr>
+                        <tr>
+                            <td>9,800,000 ~ 9,899,999</td>
+                            <td>定数 + 1.0 + (得分-9,800,000)/400,000</td>
+                        </tr>
+                        <tr>
+                            <td>≤ 9,800,000</td>
+                            <td>定数 + (得分-9,500,000)/300,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'ptt';
+        let toleranceMode = 'grade';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // 切换按钮状态
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换输入区域
+            document.querySelectorAll('.input-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`${mode}-mode`).classList.add('active');
+            
+            // 清空结果
+            document.getElementById('result-value').textContent = '-';
+            document.getElementById('result-formula').textContent = '请输入数据开始计算';
+            document.getElementById('grade-badge').innerHTML = '';
+            
+            // 更新结果标签
+            if (mode === 'ptt') {
+                document.getElementById('result-label').textContent = '单曲PTT';
+            } else if (mode === 'score') {
+                document.getElementById('result-label').textContent = '所需成绩';
+            } else if (mode === 'tolerance') {
+                document.getElementById('result-label').textContent = 'Far容错';
+            } else if (mode === 'b30') {
+                document.getElementById('result-label').textContent = 'B30管理';
+            } else if (mode === 'r10') {
+                document.getElementById('result-label').textContent = 'R10管理';
+            }
+        }
+
+        function calculatePTT(chartConstant, score) {
+            let ptt;
+            let formula;
+            
+            if (score >= 10000000) {
+                // PM (Perfect Memory)
+                ptt = chartConstant + 2.0;
+                formula = `${chartConstant} + 2.0`;
+            } else if (score >= 9800000) {
+                // 9,800,000 ≤ score < 10,000,000: 定数 + 1 + (分数 - 9,800,000)/200,000
+                const bonus = (score - 9800000) / 200000;
+                ptt = chartConstant + 1.0 + bonus;
+                formula = `${chartConstant} + 1.0 + (${score.toLocaleString()} - 9,800,000)/200,000`;
+            } else {
+                // score < 9,800,000: 定数 + (分数 - 9,500,000)/300,000 (下限为0)
+                const bonus = Math.max(0, (score - 9500000) / 300000);
+                ptt = chartConstant + bonus;
+                if (score >= 9500000) {
+                    formula = `${chartConstant} + (${score.toLocaleString()} - 9,500,000)/300,000`;
+                } else {
+                    formula = `0 (分数低于 ${Math.max(0, 9500000 - chartConstant * 300000).toLocaleString()})`;
+                }
+            }
+            
+            return {
+                ptt: Math.max(0, ptt),
+                formula: formula,
+                grade: getGrade(score)
+            };
+        }
+
+        function calculateScore(chartConstant, targetPTT) {
+            let score;
+            let formula;
+            let possible = true;
+            
+            // 检查目标PTT是否可能达到
+            const maxPTT = chartConstant + 2.0; // PM时的最高PTT
+            if (targetPTT > maxPTT) {
+                possible = false;
+                return {
+                    score: 0,
+                    formula: `目标PTT ${targetPTT.toFixed(2)} 超过理论最大值 ${maxPTT.toFixed(2)}`,
+                    possible: false
+                };
+            }
+            
+            const targetBonus = targetPTT - chartConstant;
+            
+            if (targetBonus >= 2.0) {
+                // PM (Perfect Memory)
+                score = 10000000;
+                formula = `目标PTT ≥ 定数+2.0，需要达到 PM (10,000,000分)`;
+            } else if (targetBonus >= 1.0) {
+                // 9,800,000 ≤ score < 10,000,000: 定数 + 1 + (分数 - 9,800,000)/200,000
+                // 反向计算: (PTT - 定数 - 1) × 200,000 + 9,800,000
+                score = 9800000 + (targetBonus - 1.0) * 200000;
+                formula = `9,800,000 + (${targetPTT.toFixed(2)} - ${chartConstant} - 1.0) × 200,000`;
+            } else {
+                // score < 9,800,000: 定数 + (分数 - 9,500,000)/300,000
+                // 反向计算: (PTT - 定数) × 300,000 + 9,500,000
+                score = 9500000 + targetBonus * 300000;
+                if (targetBonus > 0) {
+                    formula = `9,500,000 + (${targetPTT.toFixed(2)} - ${chartConstant}) × 300,000`;
+                } else {
+                    formula = `分数 ≤ 9,500,000 - ${chartConstant} × 300,000 = ${Math.max(0, Math.round(9500000 - chartConstant * 300000)).toLocaleString()}`;
+                }
+            }
+            
+            // 限制分数范围
+            score = Math.max(0, Math.min(10000000, Math.round(score)));
+            
+            return {
+                score: score,
+                formula: formula,
+                possible: true,
+                grade: getGrade(score)
+            };
+        }
+        
+        function getGrade(score) {
+            if (score >= 10000000) return { name: 'PM', class: 'grade-pm' };
+            if (score >= 9900000) return { name: 'EX+', class: 'grade-ex' };
+            if (score >= 9800000) return { name: 'EX', class: 'grade-ex' };
+            if (score >= 9500000) return { name: 'AA', class: 'grade-aa' };
+            if (score >= 9200000) return { name: 'A', class: 'grade-a' };
+            if (score >= 8900000) return { name: 'B', class: 'grade-b' };
+            if (score >= 8600000) return { name: 'C', class: 'grade-c' };
+            return { name: 'D', class: 'grade-d' };
+        }
+        
+        function updateResult() {
+            if (currentMode === 'ptt') {
+                updatePTTResult();
+            } else if (currentMode === 'score') {
+                updateScoreResult();
+            } else {
+                updateToleranceResult();
+            }
+        }
+
+        function updatePTTResult() {
+            const chartConstant = parseFloat(document.getElementById('chart-constant-ptt').value);
+            const score = parseInt(document.getElementById('score-ptt').value);
+            
+            if (isNaN(chartConstant) || isNaN(score)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的定数和成绩';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (score < 0 || score > 10000000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '成绩应在 0-10,000,000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            const result = calculatePTT(chartConstant, score);
+            
+            document.getElementById('result-value').textContent = result.ptt.toFixed(2);
+            document.getElementById('result-formula').textContent = `${result.formula} = ${result.ptt.toFixed(2)}`;
+            
+            const grade = result.grade;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+        }
+
+        function updateScoreResult() {
+            const chartConstant = parseFloat(document.getElementById('chart-constant-score').value);
+            const targetPTT = parseFloat(document.getElementById('ptt-score').value);
+            
+            if (isNaN(chartConstant) || isNaN(targetPTT)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的定数和PTT';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            if (targetPTT < 0 || targetPTT > 15) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = 'PTT应在 0-15 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            const result = calculateScore(chartConstant, targetPTT);
+            
+            if (!result.possible) {
+                document.getElementById('result-value').textContent = '不可能';
+                document.getElementById('result-formula').textContent = result.formula;
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+            
+            document.getElementById('result-value').textContent = result.score.toLocaleString();
+            document.getElementById('result-formula').textContent = `${result.formula} = ${result.score.toLocaleString()}`;
+            
+            const grade = result.grade;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+        }
+
+        function calculateTolerance(noteCount, targetGrade) {
+            const gradeScores = {
+                'PM': 10000000,
+                'EX+': 9900000,
+                'EX': 9800000,
+                'UC': 9700000,
+                'C': 9500000,
+                'B': 9200000,
+                'A': 8900000,
+                'D': 8899999 // 使用8899999来表示D评级
+            };
+
+            const targetScore = gradeScores[targetGrade];
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+
+            let maxFarCount;
+            let resultText;
+
+            if (targetGrade === 'PM') {
+                // PM需要0个Far，全是Pure
+                maxFarCount = 0;
+                resultText = `PM需要全Pure判定，不允许任何Far`;
+            } else if (targetGrade === 'D') {
+                // D评级容错太多，计算到所有Far
+                maxFarCount = Math.floor(noteCount * 0.9); // 90%为Far
+                resultText = `D评级容错极大，这里计算90%容错`;
+            } else {
+                // 其他评级计算最大Far数量
+                const maxLostScore = 10000000 - targetScore;
+                maxFarCount = Math.floor(maxLostScore / farLoss);
+                
+                // 确保不超过总Note数
+                maxFarCount = Math.min(maxFarCount, noteCount);
+                
+                const pureCount = noteCount - maxFarCount;
+                const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+                
+                resultText = `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分`;
+            }
+
+            const pureCount = noteCount - maxFarCount;
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            return {
+                maxFarCount: maxFarCount,
+                pureCount: pureCount,
+                farPercentage: farPercentage,
+                purePercentage: purePercentage,
+                targetScore: targetScore,
+                resultText: resultText,
+                singleNoteScore: singleNoteScore,
+                farLoss: farLoss
+            };
+        }
+
+        function switchToleranceMode(mode) {
+            toleranceMode = mode;
+            
+            // 切换按钮状态
+            document.querySelectorAll('.tolerance-mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换输入区域
+            document.querySelectorAll('.tolerance-input-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(`${mode}-tolerance`).classList.add('active');
+            
+            // 清空结果
+            document.getElementById('result-value').textContent = '-';
+            document.getElementById('result-formula').textContent = '请输入数据开始计算';
+            document.getElementById('grade-badge').innerHTML = '';
+        }
+
+        function updateToleranceResult() {
+            if (toleranceMode === 'grade') {
+                updateGradeToleranceResult();
+            } else if (toleranceMode === 'score') {
+                updateScoreToleranceResult();
+            } else {
+                updatePTTToleranceResult();
+            }
+        }
+
+        function updateGradeToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-grade').value);
+            const targetGrade = document.getElementById('target-grade').value;
+
+            if (isNaN(noteCount) || noteCount <= 0) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const result = calculateTolerance(noteCount, targetGrade);
+            
+            document.getElementById('result-value').textContent = result.maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge grade-${targetGrade.toLowerCase().replace('+', '')}">${targetGrade}</span>`;
+
+            let detailedInfo = `${result.resultText}\n`;
+            detailedInfo += `单Note基础分: ${result.singleNoteScore.toFixed(2)}分\n`;
+            detailedInfo += `单个Far损失: ${result.farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${result.farPercentage}% | Pure需求率: ${result.purePercentage}%`;
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function updateScoreToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-score').value);
+            const targetScore = parseInt(document.getElementById('target-score').value);
+
+            if (isNaN(noteCount) || noteCount <= 0 || isNaN(targetScore)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量和目标成绩';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (targetScore < 0 || targetScore > 10000000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '成绩应在 0-10,000,000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+            const maxLostScore = 10000000 - targetScore;
+            
+            // 计算最大Far数量
+            let maxFarCount = Math.floor(maxLostScore / farLoss);
+            maxFarCount = Math.min(maxFarCount, noteCount);
+            maxFarCount = Math.max(0, maxFarCount);
+            
+            const pureCount = noteCount - maxFarCount;
+            const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+            const grade = getGrade(targetScore);
+            
+            // 计算还有多少分到下一个评级
+            const nextGradeScore = getNextGradeScore(targetScore);
+            const scoreToNextGrade = nextGradeScore > targetScore ? nextGradeScore - targetScore : 0;
+            const farToNextGrade = scoreToNextGrade > 0 ? Math.ceil(scoreToNextGrade / farLoss) : 0;
+
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            document.getElementById('result-value').textContent = maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+
+            let detailedInfo = `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `目标成绩: ${targetScore.toLocaleString()}分 | 实际可达: ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `单Note基础分: ${singleNoteScore.toFixed(2)}分 | 单个Far损失: ${farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${farPercentage}% | Pure需求率: ${purePercentage}%`;
+            
+            if (scoreToNextGrade > 0 && farToNextGrade > 0) {
+                detailedInfo += `\n距离上一评级还需减少 ${farToNextGrade} 个Far`;
+            }
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function updatePTTToleranceResult() {
+            const noteCount = parseInt(document.getElementById('note-count-ptt').value);
+            const chartConstant = parseFloat(document.getElementById('chart-constant-ptt-tolerance').value);
+            const targetPTT = parseFloat(document.getElementById('target-ptt').value);
+
+            if (isNaN(noteCount) || noteCount <= 0 || isNaN(chartConstant) || isNaN(targetPTT)) {
+                document.getElementById('result-value').textContent = '-';
+                document.getElementById('result-formula').textContent = '请输入有效的物量、定数和目标PTT';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (noteCount > 5000) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '物量应在 1-5000 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (chartConstant < 0 || chartConstant > 13) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = '定数应在 0-13 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            if (targetPTT < 0 || targetPTT > 15) {
+                document.getElementById('result-value').textContent = '错误';
+                document.getElementById('result-formula').textContent = 'PTT应在 0-15 范围内';
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            // 将PTT转换为对应的成绩
+            const scoreResult = calculateScore(chartConstant, targetPTT);
+            
+            if (!scoreResult.possible) {
+                document.getElementById('result-value').textContent = '不可能';
+                document.getElementById('result-formula').textContent = scoreResult.formula;
+                document.getElementById('grade-badge').innerHTML = '';
+                return;
+            }
+
+            const targetScore = scoreResult.score;
+            const singleNoteScore = 10000000 / noteCount;
+            const farLoss = singleNoteScore * 0.5;
+            const maxLostScore = 10000000 - targetScore;
+            
+            // 计算最大Far数量
+            let maxFarCount = Math.floor(maxLostScore / farLoss);
+            maxFarCount = Math.min(maxFarCount, noteCount);
+            maxFarCount = Math.max(0, maxFarCount);
+            
+            const pureCount = noteCount - maxFarCount;
+            const actualScore = (pureCount * singleNoteScore) + (maxFarCount * farLoss);
+            const grade = getGrade(targetScore);
+            
+            // 计算PTT提升空间
+            const maxPTT = chartConstant + 2.0;
+            const pttToNextLevel = getPTTToNextLevel(targetPTT);
+
+            const farPercentage = ((maxFarCount / noteCount) * 100).toFixed(1);
+            const purePercentage = ((pureCount / noteCount) * 100).toFixed(1);
+
+            document.getElementById('result-value').textContent = maxFarCount;
+            document.getElementById('grade-badge').innerHTML = 
+                `<span class="grade-badge ${grade.class}">${grade.name}</span>`;
+
+            let detailedInfo = `目标PTT ${targetPTT.toFixed(2)} 需要 ${targetScore.toLocaleString()}分\n`;
+            detailedInfo += `${maxFarCount}个Far + ${pureCount}个Pure = ${Math.round(actualScore).toLocaleString()}分\n`;
+            detailedInfo += `单Note基础分: ${singleNoteScore.toFixed(2)}分 | 单个Far损失: ${farLoss.toFixed(2)}分\n`;
+            detailedInfo += `Far容错率: ${farPercentage}% | Pure需求率: ${purePercentage}%\n`;
+            detailedInfo += `谱面最高PTT: ${maxPTT.toFixed(2)} | 当前PTT目标: ${targetPTT.toFixed(2)}`;
+            
+            if (pttToNextLevel.nextPTT > targetPTT) {
+                const farNeededToNext = Math.ceil((pttToNextLevel.scoreNeeded - targetScore) / farLoss);
+                detailedInfo += `\n达到${pttToNextLevel.nextPTT.toFixed(2)}PTT还需减少${farNeededToNext}个Far`;
+            }
+
+            document.getElementById('result-formula').innerHTML = `<div class="tolerance-details">${detailedInfo}</div>`;
+        }
+
+        function getPTTToNextLevel(currentPTT) {
+            // 计算下一个重要的PTT里程碑（通常是整数或0.5的倍数）
+            const nextMilestone = Math.ceil(currentPTT * 2) / 2; // 向上取整到0.5
+            if (nextMilestone <= currentPTT) {
+                return { nextPTT: currentPTT + 0.5, scoreNeeded: 0 };
+            }
+            
+            // 这里简化处理，实际需要更复杂的计算
+            return { 
+                nextPTT: nextMilestone, 
+                scoreNeeded: 0 // 实际应该计算对应分数
+            };
+        }
+
+        function getNextGradeScore(currentScore) {
+            if (currentScore >= 10000000) return 10000000;
+            if (currentScore >= 9900000) return 10000000;  // EX+ to PM
+            if (currentScore >= 9800000) return 9900000;  // EX to EX+
+            if (currentScore >= 9700000) return 9800000;  // UC to EX
+            if (currentScore >= 9500000) return 9700000;  // C to UC
+            if (currentScore >= 9200000) return 9500000;  // B to C
+            if (currentScore >= 8900000) return 9200000;  // A to B
+            return 8900000;  // Below A to A
+        }
+        
+        // 实时计算
+        document.getElementById('chart-constant-ptt').addEventListener('input', updateResult);
+        document.getElementById('score-ptt').addEventListener('input', updateResult);
+        document.getElementById('chart-constant-score').addEventListener('input', updateResult);
+        document.getElementById('ptt-score').addEventListener('input', updateResult);
+        document.getElementById('note-count-grade').addEventListener('input', updateResult);
+        document.getElementById('note-count-score').addEventListener('input', updateResult);
+        document.getElementById('note-count-ptt').addEventListener('input', updateResult);
+        document.getElementById('target-score').addEventListener('input', updateResult);
+        document.getElementById('target-ptt').addEventListener('input', updateResult);
+        document.getElementById('chart-constant-ptt-tolerance').addEventListener('input', updateResult);
+        document.getElementById('target-grade').addEventListener('change', updateResult);
+        
+        // 添加示例计算
+        document.getElementById('chart-constant-ptt').value = '11.1';
+        document.getElementById('score-ptt').value = '9690000';
+        
+        // 容错模式示例
+        document.getElementById('note-count-grade').value = '1200';
+        document.getElementById('note-count-score').value = '1200';
+        document.getElementById('note-count-ptt').value = '1200';
+        document.getElementById('target-score').value = '9850000';
+        document.getElementById('chart-constant-ptt-tolerance').value = '11.1';
+        document.getElementById('target-ptt').value = '11.5';
+        document.getElementById('target-grade').value = 'EX';
+        
+        updateResult();
+        
+        // B30/R30录入功能
+        let songConstants = {}; // 用于存储歌曲定数数据
+        let b30Data = []; // 用于存储B30成绩数据
+        let r10Data = []; // 用于存储R10成绩数据
+        
+        // 加载歌曲定数数据
+        async function loadSongConstants() {
+            try {
+                const response = await fetch('./song-constants.json');
+                songConstants = await response.json();
+                console.log('歌曲定数数据加载成功，共', Object.keys(songConstants).length, '首歌曲');
+            } catch (error) {
+                console.error('加载歌曲定数数据失败:', error);
+            }
+        }
+        
+        // 搜索歌曲
+        function searchSongs(mode) {
+            const searchTerm = document.getElementById(`${mode}-song-search`).value.toLowerCase().trim();
+            const searchResults = document.getElementById(`${mode}-search-results`);
+            
+            console.log('搜索词:', searchTerm);
+            console.log('歌曲数据总数:', Object.keys(songConstants).length);
+            
+            if (searchTerm.length < 1) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            let results = [];
+            
+            // 搜索歌名
+            for (const songName in songConstants) {
+                if (songName.toLowerCase().includes(searchTerm)) {
+                    results.push({ name: songName, type: 'name' });
+                }
+            }
+            
+            // 搜索定数
+            const searchConstant = parseFloat(searchTerm);
+            if (!isNaN(searchConstant)) {
+                for (const songName in songConstants) {
+                    const difficulties = songConstants[songName];
+                    for (const diff in difficulties) {
+                        if (difficulties[diff] !== null && Math.abs(difficulties[diff] - searchConstant) < 0.01) {
+                            if (!results.find(r => r.name === songName)) {
+                                results.push({ name: songName, type: 'constant', constant: searchConstant });
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // 限制结果数量
+            if (results.length > 10) {
+                results = results.slice(0, 10);
+            }
+            
+            // 显示搜索结果
+            displaySearchResults(results, mode);
+        }
+        
+        // 显示搜索结果
+        function displaySearchResults(results, mode) {
+            const searchResults = document.getElementById(`${mode}-search-results`);
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-result-item">未找到匹配的歌曲</div>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach(result => {
+                const displayText = result.type === 'constant' 
+                    ? `${result.name} (定数: ${result.constant})` 
+                    : result.name;
+                html += `<div class="search-result-item" onclick="selectSong('${result.name}', '${mode}')">${displayText}</div>`;
+            });
+            
+            searchResults.innerHTML = html;
+        }
+        
+        // 选择歌曲
+        function selectSong(songName, mode) {
+            document.getElementById(`${mode}-song-search`).value = songName;
+            document.getElementById(`${mode}-selected-song-name`).value = songName;
+            document.getElementById(`${mode}-selected-song`).value = songName;
+            document.getElementById(`${mode}-search-results`).innerHTML = '';
+            updateDifficultySelect(mode);
+        }
+        
+        // 更新难度选择
+        function updateDifficultySelect(mode) {
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultyInput = document.getElementById(`${mode}-difficulty-input`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const difficultyResults = document.getElementById(`${mode}-difficulty-results`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
+            
+            // 清空难度选择
+            difficultyInput.value = '请选择难度';
+            difficultySelect.value = '';
+            difficultyResults.innerHTML = '';
+            constantInput.value = '';
+            
+            // 获取选中的歌曲
+            const selectedSong = selectedSongInput.value;
+            console.log('更新难度选择，当前歌曲:', selectedSong);
+            
+            if (!selectedSong || !songConstants[selectedSong]) {
+                difficultyInput.value = '请先选择歌曲';
+                console.log('未找到歌曲数据或未选择歌曲');
+                return;
+            }
+            
+            const difficulties = songConstants[selectedSong];
+            const difficultyOrder = ['byd', 'ftr', 'prs', 'pst', 'etr'];
+            
+            // 按难度顺序添加选项
+            let html = '';
+            difficultyOrder.forEach(diff => {
+                const constant = difficulties[diff];
+                if (constant !== null && constant !== undefined) {
+                    html += `<div class="difficulty-item" onclick="selectDifficulty('${diff}', '${diff.toUpperCase()} (${constant.toFixed(1)})', '${mode}')">${diff.toUpperCase()} (${constant.toFixed(1)})</div>`;
+                }
+            });
+            
+            difficultyResults.innerHTML = html;
+            
+            // 如果有已选择的难度，显示它
+            if (difficultySelect.value) {
+                const selectedDifficulty = difficultySelect.value;
+                const constant = difficulties[selectedDifficulty];
+                if (constant !== null && constant !== undefined) {
+                    difficultyInput.value = `${selectedDifficulty.toUpperCase()} (${constant.toFixed(1)})`;
+                }
+            } else {
+                difficultyInput.value = '点击选择难度';
+            }
+        }
+        
+        // 切换难度下拉列表
+        function toggleDifficultyDropdown(mode) {
+            const difficultyResults = document.getElementById(`${mode}-difficulty-results`);
+            const isHidden = difficultyResults.style.display === 'none';
+            
+            // 关闭所有下拉列表
+            document.getElementById('b30-difficulty-results').style.display = 'none';
+            document.getElementById('r10-difficulty-results').style.display = 'none';
+            document.getElementById('b30-search-results').innerHTML = '';
+            document.getElementById('r10-search-results').innerHTML = '';
+            
+            // 切换当前下拉列表
+            if (isHidden && document.getElementById(`${mode}-difficulty-input`).value !== '请先选择歌曲') {
+                difficultyResults.style.display = 'block';
+            }
+        }
+        
+        // 选择难度
+        function selectDifficulty(difficulty, displayText, mode) {
+            document.getElementById(`${mode}-difficulty-input`).value = displayText;
+            document.getElementById(`${mode}-difficulty-select`).value = difficulty;
+            document.getElementById(`${mode}-difficulty-results`).style.display = 'none';
+            updateConstant(mode);
+        }
+        
+        // 更新定数
+        function updateConstant(mode) {
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
+            
+            const selectedSong = selectedSongInput.value;
+            const selectedDifficulty = difficultySelect.value;
+            
+            if (!selectedSong || !selectedDifficulty || !songConstants[selectedSong]) {
+                constantInput.value = '';
+                return;
+            }
+            
+            const constant = songConstants[selectedSong][selectedDifficulty];
+            if (constant !== null && constant !== undefined) {
+                constantInput.value = constant.toFixed(1);
+            } else {
+                constantInput.value = '';
+            }
+        }
+        
+        // 添加歌曲到B30
+        function addSongToList(mode) {
+            console.log(`addSongToList 函数被调用，模式: ${mode}`);
+            
+            const selectedSongInput = document.getElementById(`${mode}-selected-song`);
+            const difficultySelect = document.getElementById(`${mode}-difficulty-select`);
+            const constantInput = document.getElementById(`${mode}-song-constant`);
+            const scoreInput = document.getElementById(`${mode}-song-score`);
+            
+            const song = selectedSongInput.value;
+            const difficulty = difficultySelect.value;
+            const constant = parseFloat(constantInput.value);
+            const score = parseInt(scoreInput.value);
+            
+            console.log('输入值:', { song, difficulty, constant, score });
+            
+            if (!song || !difficulty || isNaN(constant) || isNaN(score)) {
+                alert('请完整填写曲目、难度、定数和成绩');
+                return;
+            }
+            
+            if (score < 0 || score > 10000000) {
+                alert('成绩应在 0-10,000,000 范围内');
+                return;
+            }
+            
+            // 检查成绩是否超过最高分
+            if (score > 10000000) {
+                alert('成绩不能超过10,000,000（满分）');
+                return;
+            }
+            
+            // 提供成绩评级参考
+            if (score < 9500000) {
+                const confirmLowScore = confirm(`您的成绩为 ${score.toLocaleString()}，评级较低 (D级)。\n确定要添加这个成绩吗？`);
+                if (!confirmLowScore) {
+                    return;
+                }
+            }
+            
+            let data;
+            let maxCount;
+            let listElement;
+            let countElement;
+            
+            if (mode === 'b30') {
+                data = b30Data;
+                maxCount = 30;
+                listElement = 'b30-songs';
+                countElement = 'b30-count';
+            } else if (mode === 'r10') {
+                data = r10Data;
+                maxCount = 10;
+                listElement = 'r10-songs';
+                countElement = 'r10-count';
+            }
+            
+            // 检查是否已存在相同曲目和难度
+            const existingIndex = data.findIndex(item => 
+                item.song_id === song && item.difficulty === difficulty
+            );
+            
+            if (existingIndex >= 0) {
+                // 更新已存在的记录
+                data[existingIndex] = {
+                    song_id: song,
+                    difficulty: difficulty,
+                    constant: constant,
+                    score: score,
+                    single_ptt: calculateSinglePTT(score, constant)
+                };
+            } else {
+                // 添加新记录
+                if (data.length >= maxCount) {
+                    alert(`${mode.toUpperCase()}列表已满，最多只能添加${maxCount}首歌曲`);
+                    return;
+                }
+                
+                data.push({
+                    song_id: song,
+                    difficulty: difficulty,
+                    constant: constant,
+                    score: score,
+                    single_ptt: calculateSinglePTT(score, constant)
+                });
+            }
+            
+            // 更新显示
+            updateListDisplay(mode);
+            updateStats();
+            
+            // 重置输入
+            scoreInput.value = '';
+            
+            // 显示成功提示
+            const songsDiv = document.getElementById(listElement);
+            songsDiv.style.background = mode === 'b30' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(155, 89, 182, 0.1)';
+            setTimeout(() => {
+                songsDiv.style.background = 'white';
+            }, 500);
+        }
+        
+        // 计算单曲PTT
+        function calculateSinglePTT(score, constant) {
+            if (score >= 10000000) {
+                return constant + 2.0;
+            } else if (score >= 9900000) {
+                return constant + 1.5 + (score - 9900000) / 100000;
+            } else if (score >= 9800000) {
+                return constant + 1.0 + (score - 9800000) / 400000;
+            } else {
+                return Math.max(0, constant + (score - 9500000) / 300000);
+            }
+        }
+        
+        // 更新列表显示
+        function updateListDisplay(mode) {
+            const data = mode === 'b30' ? b30Data : r10Data;
+            const songsDiv = document.getElementById(`${mode}-songs`);
+            const countSpan = document.getElementById(`${mode}-count`);
+            
+            if (data.length === 0) {
+                songsDiv.innerHTML = '暂无数据，请添加成绩';
+                countSpan.textContent = '0';
+                return;
+            }
+            
+            countSpan.textContent = data.length.toString();
+            
+            // 按单曲PTT从高到低排序显示
+            const sortedData = [...data].sort((a, b) => b.single_ptt - a.single_ptt);
+            
+            let html = '';
+            sortedData.forEach((item, index) => {
+                const grade = getGrade(item.score);
+                const colorClass = mode === 'b30' ? 'b30' : 'r10';
+                html += `
+                    <div class="${colorClass}-song-item">
+                        <div class="${colorClass}-song-info">
+                            <div class="${colorClass}-song-name">${item.song_id}</div>
+                            <div class="${colorClass}-song-details">${item.difficulty.toUpperCase()} (定数: ${item.constant.toFixed(1)})</div>
+                        </div>
+                        <div class="${colorClass}-song-score">
+                            <div class="${colorClass}-song-score-value">${item.score.toLocaleString()}</div>
+                            <div class="${colorClass}-song-ptt">单曲PTT: ${item.single_ptt.toFixed(2)}</div>
+                        </div>
+                        <div class="${colorClass}-song-actions">
+                            <button class="${colorClass}-edit-btn" onclick="editItem('${mode}', ${index})">编辑</button>
+                            <button class="${colorClass}-delete-btn" onclick="deleteFromList('${mode}', ${index})">删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            songsDiv.innerHTML = html;
+        }
+        
+        // 编辑列表项目
+        function editItem(mode, index) {
+            const data = mode === 'b30' ? b30Data : r10Data;
+            // 获取实际排序后的索引
+            const sortedData = [...data].sort((a, b) => b.single_ptt - a.single_ptt);
+            const itemToEdit = sortedData[index];
+            
+            // 填充表单
+            document.getElementById(`${mode}-selected-song-name`).value = itemToEdit.song_id;
+            document.getElementById(`${mode}-selected-song`).value = itemToEdit.song_id;
+            document.getElementById(`${mode}-song-score`).value = itemToEdit.score;
+            
+            // 设置难度
+            updateDifficultySelect(mode);
+            document.getElementById(`${mode}-difficulty-select`).value = itemToEdit.difficulty;
+            updateConstant(mode);
+            
+            // 滚动到输入区域
+            document.getElementById(`${mode}-mode`).scrollIntoView({ behavior: 'smooth' });
+            
+            // 删除原记录
+            const actualIndex = data.findIndex(item => 
+                item.song_id === itemToEdit.song_id && 
+                item.difficulty === itemToEdit.difficulty
+            );
+            
+            if (actualIndex !== -1) {
+                data.splice(actualIndex, 1);
+                updateListDisplay(mode);
+                updateStats();
+            }
+        }
+        
+        // 从列表中删除
+        function deleteFromList(mode, index) {
+            const data = mode === 'b30' ? b30Data : r10Data;
+            // 获取要删除的歌曲信息，用于显示反馈
+            const songToDelete = data[index];
+            const songName = songToDelete ? songToDelete.song_id : '未知歌曲';
+            
+            data.splice(index, 1);
+            updateListDisplay(mode);
+            updateStats();
+            
+            // 显示操作反馈
+            showNotification(`已删除歌曲: ${songName}`);
+        }
+        
+        // 清空列表
+        function clearList(mode) {
+            // 记录清空前的数量，用于显示反馈
+            const data = mode === 'b30' ? b30Data : r10Data;
+            const countBefore = data.length;
+            
+            if (mode === 'b30') {
+                b30Data = [];
+            } else if (mode === 'r10') {
+                r10Data = [];
+            }
+            
+            updateListDisplay(mode);
+            updateStats();
+            
+            // 显示操作反馈
+            if (countBefore > 0) {
+                showNotification(`已清空 ${countBefore} 首歌曲的成绩`);
+            }
+        }
+        
+        // 更新统计信息
+        function updateStats() {
+            const b30SummaryDiv = document.getElementById('b30-summary');
+            
+            if (b30Data.length === 0 && r10Data.length === 0) {
+                b30SummaryDiv.style.display = 'none';
+                return;
+            }
+            
+            b30SummaryDiv.style.display = 'block';
+            
+            // 计算玩家PTT：(B30各单曲ptt总和+R10各单曲ptt总和)/40
+            let totalPTT = 0;
+            if (b30Data.length > 0) {
+                totalPTT += b30Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            }
+            if (r10Data.length > 0) {
+                totalPTT += r10Data.reduce((sum, item) => sum + item.single_ptt, 0);
+            }
+            
+            const totalCount = Math.max(b30Data.length + r10Data.length, 1);
+            const playerPTT = totalPTT / Math.max(totalCount, 1);
+            
+            // 计算R10平均值
+            let r10Average = 0;
+            if (r10Data.length > 0) {
+                r10Average = r10Data.reduce((sum, item) => sum + item.single_ptt, 0) / r10Data.length;
+            } else {
+                // 如果没有R10数据，使用B10平均值作为R10平均值
+                const sortedB30 = [...b30Data].sort((a, b) => b.single_ptt - a.single_ptt);
+                const top10 = sortedB30.slice(0, Math.min(10, sortedB30.length));
+                if (top10.length > 0) {
+                    r10Average = top10.reduce((sum, item) => sum + item.single_ptt, 0) / top10.length;
+                }
+            }
+            
+            // 计算地板PTT（取B30中单曲PTT最低的那首歌的PTT）
+            let floorPTT = 0;
+            if (b30Data.length > 0) {
+                const sortedByPTT = [...b30Data].sort((a, b) => a.single_ptt - b.single_ptt);
+                floorPTT = sortedByPTT[0].single_ptt;
+            }
+            
+            // 更新显示
+            document.getElementById('player-ptt').textContent = playerPTT.toFixed(2);
+            document.getElementById('r10-average-ptt').textContent = r10Average.toFixed(2);
+            document.getElementById('floor-ptt').textContent = floorPTT.toFixed(2);
+        }
+        
+        // 显示通知消息
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            // 添加到页面
+            document.body.appendChild(notification);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+        
+        // 导出数据
+        function exportData(mode) {
+            const data = mode === 'b30' ? b30Data : r10Data;
+            
+            if (data.length === 0) {
+                alert(`没有可导出的${mode.toUpperCase()}数据`);
+                return;
+            }
+            
+            // 准备导出数据
+            const exportData = {
+                version: '1.0',
+                type: mode.toUpperCase(),
+                exportDate: new Date().toISOString(),
+                data: data
+            };
+            
+            // 创建Blob对象
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            
+            // 创建下载链接
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = `arcaea-${mode}-${new Date().toISOString().slice(0, 10)}.json`;
+            
+            // 触发下载
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            // 释放URL对象
+            URL.revokeObjectURL(url);
+            
+            // 显示成功提示
+            alert(`成功导出 ${data.length} 条${mode.toUpperCase()}数据`);
+        }
+        
+        // 导入数据
+        function importData(mode, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // 验证文件类型
+            if (!file.name.endsWith('.json')) {
+                alert('请选择JSON格式的数据文件');
+                event.target.value = '';
+                return;
+            }
+            
+            // 读取文件内容
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // 解析JSON数据
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // 验证数据格式
+                    if (!importedData.data || !Array.isArray(importedData.data)) {
+                        alert('数据格式无效，请选择正确的数据文件');
+                        return;
+                    }
+                    
+                    // 确认导入
+                    const itemCount = importedData.data.length;
+                    if (itemCount === 0) {
+                        alert('文件中没有有效的数据');
+                        return;
+                    }
+                    
+                    const maxCount = mode === 'b30' ? 30 : 10;
+                    const confirmImport = confirm(
+                        `即将导入 ${itemCount} 条${mode.toUpperCase()}数据。` +
+                        (itemCount > maxCount ? `\n注意：最多只能导入${maxCount}条数据。` : '') +
+                        (mode === 'b30' && b30Data.length > 0 ? '\n注意：导入会清空当前已有的B30数据。' : '') +
+                        (mode === 'r10' && r10Data.length > 0 ? '\n注意：导入会清空当前已有的R10数据。' : '') +
+                        '\n\n确定要继续吗？'
+                    );
+                    
+                    if (!confirmImport) {
+                        event.target.value = '';
+                        return;
+                    }
+                    
+                    // 验证每条数据的完整性
+                    const validData = [];
+                    for (let i = 0; i < Math.min(itemCount, maxCount); i++) {
+                        const item = importedData.data[i];
+                        if (item.song_id && item.difficulty && item.constant && item.score) {
+                            // 确保有single_ptt
+                            if (!item.single_ptt) {
+                                item.single_ptt = calculateSinglePTT(item.score, item.constant);
+                            }
+                            validData.push(item);
+                        }
+                    }
+                    
+                    if (validData.length === 0) {
+                        alert('文件中没有有效的数据');
+                        return;
+                    }
+                    
+                    // 导入数据
+                    if (mode === 'b30') {
+                        b30Data = validData;
+                    } else if (mode === 'r10') {
+                        r10Data = validData;
+                    }
+                    
+                    updateListDisplay(mode);
+                    updateStats();
+                    
+                    // 重置文件输入
+                    event.target.value = '';
+                    
+                    // 显示成功提示
+                    showNotification(`成功导入 ${validData.length} 条${mode.toUpperCase()}数据`);
+                    
+                } catch (error) {
+                    console.error('导入数据时出错:', error);
+                    alert('导入数据失败，请检查文件格式是否正确');
+                    event.target.value = '';
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('读取文件失败');
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // 爬虫数据导入功能
+        function importCrawlerData() {
+            // 创建一个模态对话框用于选择爬虫导入方式
+            const modal = document.createElement('div');
+            modal.className = 'confirm-dialog';
+            modal.innerHTML = `
+                <div class="confirm-content crawler-modal">
+                    <h3>导入爬虫数据</h3>
+                    <p>请选择一种方式导入您的B30和R10数据：</p>
+                    <div class="crawler-method-tabs">
+                        <button class="crawler-tab active" onclick="switchCrawlerTab('manual')">手动粘贴数据</button>
+                        <button class="crawler-tab" onclick="switchCrawlerTab('auto')">自动获取数据</button>
+                        <button class="crawler-tab" onclick="switchCrawlerTab('tutorial')">爬虫教程</button>
+                    </div>
+                    
+                    <div id="manual-method" class="crawler-method active">
+                        <h4>手动粘贴爬虫数据 - 详细步骤</h4>
+                        <div class="manual-steps">
+                            <div class="manual-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>获取爬虫数据</h5>
+                                    <p>使用您已有的爬虫工具或从其他来源获取Arcaea B30和R10数据</p>
+                                    <div class="data-format-examples">
+                                        <h6>支持的数据格式示例：</h6>
+                                        <div class="format-example">
+                                            <strong>格式1：</strong>
+                                            <code>B30数据：<br>歌曲名1 - 难度 - 分数<br>歌曲名2 - 难度 - 分数<br>...</code>
+                                        </div>
+                                        <div class="format-example">
+                                            <strong>格式2：</strong>
+                                            <code>R10数据：<br>1. 歌曲名1 [FTR] 9750000<br>2. 歌曲名2 [BYD] 9950000<br>...</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>复制数据</h5>
+                                    <p>选中所有爬虫数据，按 Ctrl+C (Windows) 或 Cmd+C (Mac) 复制到剪贴板</p>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>粘贴数据</h5>
+                                    <p>点击下方文本框，按 Ctrl+V (Windows) 或 Cmd+V (Mac) 粘贴数据</p>
+                                    <textarea id="crawler-data-input" placeholder="请在此粘贴爬虫获取的数据..."></textarea>
+                                </div>
+                            </div>
+                            <div class="manual-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>导入数据</h5>
+                                    <p>点击"导入数据"按钮，系统将自动解析并填充到B30和R10列表中</p>
+                                    <div class="confirm-buttons">
+                                        <button class="confirm-btn confirm-yes" onclick="processCrawlerData()">导入数据</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="auto-method" class="crawler-method">
+                        <p>此功能需要安装专用工具才能自动获取Arcaea Online数据。</p>
+                        <p>请选择适合您的自动化方案：</p>
+                        <div class="crawler-tools">
+                            <div class="tool-card">
+                                <h4>Chrome扩展爬虫</h4>
+                                <p>安装我们的Chrome扩展程序，一键导入您的B30和R10数据。</p>
+                                <div class="extension-steps">
+                                    <h5>使用步骤：</h5>
+                                    <ol>
+                                        <li>点击下方"获取扩展"按钮</li>
+                                        <li>在Chrome网上应用店安装扩展</li>
+                                        <li>打开Arcaea Online并登录</li>
+                                        <li>点击扩展图标，选择"导出B30/R10"</li>
+                                        <li>数据将自动复制到剪贴板</li>
+                                        <li>返回PTT计算器，使用"手动粘贴"功能导入</li>
+                                    </ol>
+                                </div>
+                                <button class="tool-btn" onclick="openExtensionPage()">获取扩展</button>
+                            </div>
+                            <div class="tool-card">
+                                <h4>独立爬虫程序</h4>
+                                <p>下载独立的爬虫程序，自动获取您的Arcaea数据并生成导入文件。</p>
+                                <div class="crawler-usage">
+                                    <h5>下载后的使用步骤：</h5>
+                                    <ol>
+                                        <li><strong>解压程序：</strong>右键点击下载的压缩包，选择"解压到当前文件夹"</li>
+                                        <li><strong>准备账号信息：</strong>确保您知道Arcaea Online的用户名和密码</li>
+                                        <li><strong>运行程序：</strong>双击解压后的爬虫程序文件（Windows: crawler.exe，Mac: crawler.app）</li>
+                                        <li><strong>输入凭证：</strong>在程序界面输入您的Arcaea Online账号和密码</li>
+                                        <li><strong>开始爬取：</strong>点击"开始爬取"按钮，程序将自动获取您的B30和R10数据</li>
+                                        <li><strong>获取结果：</strong>爬取完成后，程序将显示成功消息并自动将数据复制到剪贴板</li>
+                                        <li><strong>导入数据：</strong>返回PTT计算器，使用"手动粘贴"功能，按Ctrl+V粘贴数据</li>
+                                    </ol>
+                                    <div class="tips">
+                                        <h6>💡 小贴士：</h6>
+                                        <ul>
+                                            <li>爬虫程序会将数据自动格式化，您无需手动调整</li>
+                                            <li>程序支持自动识别B30和R10区域</li>
+                                            <li>如果爬取失败，请检查网络连接和账号信息</li>
+                                            <li>程序不会保存您的密码，使用后安全退出</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button class="tool-btn" onclick="downloadCrawler()">下载爬虫</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tutorial-method" class="crawler-method">
+                        <h4>如何使用爬虫获取数据</h4>
+                        <div class="tutorial-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>安装爬虫工具</h5>
+                                    <p>从GitHub下载适用于您的操作系统的爬虫程序</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>获取授权令牌</h5>
+                                    <p>在Arcaea Online设置中获取您的API访问令牌</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>运行爬虫</h5>
+                                    <p>执行爬虫程序，它将自动获取您的B30和R10数据</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>导入数据</h5>
+                                    <p>将爬虫生成的数据复制到上面的"手动粘贴数据"选项卡中</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeCrawlerModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        // 处理爬虫数据
+        function processCrawlerData() {
+            const input = document.getElementById('crawler-data-input').value;
+            if (!input.trim()) {
+                alert('请输入爬虫数据');
+                return;
+            }
+            
+            try {
+                // 尝试解析不同格式的爬虫数据
+                let b30Items = [];
+                let r10Items = [];
+                
+                // 尝试解析爬虫输出格式
+                // 格式1: "B30数据：歌曲名 - 难度 - 分数"
+                // 格式2: "R10数据：歌曲名 - 难度 - 分数"
+                // 格式3: "排名. 歌曲名 [难度] 分数"
+                
+                const lines = input.split('\n').filter(line => line.trim());
+                let currentMode = null; // 'b30' 或 'r10'
+                
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+                    
+                    // 检测B30/R10数据区域
+                    if (trimmedLine.includes('B30') || trimmedLine.includes('b30')) {
+                        currentMode = 'b30';
+                        continue;
+                    }
+                    if (trimmedLine.includes('R10') || trimmedLine.includes('r10')) {
+                        currentMode = 'r10';
+                        continue;
+                    }
+                    
+                    // 尝试匹配数据行
+                    // 格式1: "歌曲名 - 难度 - 分数"
+                    let match = trimmedLine.match(/^(.+?)\s*-\s*([A-Z]+)\s*-\s*(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                    
+                    // 格式2: "排名. 歌曲名 [难度] 分数"
+                    match = trimmedLine.match(/^\d+\.\s+(.+?)\s*\[([A-Z]+)\]\s+(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                    
+                    // 格式3: "歌曲名 难度 分数"
+                    match = trimmedLine.match(/^(.+?)\s+([A-Z]+)\s+(\d+)$/);
+                    if (match) {
+                        const [, songName, difficulty, scoreStr] = match;
+                        const score = parseInt(scoreStr);
+                        if (currentMode === 'b30') {
+                            b30Items.push({ songName, difficulty, score });
+                        } else if (currentMode === 'r10') {
+                            r10Items.push({ songName, difficulty, score });
+                        }
+                        continue;
+                    }
+                }
+                
+                // 如果没有检测到明确的B30/R10区域，尝试智能分割
+                if (b30Items.length === 0 && r10Items.length === 0 && lines.length > 0) {
+                    // 假设前30条是B30，后10条是R10
+                    const allItems = [];
+                    
+                    for (const line of lines) {
+                        const trimmedLine = line.trim();
+                        if (!trimmedLine) continue;
+                        
+                        // 尝试匹配任意格式的数据行
+                        let match = trimmedLine.match(/^(.+?)\s*-\s*([A-Z]+)\s*-\s*(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                            continue;
+                        }
+                        
+                        match = trimmedLine.match(/^\d+\.\s+(.+?)\s*\[([A-Z]+)\]\s+(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                            continue;
+                        }
+                        
+                        match = trimmedLine.match(/^(.+?)\s+([A-Z]+)\s+(\d+)$/);
+                        if (match) {
+                            const [, songName, difficulty, scoreStr] = match;
+                            allItems.push({ songName, difficulty, score: parseInt(scoreStr) });
+                        }
+                    }
+                    
+                    // 分割为B30和R10
+                    if (allItems.length >= 10) {
+                        b30Items = allItems.slice(0, Math.min(30, allItems.length - 10));
+                        r10Items = allItems.slice(Math.min(30, allItems.length - 10), Math.min(allItems.length, 40));
+                    } else if (allItems.length > 0) {
+                        // 如果数据不足，全部放入B30
+                        b30Items = allItems.slice(0, 30);
+                    }
+                }
+                
+                if (b30Items.length === 0 && r10Items.length === 0) {
+                    alert('未能识别有效的数据格式，请检查输入数据格式');
+                    return;
+                }
+                
+                // 转换为标准格式并检查歌曲数据库
+                const processedB30 = [];
+                const processedR10 = [];
+                
+                for (const item of b30Items) {
+                    const processed = processCrawlerItem(item);
+                    if (processed) {
+                        processedB30.push(processed);
+                    }
+                }
+                
+                for (const item of r10Items) {
+                    const processed = processCrawlerItem(item);
+                    if (processed) {
+                        processedR10.push(processed);
+                    }
+                }
+                
+                // 导入数据
+                let successCount = 0;
+                
+                if (processedB30.length > 0) {
+                    b30Data = processedB30.slice(0, 30); // 限制为30首
+                    updateListDisplay('b30');
+                    successCount += processedB30.length;
+                }
+                
+                if (processedR10.length > 0) {
+                    r10Data = processedR10.slice(0, 10); // 限制为10首
+                    updateListDisplay('r10');
+                    successCount += processedR10.length;
+                }
+                
+                updateStats();
+                closeCrawlerModal();
+                
+                showNotification(`成功导入 ${successCount} 条歌曲数据 (B30: ${processedB30.length}, R10: ${processedR10.length})`);
+                
+            } catch (error) {
+                console.error('处理爬虫数据时出错:', error);
+                alert('处理爬虫数据时出错，请检查数据格式是否正确');
+            }
+        }
+        
+        // 处理单个爬虫数据项
+        function processCrawlerItem(item) {
+            const { songName, difficulty, score } = item;
+            
+            // 查找歌曲数据库中最接近的匹配
+            let bestMatch = null;
+            let bestScore = 0;
+            
+            for (const dbSongName in songConstants) {
+                // 完全匹配
+                if (dbSongName === songName) {
+                    bestMatch = dbSongName;
+                    break;
+                }
+                
+                // 模糊匹配
+                const similarity = calculateSimilarity(songName.toLowerCase(), dbSongName.toLowerCase());
+                if (similarity > bestScore && similarity > 0.7) { // 相似度阈值
+                    bestScore = similarity;
+                    bestMatch = dbSongName;
+                }
+            }
+            
+            if (!bestMatch) {
+                console.warn(`未找到歌曲: ${songName}`);
+                return null;
+            }
+            
+            // 获取难度
+            const diffLower = difficulty.toLowerCase();
+            let diffKey = null;
+            
+            // 检查所有可能的难度表示
+            if (diffLower === 'pst' || diffLower === 'past') {
+                diffKey = 'pst';
+            } else if (diffLower === 'prs' || diffLower === 'present') {
+                diffKey = 'prs';
+            } else if (diffLower === 'ftr' || diffLower === 'future') {
+                diffKey = 'ftr';
+            } else if (diffLower === 'byd' || diffLower === 'beyond') {
+                diffKey = 'byd';
+            } else if (diffLower === 'etr' || diffLower === 'eternal') {
+                diffKey = 'etr';
+            }
+            
+            if (!diffKey) {
+                console.warn(`无效的难度: ${difficulty}`);
+                return null;
+            }
+            
+            const songConstant = songConstants[bestMatch];
+            if (!songConstant || songConstant[diffKey] === null || songConstant[diffKey] === undefined) {
+                console.warn(`歌曲 ${bestMatch} 没有难度 ${difficulty}`);
+                return null;
+            }
+            
+            const constant = songConstant[diffKey];
+            
+            return {
+                song_id: bestMatch,
+                difficulty: diffKey,
+                constant: constant,
+                score: score,
+                single_ptt: calculateSinglePTT(score, constant)
+            };
+        }
+        
+        // 计算字符串相似度（简单的Levenshtein距离）
+        function calculateSimilarity(str1, str2) {
+            if (str1 === str2) return 1;
+            
+            const matrix = [];
+            for (let i = 0; i <= str1.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str2.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str1.length; i++) {
+                for (let j = 1; j <= str2.length; j++) {
+                    if (str1.charAt(i - 1) === str2.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            const distance = matrix[str1.length][str2.length];
+            const maxLen = Math.max(str1.length, str2.length);
+            return (maxLen - distance) / maxLen;
+        }
+        
+        // 切换爬虫选项卡
+        function switchCrawlerTab(tabName) {
+            // 切换选项卡样式
+            document.querySelectorAll('.crawler-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 切换内容显示
+            document.querySelectorAll('.crawler-method').forEach(method => method.classList.remove('active'));
+            document.getElementById(`${tabName}-method`).classList.add('active');
+        }
+        
+        // 打开扩展程序页面
+        function openExtensionPage() {
+            // 创建一个包含扩展下载信息的模态框
+            const extensionModal = document.createElement('div');
+            extensionModal.className = 'confirm-dialog extension-dialog';
+            extensionModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>浏览器扩展程序</h3>
+                    <p>我们正在开发Chrome和Firefox扩展程序，可以让您一键导入Arcaea数据。</p>
+                    <p>目前扩展程序仍在审核中，请稍后关注我们的更新。</p>
+                    <div class="extension-info">
+                        <div class="info-item">
+                            <div class="info-icon">🚀</div>
+                            <div class="info-text">
+                                <h4>即将推出</h4>
+                                <p>Chrome和Firefox扩展程序</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🔧</div>
+                            <div class="info-text">
+                                <h4>功能特性</h4>
+                                <p>自动登录、数据获取、一键导入</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-yes" onclick="closeExtensionModal()">了解</button>
+                        <button class="confirm-btn confirm-no" onclick="closeExtensionModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(extensionModal);
+        }
+        
+        // 关闭扩展程序模态框
+        function closeExtensionModal() {
+            const modal = document.querySelector('.extension-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 下载爬虫程序
+        function downloadCrawler() {
+            // 创建一个包含爬虫下载信息的模态框
+            const crawlerModal = document.createElement('div');
+            crawlerModal.className = 'confirm-dialog';
+            crawlerModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>爬虫程序下载</h3>
+                    <p>请选择适用于您操作系统的爬虫程序：</p>
+                    <div class="crawler-downloads">
+                        <div class="download-card">
+                            <div class="os-icon">🪟</div>
+                            <h4>Windows</h4>
+                            <p>适用于Windows 10/11</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('windows')">下载Windows版</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="os-icon">🍎</div>
+                            <h4>macOS</h4>
+                            <p>适用于macOS 10.15+</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('macos')">下载macOS版</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="os-icon">🐧</div>
+                            <h4>Linux</h4>
+                            <p>适用于大多数Linux发行版</p>
+                            <button class="download-btn" onclick="downloadCrawlerFile('linux')">下载Linux版</button>
+                        </div>
+                    </div>
+                    <div class="crawler-notes">
+                        <h4>使用说明</h4>
+                        <ol>
+                            <li>下载并解压爬虫程序</li>
+                            <li>运行程序并输入您的Arcaea Online账号信息</li>
+                            <li>程序将自动获取您的B30和R10数据</li>
+                            <li>生成的数据将自动复制到剪贴板，可直接粘贴到PTT计算器中</li>
+                        </ol>
+                        <p class="warning">注意：爬虫程序仅用于个人数据整理，请勿用于商业用途或违反Arcaea服务条款。</p>
+                    </div>
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeCrawlerModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(crawlerModal);
+        }
+        
+        // 下载爬虫文件
+        function downloadCrawlerFile(os) {
+            // 创建下载链接
+            const downloadLinks = {
+                windows: './crawler/arcaea_crawler.py',
+                macos: './crawler/arcaea_crawler.py',
+                linux: './crawler/arcaea_crawler.py'
+            };
+            
+            const launcherFiles = {
+                windows: './crawler/run_windows.bat',
+                macos: './crawler/run_unix.sh',
+                linux: './crawler/run_unix.sh'
+            };
+            
+            // 创建一个模态框，显示下载说明
+            const downloadModal = document.createElement('div');
+            downloadModal.className = 'confirm-dialog download-dialog';
+            
+            const osNames = {
+                windows: 'Windows',
+                macos: 'macOS',
+                linux: 'Linux'
+            };
+            
+            const instructions = {
+                windows: {
+                    title: 'Windows用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '双击运行"run_windows.bat"文件（推荐）',
+                        '或者在命令提示符中运行"python arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                },
+                macos: {
+                    title: 'macOS用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '打开终端，进入下载目录',
+                        '运行"chmod +x run_unix.sh"赋予执行权限',
+                        '运行"./run_unix.sh"启动爬虫',
+                        '或者直接运行"python3 arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                },
+                linux: {
+                    title: 'Linux用户使用说明',
+                    steps: [
+                        '点击下方"下载爬虫程序"按钮，下载Python脚本',
+                        '打开终端，进入下载目录',
+                        '运行"chmod +x run_unix.sh"赋予执行权限',
+                        '运行"./run_unix.sh"启动爬虫',
+                        '或者直接运行"python3 arcaea_crawler.py"',
+                        '程序将自动获取数据并复制到剪贴板',
+                        '返回PTT计算器，使用"手动粘贴"功能导入'
+                    ]
+                }
+            };
+            
+            const currentOs = instructions[os];
+            
+            downloadModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>爬虫程序下载 - ${osNames[os]}版</h3>
+                    
+                    <div class="download-file-info">
+                        <h4>文件信息</h4>
+                        <p><strong>主程序：</strong>arcaea_crawler.py (Python脚本)</p>
+                        <p><strong>启动脚本：</strong>${os === 'windows' ? 'run_windows.bat' : 'run_unix.sh'}</p>
+                        <p><strong>说明文档：</strong>README.md</p>
+                    </div>
+                    
+                    <div class="download-steps">
+                        <h4>${currentOs.title}</h4>
+                        <ol>
+                            ${currentOs.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                        
+                        <h4>依赖要求</h4>
+                        <ul>
+                            <li>Python 3.6或更高版本</li>
+                            <li>依赖库：requests, beautifulsoup4, pyperclip</li>
+                            <li>启动脚本会自动安装依赖库</li>
+                        </ul>
+                        
+                        <div class="download-buttons">
+                            <button class="download-file-btn" onclick="downloadFile('${downloadLinks[os]}')">
+                                下载爬虫程序
+                            </button>
+                            <button class="download-file-btn" onclick="downloadFile('${launcherFiles[os]}')">
+                                下载启动脚本
+                            </button>
+                            <button class="download-file-btn" onclick="downloadFile('./crawler/README.md')">
+                                下载说明文档
+                            </button>
+                        </div>
+                        
+                        <div class="security-note">
+                            <h6>🔒 安全提示</h6>
+                            <p>这是开源的Python脚本，您可以在运行前查看源代码以确保安全性。</p>
+                            <p>程序仅用于获取您自己的游戏数据，不会保存或分享您的密码。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-yes" onclick="copyDownloadLink('${os}')">复制下载链接</button>
+                        <button class="confirm-btn confirm-no" onclick="closeDownloadModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(downloadModal);
+        }
+        
+        // 下载文件
+        function downloadFile(fileUrl) {
+            // 创建一个通知，告知用户下载已开始
+            const fileName = fileUrl.split('/').pop();
+            showNotification(`正在下载 ${fileName}...`);
+            
+            // 创建一个下载链接
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileName;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 延迟显示成功消息
+            setTimeout(() => {
+                showNotification(`${fileName} 下载已开始，请查看您的下载文件夹`);
+            }, 1000);
+        }
+        
+        // 复制下载链接
+        function copyDownloadLink(os) {
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            const downloadLinks = {
+                windows: baseUrl + 'crawler/arcaea_crawler.py',
+                macos: baseUrl + 'crawler/arcaea_crawler.py',
+                linux: baseUrl + 'crawler/arcaea_crawler.py'
+            };
+            
+            // 复制链接到剪贴板
+            navigator.clipboard.writeText(downloadLinks[os]).then(() => {
+                showNotification('下载链接已复制到剪贴板');
+            }).catch(() => {
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = downloadLinks[os];
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('下载链接已复制到剪贴板');
+            });
+        }
+        
+        // 显示开发者指南
+        function showDevGuide() {
+            const devModal = document.createElement('div');
+            devModal.className = 'confirm-dialog dev-dialog';
+            devModal.innerHTML = `
+                <div class="confirm-content">
+                    <h3>开发者指南</h3>
+                    <div class="dev-content">
+                        <h4>如何构建自己的Arcaea爬虫</h4>
+                        <div class="dev-steps">
+                            <div class="dev-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5>选择技术栈</h5>
+                                    <p>推荐使用Python + requests + BeautifulSoup，或Node.js + axios + cheerio</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5>分析API</h5>
+                                    <p>研究Arcaea Online的API接口和数据格式</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5>实现登录</h5>
+                                    <p>处理登录认证，获取session token或API key</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5>获取数据</h5>
+                                    <p>调用API获取B30和R10数据，解析JSON或HTML响应</p>
+                                </div>
+                            </div>
+                            <div class="dev-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h5>格式化输出</h5>
+                                    <p>将数据格式化为PTT计算器可识别的格式，自动复制到剪贴板</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-example">
+                            <h5>Python代码示例</h5>
+                            <pre><code># Arcaea爬虫示例
+import requests
+import json
+import pyperclip
+
+def get_arcaea_data(username, password):
+    # 登录获取token
+    login_data = {"username": username, "password": password}
+    response = requests.post("https://arcaea.online/api/login", json=login_data)
+    token = response.json()["token"]
+    
+    # 获取B30数据
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get("https://arcaea.online/api/best30", headers=headers)
+    b30_data = response.json()["data"]
+    
+    # 格式化数据
+    formatted_data = format_for_ptt_calculator(b30_data)
+    
+    # 复制到剪贴板
+    pyperclip.copy(formatted_data)
+    print("数据已复制到剪贴板，可粘贴到PTT计算器")
+    
+def format_for_ptt_calculator(data):
+    # 实现数据格式化逻辑
+    pass</code></pre>
+                        </div>
+                        
+                        <div class="legal-note">
+                            <h6>⚠️ 法律和道德提醒</h6>
+                            <p>请确保您的爬虫程序：</p>
+                            <ul>
+                                <li>遵守Arcaea Online的服务条款</li>
+                                <li>不要过于频繁地请求服务器</li>
+                                <li>不要分发他人的私人数据</li>
+                                <li>仅用于个人使用，不要用于商业目的</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="confirm-buttons">
+                        <button class="confirm-btn confirm-no" onclick="closeDevModal()">关闭</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(devModal);
+        }
+        
+        // 关闭下载模态框
+        function closeDownloadModal() {
+            const modal = document.querySelector('.download-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 关闭开发者指南模态框
+        function closeDevModal() {
+            const modal = document.querySelector('.dev-dialog');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 关闭爬虫数据导入模态框
+        function closeCrawlerModal() {
+            const modal = document.querySelector('.confirm-dialog');
+            if (modal && modal.querySelector('.crawler-modal')) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSongConstants();
+            
+            // 添加到B30按钮
+            const addToB30Btn = document.getElementById('add-to-b30-btn');
+            if (addToB30Btn) {
+                addToB30Btn.addEventListener('click', function() {
+                    console.log('添加到B30按钮被点击');
+                    addSongToList('b30');
+                });
+            }
+            
+            // 清空B30按钮
+            const clearB30Btn = document.getElementById('clear-b30-btn');
+            if (clearB30Btn) {
+                clearB30Btn.addEventListener('click', function() {
+                    console.log('清空B30按钮被点击');
+                    clearList('b30');
+                });
+            }
+            
+            // 添加到R10按钮
+            const addToR10Btn = document.getElementById('add-to-r10-btn');
+            if (addToR10Btn) {
+                addToR10Btn.addEventListener('click', function() {
+                    console.log('添加到R10按钮被点击');
+                    addSongToList('r10');
+                });
+            }
+            
+            // 清空R10按钮
+            const clearR10Btn = document.getElementById('clear-r10-btn');
+            if (clearR10Btn) {
+                clearR10Btn.addEventListener('click', function() {
+                    console.log('清空R10按钮被点击');
+                    clearList('r10');
+                });
+            }
+        });
+        
+        // 隐藏搜索结果和难度下拉列表当点击其他地方时
+        document.addEventListener('click', function(event) {
+            // B30相关
+            const b30SearchContainer = document.getElementById('b30-song-search').parentNode;
+            const b30DifficultyContainer = document.getElementById('b30-difficulty-input').parentNode;
+            
+            if (!b30SearchContainer.contains(event.target)) {
+                document.getElementById('b30-search-results').innerHTML = '';
+            }
+            
+            if (!b30DifficultyContainer.contains(event.target)) {
+                document.getElementById('b30-difficulty-results').style.display = 'none';
+            }
+            
+            // R10相关
+            const r10SearchContainer = document.getElementById('r10-song-search').parentNode;
+            const r10DifficultyContainer = document.getElementById('r10-difficulty-input').parentNode;
+            
+            if (!r10SearchContainer.contains(event.target)) {
+                document.getElementById('r10-search-results').innerHTML = '';
+            }
+            
+            if (!r10DifficultyContainer.contains(event.target)) {
+                document.getElementById('r10-difficulty-results').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+    <style>
+        /* 自定义确认对话框样式 */
+        .confirm-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .confirm-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .confirm-content.crawler-modal {
+            text-align: left;
+            max-width: 700px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .confirm-content h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .confirm-content p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confirm-yes {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .confirm-yes:hover {
+            background-color: #c0392b;
+        }
+        
+        .confirm-no {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .confirm-no:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .download-steps {
+            margin: 15px 0;
+        }
+        
+        .download-steps h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .download-steps ol, .download-steps ul {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .download-steps li {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .demo-note {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ffc107;
+            margin-top: 15px;
+        }
+        
+        .demo-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .demo-note a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        
+        .dev-content {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .dev-steps {
+            margin: 15px 0;
+        }
+        
+        .dev-step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .code-example {
+            margin: 20px 0;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .code-example h5 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .code-example pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .legal-note {
+            background: #f8d7da;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #dc3545;
+            margin-top: 15px;
+        }
+        
+        .legal-note h6 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #721c24;
+        }
+        
+        .legal-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #721c24;
+        }
+        
+        .legal-note ul {
+            margin: 10px 0 0 0;
+            padding-left: 18px;
+        }
+        
+        .legal-note li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #721c24;
+        }
+        
+        .download-file-info {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #2196f3;
+            margin-bottom: 15px;
+        }
+        
+        .download-file-info h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #1976d2;
+        }
+        
+        .download-file-info p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .download-file-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .download-file-btn:hover {
+            background: #218838;
+        }
+        
+        .download-file-btn::before {
+            content: "⬇";
+            font-size: 14px;
+        }
+        
+        .security-note {
+            background: #d4edda;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #28a745;
+            margin-top: 15px;
+        }
+        
+        .security-note h6 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #155724;
+        }
+        
+        .security-note p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #155724;
+        }
+        
+        /* 通知消息样式 */
+        .notification, .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* 爬虫模态框样式 */
+        .crawler-modal {
+            max-width: 600px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .crawler-method-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .crawler-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .crawler-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .crawler-method {
+            display: none;
+        }
+        
+        .crawler-method.active {
+            display: block;
+        }
+        
+        .crawler-data-input {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        
+        .crawler-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tool-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-card h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .tool-card p {
+            margin: 0 0 12px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tool-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .tool-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .tutorial-steps {
+            margin-top: 20px;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h5 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .step-content p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .data-format-examples {
+            margin-top: 10px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        
+        .data-format-examples h6 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .format-example {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .format-example:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .format-example strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .format-example code {
+            display: block;
+            background: #f1f3f4;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #444;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .extension-steps, .crawler-usage {
+            margin-top: 15px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .extension-steps h5, .crawler-usage h5 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .extension-steps ol, .crawler-usage ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .extension-steps li, .crawler-usage li {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .extension-steps li:last-child, .crawler-usage li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #ffc107;
+        }
+        
+        .tips h6 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .tips ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+        
+        .tips li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #856404;
+        }
+        
+        .tips li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .extension-info {
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .info-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .info-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .info-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .crawler-downloads {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .download-card {
+            flex: 1;
+            min-width: 150px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .os-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .download-card h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .download-card p {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .download-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        
+        .download-btn:hover {
+            background: #219653;
+        }
+        
+        .crawler-notes {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .crawler-notes h4 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .crawler-notes ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+        
+        .crawler-notes li {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .warning {
+            color: #e74c3c;
+            font-size: 13px;
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</html>
