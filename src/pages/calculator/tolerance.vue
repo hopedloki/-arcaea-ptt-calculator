@@ -76,7 +76,34 @@
             class="form-input" 
             type="number" 
             v-model="farCount" 
-            placeholder="自动计算或手动输入"
+            placeholder="0-1000"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">Lost数量</text>
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="lostCount" 
+            placeholder="0-1000"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">大Pure数量（可选）</text>
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="bigPureCount" 
+            placeholder="每个大Pure额外+1分"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">谱面Note总量</text>
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="totalNotes" 
+            placeholder="歌曲的总Note数量"
           />
         </view>
       </view>
@@ -150,16 +177,26 @@
           </text>
         </view>
         <view class="result-item">
-          <text class="result-label">分数范围</text>
-          <text class="result-value">{{ formatScoreRange(result.minScore, result.maxScore) }}</text>
+          <text class="result-label">当前分数</text>
+          <text class="result-value">{{ result.currentScore.toLocaleString() }}</text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">目标分数</text>
+          <text class="result-value">{{ result.minScore.toLocaleString() }}</text>
         </view>
         <view class="result-item">
           <text class="result-label">最大Far数量</text>
           <text class="result-value highlight">{{ result.maxFarCount }}</text>
         </view>
         <view class="result-item">
-          <text class="result-label">剩余Lost数量</text>
-          <text class="result-value">{{ result.remainingLost }}</text>
+          <text class="result-label">最大Lost数量</text>
+          <text class="result-value">{{ result.maxLostCount }}</text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">是否达成</text>
+          <text class="result-value" :class="result.canAchieve ? 'success' : 'failed'">
+            {{ result.canAchieve ? '已达成' : '未达成' }}
+          </text>
         </view>
       </view>
       
@@ -179,7 +216,23 @@
         </view>
         <view class="result-item">
           <text class="result-label">可Far数量</text>
-          <text class="result-value">{{ result.tolerableFar }}</text>
+          <text class="result-value highlight">{{ result.tolerableFar }}</text>
+        </view>
+        <view class="result-item" v-if="result.tolerableLost !== undefined">
+          <text class="result-label">可Lost数量</text>
+          <text class="result-value">{{ result.tolerableLost }}</text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">是否达成</text>
+          <text class="result-value" :class="result.canAchieve ? 'success' : 'failed'">
+            {{ result.canAchieve ? '已达成' : '未达成' }}
+          </text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">是否达成</text>
+          <text class="result-value" :class="result.canAchieve ? 'success' : 'failed'">
+            {{ result.canAchieve ? '已达成' : '未达成' }}
+          </text>
         </view>
       </view>
       
@@ -199,7 +252,23 @@
         </view>
         <view class="result-item">
           <text class="result-label">可Far数量</text>
-          <text class="result-value">{{ result.tolerableFar }}</text>
+          <text class="result-value highlight">{{ result.tolerableFar }}</text>
+        </view>
+        <view class="result-item" v-if="result.tolerableLost !== undefined">
+          <text class="result-label">可Lost数量</text>
+          <text class="result-value">{{ result.tolerableLost }}</text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">是否达成</text>
+          <text class="result-value" :class="result.canAchieve ? 'success' : 'failed'">
+            {{ result.canAchieve ? '已达成' : '未达成' }}
+          </text>
+        </view>
+        <view class="result-item">
+          <text class="result-label">是否达成</text>
+          <text class="result-value" :class="result.canAchieve ? 'success' : 'failed'">
+            {{ result.canAchieve ? '已达成' : '未达成' }}
+          </text>
         </view>
       </view>
     </view>
@@ -211,14 +280,22 @@
       </view>
       <view class="explanation">
         <text class="explanation-text">
-          容错计算基于Arcaea的评分系统：每个Pure获得100分，每个Far获得50分，每个Lost获得0分。
-          总分 = Pure数量 × 100 + Far数量 × 50。
+          容错计算基于Arcaea的真实评分系统：
         </text>
         <view class="calculation-tips">
-          <text class="tip-title">容错计算公式：</text>
-          <text class="tip-item">• 容错Far数量 = (总分 - 目标分数) ÷ 50</text>
-          <text class="tip-item">• 纯分数制：分数越高，容错Far数量越少</text>
-          <text class="tip-item">• PTT制：PTT越高，容错Far数量越少</text>
+          <text class="tip-title">基本分计算：</text>
+          <text class="tip-item">• 单个Note分数 = 10,000,000 ÷ 谱面Note总量</text>
+          <text class="tip-item">• Pure获得完整分数，Far获得一半分数，Lost不得分</text>
+          <text class="tip-item">• 基本分 = Pure数量×单Note分 + Far数量×(单Note分÷2)</text>
+          
+          <text class="tip-title">判定附加分：</text>
+          <text class="tip-item">• 每个大Pure额外加1分，其他判定不加分</text>
+          <text class="tip-item">• 附加分无上限，理论满分 = 10,000,000 + 谱面Note总量</text>
+          
+          <text class="tip-title">容错计算：</text>
+          <text class="tip-item">• 根据目标评级/分数/PTT计算所需最低分数</text>
+          <text class="tip-item">• 每个Far可换算为(单Note分÷2)的容错空间</text>
+          <text class="tip-item">• 每个Lost可换算为单Note分的容错空间</text>
         </view>
       </view>
     </view>
@@ -249,7 +326,10 @@ const ratingIndex = ref(1) // 默认选择EX+
 
 // 输入值
 const pureCount = ref('1000')
-const farCount = ref('')
+const farCount = ref('0')
+const lostCount = ref('0')
+const bigPureCount = ref('0')
+const totalNotes = ref('1200')
 const targetScore = ref('')
 const currentPure = ref('')
 const targetPtt = ref('')
@@ -318,76 +398,122 @@ const onRatingChange = (e: any) => {
 
 // 计算容错
 const calculate = () => {
-  const totalNotes = 1200 // 假设总Note数为1200，实际应用中应该从歌曲数据获取
+  const notes = parseInt(totalNotes.value) || 1200
   
   if (mode.value === 'rating') {
     // 评级容错计算
-    const pure = parseInt(pureCount.value)
+    const pure = parseInt(pureCount.value) || 0
+    const far = parseInt(farCount.value) || 0
+    const lost = parseInt(lostCount.value) || 0
+    const bigPure = parseInt(bigPureCount.value) || 0
     const targetRating = ratingOptions[ratingIndex.value]
-    const minScore = targetRating.minScore
     
-    // 计算当前分数
-    const currentScore = pure * 100
+    // 使用正确的评分系统计算
+    const baseScorePerNote = 10000000 / notes
+    const baseScore = pure * baseScorePerNote + far * (baseScorePerNote / 2)
+    const bonusScore = bigPure // 每个大Pure额外+1分
+    const currentScore = Math.floor(baseScore + bonusScore)
     
-    if (currentScore < minScore) {
-      uni.showToast({
-        title: 'Pure数量不足以达成目标评级',
-        icon: 'none'
-      })
-      return
-    }
+    // 计算达成目标评级所需的最多容错
+    const targetScore = targetRating.minScore
+    const scoreGap = currentScore - targetScore
     
-    // 计算最大Far数量
-    const maxFarCount = Math.floor((currentScore - minScore) / 50)
-    
-    // 计算剩余Lost数量
-    const remainingLost = Math.max(0, totalNotes - pure - maxFarCount)
-    
-    result.value = {
-      minScore,
-      maxScore: pure * 100 + maxFarCount * 50,
-      maxFarCount,
-      remainingLost
-    }
-    
-    // 自动填充Far数量
-    if (!farCount.value) {
-      farCount.value = maxFarCount.toString()
+    if (scoreGap >= 0) {
+      // 已经达成目标，计算可以额外容错的判定数
+      const maxAdditionalFar = Math.floor(scoreGap / (baseScorePerNote / 2))
+      const maxAdditionalLost = Math.floor((scoreGap - maxAdditionalFar * (baseScorePerNote / 2)) / baseScorePerNote)
+      
+      // 检查容错数是否超过剩余Note数
+      const remainingNotes = notes - pure - far
+      const finalMaxLost = Math.min(maxAdditionalLost, remainingNotes)
+      const finalMaxFar = far + maxAdditionalFar + (maxAdditionalLost - finalMaxLost)
+      
+      result.value = {
+        minScore: targetScore,
+        maxScore: currentScore,
+        maxFarCount: finalMaxFar,
+        maxLostCount: finalMaxLost,
+        currentScore,
+        canAchieve: true
+      }
+    } else {
+      // 未达成目标，计算需要的判定改进
+      const neededScore = -scoreGap
+      const maxFarCount = Math.max(0, far - Math.ceil(neededScore / (baseScorePerNote / 2)))
+      const remainingNeededScore = neededScore - (far - maxFarCount) * (baseScorePerNote / 2)
+      const maxLostCount = Math.max(0, lost - Math.ceil(remainingNeededScore / baseScorePerNote))
+      
+      result.value = {
+        minScore: targetScore,
+        maxScore: currentScore,
+        maxFarCount,
+        maxLostCount,
+        currentScore,
+        canAchieve: false
+      }
     }
     
   } else if (mode.value === 'score') {
     // 分数容错计算
-    const target = parseInt(targetScore.value)
-    const current = parseInt(currentPure.value)
+    const target = parseInt(targetScore.value) || 0
+    const pure = parseInt(currentPure.value) || 0
+    const far = parseInt(farCount.value) || 0
+    const lost = parseInt(lostCount.value) || 0
+    const bigPure = parseInt(bigPureCount.value) || 0
     
-    if (current * 100 < target) {
-      uni.showToast({
-        title: 'Pure数量不足以达成目标分数',
-        icon: 'none'
-      })
-      return
-    }
+    // 使用正确的评分系统计算
+    const baseScorePerNote = 10000000 / notes
+    const baseScore = pure * baseScorePerNote + far * (baseScorePerNote / 2)
+    const bonusScore = bigPure // 每个大Pure额外+1分
+    const currentScore = Math.floor(baseScore + bonusScore)
     
-    const currentScore = current * 100
     const scoreGap = currentScore - target
-    const tolerableFar = Math.floor(scoreGap / 50)
     
-    result.value = {
-      targetScore: target,
-      currentScore,
-      scoreGap,
-      tolerableFar
+    if (scoreGap >= 0) {
+      // 已经达成目标，计算可以额外容错的判定数
+      const maxAdditionalFar = Math.floor(scoreGap / (baseScorePerNote / 2))
+      const maxAdditionalLost = Math.floor((scoreGap - maxAdditionalFar * (baseScorePerNote / 2)) / baseScorePerNote)
+      
+      // 检查容错数是否超过剩余Note数
+      const remainingNotes = notes - pure - far
+      const finalMaxLost = Math.min(maxAdditionalLost, remainingNotes)
+      const finalMaxFar = far + maxAdditionalFar + (maxAdditionalLost - finalMaxLost)
+      
+      result.value = {
+        targetScore: target,
+        currentScore,
+        scoreGap,
+        tolerableFar: finalMaxFar,
+        tolerableLost: finalMaxLost,
+        canAchieve: true
+      }
+    } else {
+      // 未达成目标，计算需要的判定改进
+      const neededScore = -scoreGap
+      const neededFarReduction = Math.ceil(neededScore / (baseScorePerNote / 2))
+      const neededLostReduction = Math.ceil(Math.max(0, neededScore - neededFarReduction * (baseScorePerNote / 2)) / baseScorePerNote)
+      
+      result.value = {
+        targetScore: target,
+        currentScore,
+        scoreGap,
+        tolerableFar: Math.max(0, far - neededFarReduction),
+        tolerableLost: Math.max(0, lost - neededLostReduction),
+        canAchieve: false
+      }
     }
     
   } else if (mode.value === 'ptt') {
     // PTT容错计算
-    const target = parseFloat(targetPtt.value)
-    const current = parseInt(currentPttPure.value)
-    const constant = selectedSong.value.constant
+    const target = parseFloat(targetPtt.value) || 0
+    const pure = parseInt(currentPttPure.value) || 0
+    const far = parseInt(farCount.value) || 0
+    const lost = parseInt(lostCount.value) || 0
+    const bigPure = parseInt(bigPureCount.value) || 0
+    const constant = selectedSong.value.constant || 0
     
     // 计算目标分数
     let targetScore: number
-    
     const targetPttAboveConstant = target - constant
     
     if (targetPttAboveConstant >= 2.0) {
@@ -402,10 +528,14 @@ const calculate = () => {
       targetScore = Math.floor(9500000 + targetPttAboveConstant * 300000)
     }
     
-    // 计算当前PTT
-    const currentScore = current * 100
-    let currentPtt: number
+    // 使用正确的评分系统计算当前分数
+    const baseScorePerNote = 10000000 / notes
+    const baseScore = pure * baseScorePerNote + far * (baseScorePerNote / 2)
+    const bonusScore = bigPure // 每个大Pure额外+1分
+    const currentScore = Math.floor(baseScore + bonusScore)
     
+    // 计算当前PTT
+    let currentPtt: number
     if (currentScore >= 10000000) {
       currentPtt = constant + 2.0
     } else if (currentScore >= 9900000) {
@@ -416,22 +546,40 @@ const calculate = () => {
       currentPtt = constant + Math.max(0, (currentScore - 9500000) / 300000)
     }
     
-    if (currentScore < targetScore) {
-      uni.showToast({
-        title: 'Pure数量不足以达成目标PTT',
-        icon: 'none'
-      })
-      return
-    }
-    
     const scoreGap = currentScore - targetScore
-    const tolerableFar = Math.floor(scoreGap / 50)
     
-    result.value = {
-      targetPtt: target,
-      currentPtt,
-      pttGap: currentPtt - target,
-      tolerableFar
+    if (scoreGap >= 0) {
+      // 已经达成目标，计算可以额外容错的判定数
+      const maxAdditionalFar = Math.floor(scoreGap / (baseScorePerNote / 2))
+      const maxAdditionalLost = Math.floor((scoreGap - maxAdditionalFar * (baseScorePerNote / 2)) / baseScorePerNote)
+      
+      // 检查容错数是否超过剩余Note数
+      const remainingNotes = notes - pure - far
+      const finalMaxLost = Math.min(maxAdditionalLost, remainingNotes)
+      const finalMaxFar = far + maxAdditionalFar + (maxAdditionalLost - finalMaxLost)
+      
+      result.value = {
+        targetPtt: target,
+        currentPtt,
+        pttGap: currentPtt - target,
+        tolerableFar: finalMaxFar,
+        tolerableLost: finalMaxLost,
+        canAchieve: true
+      }
+    } else {
+      // 未达成目标，计算需要的判定改进
+      const neededScore = -scoreGap
+      const neededFarReduction = Math.ceil(neededScore / (baseScorePerNote / 2))
+      const neededLostReduction = Math.ceil(Math.max(0, neededScore - neededFarReduction * (baseScorePerNote / 2)) / baseScorePerNote)
+      
+      result.value = {
+        targetPtt: target,
+        currentPtt,
+        pttGap: currentPtt - target,
+        tolerableFar: Math.max(0, far - neededFarReduction),
+        tolerableLost: Math.max(0, lost - neededLostReduction),
+        canAchieve: false
+      }
     }
   }
 }
@@ -637,6 +785,16 @@ const getDifficultyText = (difficulty: string): string => {
 .result-value.highlight {
   color: #667eea;
   font-size: 36rpx;
+}
+
+.result-value.success {
+  color: #43e97b;
+  font-weight: bold;
+}
+
+.result-value.failed {
+  color: #f44336;
+  font-weight: bold;
 }
 
 .rating {

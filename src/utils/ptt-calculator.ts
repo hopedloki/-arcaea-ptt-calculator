@@ -81,37 +81,146 @@ export function getMinScoreByRating(rating: string): number {
 /**
  * 计算评级容错
  * @param pureCount Pure数量
+ * @param farCount Far数量
+ * @param lostCount Lost数量
  * @param targetRating 目标评级
  * @param totalNotes 总Note数
- * @returns 最大Far数量和剩余Lost数量
+ * @param bigPureCount 大Pure数量（可选）
+ * @returns 容错信息对象
  */
 export function calculateRatingTolerance(
   pureCount: number, 
+  farCount: number = 0,
+  lostCount: number = 0,
   targetRating: string, 
-  totalNotes: number = 1200
-): { maxFarCount: number, remainingLost: number } {
-  const minScore = getMinScoreByRating(targetRating)
-  const currentScore = pureCount * 100
+  totalNotes: number = 1200,
+  bigPureCount: number = 0
+): { 
+  maxFarCount: number, 
+  maxLostCount: number, 
+  currentScore: number,
+  targetScore: number,
+  canAchieve: boolean
+} {
+  const targetScore = getMinScoreByRating(targetRating)
   
-  if (currentScore < minScore) {
-    return { maxFarCount: 0, remainingLost: 0 }
+  // 计算基本分
+  const baseScorePerNote = 10000000 / totalNotes
+  const baseScore = pureCount * baseScorePerNote + farCount * (baseScorePerNote / 2)
+  
+  // 计算判定附加分（大Pure每个+1分）
+  const bonusScore = bigPureCount
+  
+  // 总分数（向下取整）
+  const currentScore = Math.floor(baseScore + bonusScore)
+  
+  // 检查是否已达成目标评级
+  if (currentScore >= targetScore) {
+    return {
+      maxFarCount: farCount,
+      maxLostCount: lostCount,
+      currentScore,
+      targetScore,
+      canAchieve: true
+    }
   }
   
-  const maxFarCount = Math.floor((currentScore - minScore) / 50)
-  const remainingLost = Math.max(0, totalNotes - pureCount - maxFarCount)
+  // 计算需要多少分数才能达成目标
+  const scoreNeeded = targetScore - currentScore
   
-  return { maxFarCount, remainingLost }
+  // 计算可以容错的Far数量（每个Far会减少baseScorePerNote/2分）
+  const maxAdditionalFar = Math.floor(scoreNeeded / (baseScorePerNote / 2))
+  const totalMaxFar = farCount + maxAdditionalFar
+  
+  // 计算可以容错的Lost数量（每个Lost会减少baseScorePerNote分）
+  const remainingScore = scoreNeeded - maxAdditionalFar * (baseScorePerNote / 2)
+  const maxAdditionalLost = Math.floor(remainingScore / baseScorePerNote)
+  const totalMaxLost = lostCount + maxAdditionalLost
+  
+  // 检查总容错数是否超过剩余Note数
+  const remainingNotes = totalNotes - pureCount - totalMaxFar
+  const finalMaxLost = Math.min(totalMaxLost, remainingNotes)
+  const finalMaxFar = totalMaxFar + (totalMaxLost - finalMaxLost) // 如果Lost容错不足，可以转换为Far容错
+  
+  return {
+    maxFarCount: finalMaxFar,
+    maxLostCount: finalMaxLost,
+    currentScore,
+    targetScore,
+    canAchieve: false
+  }
 }
 
 /**
- * 计算分数容错
- * @param currentScore 当前分数
+ * 计算分数容错（基于正确的评分系统）
+ * @param pureCount Pure数量
+ * @param farCount Far数量
+ * @param lostCount Lost数量
+ * @param bigPureCount 大Pure数量
  * @param targetScore 目标分数
- * @returns 可容错Far数量
+ * @param totalNotes 总Note数
+ * @returns 容错信息
  */
-export function calculateScoreTolerance(currentScore: number, targetScore: number): number {
-  if (currentScore <= targetScore) return 0
-  return Math.floor((currentScore - targetScore) / 50)
+export function calculateScoreTolerance(
+  pureCount: number,
+  farCount: number = 0,
+  lostCount: number = 0,
+  bigPureCount: number = 0,
+  targetScore: number,
+  totalNotes: number = 1200
+): {
+  currentScore: number,
+  maxFarCount: number,
+  maxLostCount: number,
+  canAchieve: boolean,
+  tolerableFar: number,
+  tolerableLost: number
+} {
+  // 计算基本分
+  const baseScorePerNote = 10000000 / totalNotes
+  const baseScore = pureCount * baseScorePerNote + farCount * (baseScorePerNote / 2)
+  
+  // 计算判定附加分（大Pure每个+1分）
+  const bonusScore = bigPureCount
+  
+  // 总分数（向下取整）
+  const currentScore = Math.floor(baseScore + bonusScore)
+  
+  // 检查是否已达成目标
+  if (currentScore >= targetScore) {
+    // 已经达成目标，计算可以额外容错的判定数
+    const scoreGap = currentScore - targetScore
+    const maxAdditionalFar = Math.floor(scoreGap / (baseScorePerNote / 2))
+    const maxAdditionalLost = Math.floor((scoreGap - maxAdditionalFar * (baseScorePerNote / 2)) / baseScorePerNote)
+    
+    // 检查容错数是否超过剩余Note数
+    const remainingNotes = totalNotes - pureCount - farCount
+    const finalMaxLost = Math.min(maxAdditionalLost, remainingNotes)
+    const finalMaxFar = farCount + maxAdditionalFar + (maxAdditionalLost - finalMaxLost)
+    
+    return {
+      currentScore,
+      maxFarCount: finalMaxFar,
+      maxLostCount: finalMaxLost,
+      canAchieve: true,
+      tolerableFar: finalMaxFar,
+      tolerableLost: finalMaxLost
+    }
+  } else {
+    // 未达成目标，计算需要的判定改进
+    const neededScore = targetScore - currentScore
+    const neededFarReduction = Math.ceil(neededScore / (baseScorePerNote / 2))
+    const neededLostReduction = Math.ceil(Math.max(0, neededScore - neededFarReduction * (baseScorePerNote / 2)) / baseScorePerNote)
+    
+    return {
+      currentScore,
+      maxFarCount: Math.max(0, farCount - neededFarReduction),
+      maxLostCount: Math.max(0, lostCount - neededLostReduction),
+      canAchieve: false,
+      tolerableFar: Math.max(0, farCount - neededFarReduction),
+      tolerableLost: Math.max(0, lostCount - neededLostReduction)
+    }
+  }
 }
 
 /**
