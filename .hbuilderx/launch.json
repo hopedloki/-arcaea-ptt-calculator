@@ -1,0 +1,14 @@
+{
+    "version": "0.0.1",
+    "configurations": [
+        {
+            "app-plus": {
+                "launchtype": "local"
+            },
+            "default": {
+                "launchtype": "local"
+            },
+            "type": "uniApp"
+        }
+    ]
+}
