@@ -18,17 +18,60 @@
       </view>
     </view>
 
-    <!-- 歌曲选择区域 -->
+    <!-- 歌曲选择/定数输入区域 -->
     <view class="card song-selector">
       <view class="card-header">
-        <text class="card-title">选择歌曲</text>
+        <text class="card-title">歌曲/定数设置</text>
       </view>
-      <view class="song-info" @click="goToSongList">
+      
+      <!-- 输入模式选择 -->
+      <view class="input-mode-selector">
+        <view 
+          class="mode-item" 
+          :class="{ active: inputMode === 'song' }"
+          @click="switchInputMode('song')"
+        >
+          <text class="mode-text">选择歌曲</text>
+        </view>
+        <view 
+          class="mode-item" 
+          :class="{ active: inputMode === 'manual' }"
+          @click="switchInputMode('manual')"
+        >
+          <text class="mode-text">手动输入定数</text>
+        </view>
+      </view>
+      
+      <!-- 歌曲选择模式 -->
+      <view v-if="inputMode === 'song'" class="song-info" @click="goToSongList">
         <text class="song-name" v-if="selectedSong.name">{{ selectedSong.name }}</text>
         <text class="song-placeholder" v-else>点击选择歌曲</text>
         <text class="song-difficulty" v-if="selectedSong.constant">
           {{ getDifficultyText(selectedSong.difficulty) }} ({{ selectedSong.constant }})
         </text>
+      </view>
+      
+      <!-- 手动输入模式 -->
+      <view v-if="inputMode === 'manual'" class="manual-input">
+        <view class="form-item">
+          <text class="form-label">歌曲名称（可选）</text>
+          <input 
+            class="form-input" 
+            type="text" 
+            v-model="manualSongName" 
+            placeholder="用于记录，不影响计算"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">定数</text>
+          <input 
+            class="form-input" 
+            type="digit" 
+            v-model="manualConstant" 
+            placeholder="例如: 11.5"
+            @input="onConstantChange"
+          />
+        </view>
       </view>
     </view>
 
@@ -119,7 +162,7 @@
       </view>
       
       <!-- 保存按钮 -->
-      <button class="save-btn" @click="saveToBest30" v-if="result && selectedSong.name">
+      <button class="save-btn" @click="saveToBest30" v-if="result && canSave">
         保存到B30
       </button>
     </view>
@@ -157,8 +200,15 @@ import { ref, computed, onMounted } from 'vue'
 // 转换模式
 const mode = ref<'scoreToPtt' | 'pttToScore'>('scoreToPtt')
 
+// 输入模式：歌曲选择或手动输入
+const inputMode = ref<'song' | 'manual'>('song')
+
 // 选中的歌曲
 const selectedSong = ref<any>({})
+
+// 手动输入值
+const manualSongName = ref('')
+const manualConstant = ref('')
 
 // 输入值
 const scoreInput = ref('')
@@ -169,7 +219,15 @@ const result = ref<any>(null)
 
 // 是否可以计算
 const canCalculate = computed(() => {
-  if (!selectedSong.value.constant) return false
+  // 检查定数是否可用
+  let constant = 0
+  if (inputMode.value === 'song') {
+    constant = selectedSong.value.constant
+  } else {
+    constant = parseFloat(manualConstant.value)
+  }
+  
+  if (!constant || isNaN(constant)) return false
   
   if (mode.value === 'scoreToPtt') {
     return scoreInput.value !== '' && 
@@ -177,6 +235,17 @@ const canCalculate = computed(() => {
            parseInt(scoreInput.value) <= 10000000
   } else {
     return pttInput.value !== '' && !isNaN(parseFloat(pttInput.value))
+  }
+})
+
+// 是否可以保存到B30
+const canSave = computed(() => {
+  if (!result.value) return false
+  
+  if (inputMode.value === 'song') {
+    return !!selectedSong.value.name
+  } else {
+    return !!manualConstant.value && !isNaN(parseFloat(manualConstant.value))
   }
 })
 
@@ -189,12 +258,30 @@ onMounted(() => {
   }
 })
 
-// 切换模式
+// 切换转换模式
 const switchMode = (newMode: 'scoreToPtt' | 'pttToScore') => {
   mode.value = newMode
   result.value = null
   scoreInput.value = ''
   pttInput.value = ''
+}
+
+// 切换输入模式
+const switchInputMode = (newMode: 'song' | 'manual') => {
+  inputMode.value = newMode
+  result.value = null
+  scoreInput.value = ''
+  pttInput.value = ''
+}
+
+// 定数输入变化
+const onConstantChange = () => {
+  const value = parseFloat(manualConstant.value)
+  if (isNaN(value) || value < 0) {
+    manualConstant.value = '0'
+  } else if (value > 15) {
+    manualConstant.value = '15'
+  }
 }
 
 // 跳转到歌曲列表
@@ -224,14 +311,32 @@ const onPttInputChange = () => {
 
 // 计算PTT或成绩
 const calculate = () => {
-  const constant = selectedSong.value.constant
+  // 获取定数
+  let constant = 0
+  let songName = ''
   
-  if (!constant) {
-    uni.showToast({
-      title: '请先选择歌曲',
-      icon: 'none'
-    })
-    return
+  if (inputMode.value === 'song') {
+    constant = selectedSong.value.constant
+    songName = selectedSong.value.name || ''
+    
+    if (!constant) {
+      uni.showToast({
+        title: '请先选择歌曲',
+        icon: 'none'
+      })
+      return
+    }
+  } else {
+    constant = parseFloat(manualConstant.value)
+    songName = manualSongName.value || '手动输入'
+    
+    if (!constant || isNaN(constant)) {
+      uni.showToast({
+        title: '请输入有效的定数',
+        icon: 'none'
+      })
+      return
+    }
   }
   
   if (mode.value === 'scoreToPtt') {
@@ -243,7 +348,10 @@ const calculate = () => {
     result.value = {
       score,
       ptt,
-      rating
+      rating,
+      songName,
+      constant,
+      inputMode: inputMode.value
     }
   } else {
     // PTT → 成绩
@@ -254,7 +362,10 @@ const calculate = () => {
     result.value = {
       ptt: targetPtt,
       score,
-      rating
+      rating,
+      songName,
+      constant,
+      inputMode: inputMode.value
     }
   }
 }
@@ -330,16 +441,28 @@ const getDifficultyText = (difficulty: string): string => {
 
 // 保存到B30
 const saveToBest30 = () => {
-  if (!result.value || !selectedSong.value.name) return
+  if (!result.value) return
   
-  const record = {
-    songName: selectedSong.value.name,
-    difficulty: selectedSong.value.difficulty,
-    constant: selectedSong.value.constant,
+  // 检查是否有足够的信息保存
+  if (inputMode.value === 'song' && !selectedSong.value.name) return
+  if (inputMode.value === 'manual' && !manualConstant.value) return
+  
+  let record = {
     score: result.value.score,
     ptt: result.value.ptt,
     rating: result.value.rating,
     timestamp: Date.now()
+  }
+  
+  // 根据输入模式设置歌曲信息
+  if (inputMode.value === 'song') {
+    record.songName = selectedSong.value.name
+    record.difficulty = selectedSong.value.difficulty
+    record.constant = selectedSong.value.constant
+  } else {
+    record.songName = manualSongName.value || '手动输入'
+    record.difficulty = 'manual'
+    record.constant = parseFloat(manualConstant.value)
   }
   
   try {
@@ -462,6 +585,33 @@ const updateRecentScores = (record: any) => {
   font-weight: bold;
   color: #666;
   transition: color 0.3s ease;
+}
+
+.mode-item.active .mode-text {
+  color: white;
+}
+
+.input-mode-selector {
+  display: flex;
+  margin-bottom: 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.input-mode-selector .mode-item {
+  flex: 1;
+  padding: 20rpx;
+  text-align: center;
+  border-radius: 0;
+}
+
+.input-mode-selector .mode-text {
+  font-size: 26rpx;
+}
+
+.manual-input {
+  margin-top: 16rpx;
 }
 
 .mode-item.active .mode-text {
