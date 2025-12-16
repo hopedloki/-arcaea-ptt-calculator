@@ -2,14 +2,15 @@
   <view class="container">
     <!-- PTT概览 -->
     <view class="card overview-card">
-      <view class="card-header">
-        <text class="card-title">PTT概览</text>
-        <text class="card-action" @click="refreshPTT">刷新</text>
-      </view>
       <view class="ptt-overview">
-        <view class="ptt-value">
-          <text class="value">{{ currentPTT.toFixed(2) }}</text>
-          <text class="label">当前PTT</text>
+        <view class="ptt-value-container">
+          <view class="ptt-value">
+            <text class="value">{{ currentPTT.toFixed(2) }}</text>
+            <text class="label">当前PTT</text>
+          </view>
+          <view class="ptt-indicator">
+            <text class="indicator-text">{{ getPTTLevel(currentPTT) }}</text>
+          </view>
         </view>
         <view class="ptt-stats">
           <view class="stat-item">
@@ -26,25 +27,45 @@
           </view>
         </view>
       </view>
+      <view class="ptt-progress">
+        <view class="progress-bar">
+          <view class="progress-fill" :style="{ width: getPTTProgress(currentPTT) + '%' }"></view>
+        </view>
+        <text class="progress-text">{{ getPTTProgressText(currentPTT) }}</text>
+      </view>
+      <view class="overview-actions">
+        <button class="refresh-btn" @click="refreshPTT">
+          <text class="refresh-icon">🔄</text>
+          <text class="refresh-text">刷新数据</text>
+        </button>
+      </view>
     </view>
 
     <!-- 操作按钮 -->
     <view class="actions">
-      <button class="action-btn" @click="exportAllData">
-        <text class="btn-icon">📤</text>
-        <text class="btn-text">导出全部</text>
+      <button class="action-btn secondary" @click="exportAllData">
+        <view class="btn-content">
+          <text class="btn-icon">📤</text>
+          <text class="btn-text">导出全部</text>
+        </view>
       </button>
-      <button class="action-btn" @click="importData">
-        <text class="btn-icon">📥</text>
-        <text class="btn-text">导入数据</text>
+      <button class="action-btn secondary" @click="importData">
+        <view class="btn-content">
+          <text class="btn-icon">📥</text>
+          <text class="btn-text">导入数据</text>
+        </view>
       </button>
-      <button class="action-btn" @click="syncData">
-        <text class="btn-icon">🔄</text>
-        <text class="btn-text">同步数据</text>
+      <button class="action-btn secondary" @click="syncData">
+        <view class="btn-content">
+          <text class="btn-icon">🔄</text>
+          <text class="btn-text">同步数据</text>
+        </view>
       </button>
-      <button class="action-btn" @click="showClearDialog">
-        <text class="btn-icon">🗑️</text>
-        <text class="btn-text">清空数据</text>
+      <button class="action-btn danger" @click="showClearDialog">
+        <view class="btn-content">
+          <text class="btn-icon">🗑️</text>
+          <text class="btn-text">清空数据</text>
+        </view>
       </button>
     </view>
 
@@ -52,21 +73,28 @@
     <view class="card stats-card">
       <view class="card-header">
         <text class="card-title">数据统计</text>
+        <view class="stats-toggle" @click="toggleStatsView">
+          <text class="toggle-icon">{{ statsExpanded ? '▼' : '▶' }}</text>
+        </view>
       </view>
-      <view class="stats-grid">
-        <view class="stat-card">
+      <view class="stats-grid" :class="{ expanded: statsExpanded }">
+        <view class="stat-card" :class="{ highlight: best30Records.length > 0 }">
+          <view class="stat-icon">🏆</view>
           <text class="stat-number">{{ best30Records.length }}</text>
           <text class="stat-label">B30记录</text>
         </view>
-        <view class="stat-card">
+        <view class="stat-card" :class="{ highlight: recentRecords.length > 0 }">
+          <view class="stat-icon">📊</view>
           <text class="stat-number">{{ recentRecords.length }}</text>
           <text class="stat-label">最近记录</text>
         </view>
-        <view class="stat-card">
+        <view class="stat-card" :class="{ highlight: songsCount > 0 }">
+          <view class="stat-icon">🎵</view>
           <text class="stat-number">{{ songsCount }}</text>
           <text class="stat-label">歌曲总数</text>
         </view>
         <view class="stat-card">
+          <view class="stat-icon">⏰</view>
           <text class="stat-number">{{ lastUpdated }}</text>
           <text class="stat-label">最后更新</text>
         </view>
@@ -74,20 +102,28 @@
     </view>
 
     <!-- 选项卡 -->
-    <view class="tabs">
-      <view 
-        class="tab-item" 
-        :class="{ active: activeTab === 'best30' }"
-        @click="switchTab('best30')"
-      >
-        <text class="tab-text">B30记录</text>
-      </view>
-      <view 
-        class="tab-item" 
-        :class="{ active: activeTab === 'recent' }"
-        @click="switchTab('recent')"
-      >
-        <text class="tab-text">最近记录</text>
+    <view class="tabs-container">
+      <view class="tabs">
+        <view 
+          class="tab-item" 
+          :class="{ active: activeTab === 'best30' }"
+          @click="switchTab('best30')"
+        >
+          <text class="tab-icon">🏆</text>
+          <text class="tab-text">B30记录</text>
+          <view class="tab-count">{{ best30Records.length }}</view>
+          <view class="tab-indicator"></view>
+        </view>
+        <view 
+          class="tab-item" 
+          :class="{ active: activeTab === 'recent' }"
+          @click="switchTab('recent')"
+        >
+          <text class="tab-icon">📊</text>
+          <text class="tab-text">最近记录</text>
+          <view class="tab-count">{{ recentRecords.length }}</view>
+          <view class="tab-indicator"></view>
+        </view>
       </view>
     </view>
 
@@ -104,32 +140,78 @@
           class="record-item" 
           v-for="(record, index) in currentRecords" 
           :key="index"
+          :class="{ 'top-record': index < 3 }"
         >
-          <view class="record-rank">{{ index + 1 }}</view>
+          <view class="record-rank" :class="getRankClass(index)">
+            {{ index + 1 }}
+          </view>
+          
           <view class="song-info">
             <text class="song-name">{{ record.songName }}</text>
-            <text class="song-difficulty" :class="getDifficultyClass(record.difficulty)">
-              {{ getDifficultyText(record.difficulty) }} ({{ record.constant }})
-            </text>
+            <view class="song-meta">
+              <text class="song-difficulty" :class="getDifficultyClass(record.difficulty)">
+                {{ getDifficultyText(record.difficulty) }}
+              </text>
+              <text class="song-constant">{{ record.constant }}</text>
+            </view>
           </view>
+          
           <view class="record-details">
             <text class="record-score">{{ record.score.toLocaleString() }}</text>
-            <text class="record-ptt">PTT: {{ record.ptt.toFixed(2) }}</text>
-            <text class="record-rating" :class="getRatingClass(record.rating)">
-              {{ record.rating }}
-            </text>
+            <view class="record-stats">
+              <text class="record-ptt">PTT {{ record.ptt.toFixed(2) }}</text>
+              <view class="record-rating-container">
+                <text class="record-rating" :class="getRatingClass(record.rating)">
+                  {{ record.rating }}
+                </text>
+              </view>
+            </view>
           </view>
+          
           <view class="record-actions">
-            <button class="action-icon edit-btn" @click="editRecord(index)">✏️</button>
-            <button class="action-icon delete-btn" @click="deleteRecord(index)">🗑️</button>
+            <button class="action-btn-small edit-btn" @click="editRecord(index)">
+              <text class="action-icon">✏️</text>
+            </button>
+            <button class="action-btn-small delete-btn" @click="deleteRecord(index)">
+              <text class="action-icon">🗑️</text>
+            </button>
           </view>
         </view>
       </view>
       
       <view class="empty-state" v-else>
-        <text class="empty-icon">📋</text>
-        <text class="empty-text">暂无记录</text>
-        <button class="empty-btn" @click="goToBest30">去添加成绩</button>
+        <view class="empty-illustration">
+          <view class="empty-circle">
+            <text class="empty-icon">{{ activeTab === 'best30' ? '🏆' : '📊' }}</text>
+          </view>
+        </view>
+        <view class="empty-content">
+          <text class="empty-title">
+            {{ activeTab === 'best30' ? '还没有B30记录' : '还没有最近成绩' }}
+          </text>
+          <text class="empty-subtitle">
+            {{ activeTab === 'best30' 
+              ? '开始记录您的最佳成绩，构建您的B30列表' 
+              : '记录您最近的游戏成绩，追踪PTT变化' }}
+          </text>
+          <view class="empty-stats">
+            <view class="empty-stat-item">
+              <text class="stat-number">0</text>
+              <text class="stat-label">
+                {{ activeTab === 'best30' ? '最佳记录' : '最近记录' }}
+              </text>
+            </view>
+            <view class="empty-stat-divider"></view>
+            <view class="empty-stat-item">
+              <text class="stat-number">0.00</text>
+              <text class="stat-label">平均PTT</text>
+            </view>
+          </view>
+          <button class="empty-btn" @click="goToBest30">
+            <text class="empty-btn-text">去添加成绩</text>
+            <text class="empty-btn-icon">→</text>
+          </button>
+        </view>
       </view>
     </view>
   </view>
@@ -152,6 +234,9 @@ const songsCount = ref(0)
 
 // 当前选中的选项卡
 const activeTab = ref<'best30' | 'recent'>('best30')
+
+// 统计区域展开状态
+const statsExpanded = ref(true)
 
 // 当前显示的记录列表
 const currentRecords = computed(() => {
@@ -195,6 +280,11 @@ const loadDataFromStorage = () => {
   } catch (e) {
     console.error('加载数据失败', e)
   }
+}
+
+// 切换统计区域展开状态
+const toggleStatsView = () => {
+  statsExpanded.value = !statsExpanded.value
 }
 
 // 格式化日期
@@ -582,6 +672,38 @@ const getDifficultyClass = (difficulty: string): string => {
   return difficultyMap[difficulty] || ''
 }
 
+// 获取PTT等级
+const getPTTLevel = (ptt: number): string => {
+  if (ptt >= 12.5) return '定数上限'
+  if (ptt >= 12.0) return '顶级玩家'
+  if (ptt >= 11.0) return '高手玩家'
+  if (ptt >= 10.0) return '进阶玩家'
+  if (ptt >= 9.0) return '普通玩家'
+  if (ptt >= 8.0) return '入门玩家'
+  return '新手玩家'
+}
+
+// 获取PTT进度百分比
+const getPTTProgress = (ptt: number): number => {
+  // 假设最高PTT为13.0作为进度条满值
+  const maxPTT = 13.0
+  return Math.min((ptt / maxPTT) * 100, 100)
+}
+
+// 获取PTT进度文本
+const getPTTProgressText = (ptt: number): string => {
+  const maxPTT = 13.0
+  return `${ptt.toFixed(2)} / ${maxPTT.toFixed(1)}`
+}
+
+// 获取排名样式类
+const getRankClass = (index: number): string => {
+  if (index === 0) return 'rank-first'
+  if (index === 1) return 'rank-second'
+  if (index === 2) return 'rank-third'
+  return ''
+}
+
 // 获取评级样式类
 const getRatingClass = (rating: string): string => {
   const ratingMap: Record<string, string> = {
@@ -631,9 +753,60 @@ const getRatingClass = (rating: string): string => {
   color: #667eea;
 }
 
+.stats-toggle {
+  padding: 8rpx 12rpx;
+  border-radius: 12rpx;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.stats-toggle:active {
+  background: #e9ecef;
+}
+
+.toggle-icon {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1;
+}
+
 .overview-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8rpx 30rpx rgba(102, 126, 234, 0.4);
+  margin-bottom: 30rpx;
+}
+
+/* Web端特殊样式 */
+/* #ifdef H5 */
+@media (min-width: 768px) {
+  .overview-card {
+    max-width: 800px;
+    margin: 0 auto 30rpx;
+    border-radius: 24rpx;
+  }
+}
+/* #endif */
+
+/* 添加动态背景效果 */
+.overview-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 20rpx 20rpx;
+  animation: backgroundMove 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes backgroundMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(20rpx, 20rpx); }
 }
 
 .overview-card .card-title {
@@ -648,153 +821,546 @@ const getRatingClass = (rating: string): string => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 20rpx;
+}
+
+.ptt-value-container {
+  text-align: center;
+  flex: 1;
+  position: relative;
 }
 
 .ptt-value {
-  text-align: center;
-  flex: 1;
+  position: relative;
 }
 
 .value {
-  font-size: 60rpx;
+  font-size: 80rpx;
   font-weight: bold;
   display: block;
-  line-height: 1.2;
+  line-height: 1.1;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.2);
+  /* 添加响应式字体大小 */
+  /* #ifdef H5 */
+  font-size: 3.5rem;
+  /* #endif */
 }
 
 .label {
-  font-size: 24rpx;
-  opacity: 0.8;
+  font-size: 26rpx;
+  opacity: 0.9;
+  margin-top: 5rpx;
+  display: block;
+}
+
+.ptt-indicator {
+  margin-top: 10rpx;
+}
+
+.indicator-text {
+  font-size: 22rpx;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  display: inline-block;
+  backdrop-filter: blur(10rpx);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .ptt-stats {
   display: flex;
   flex-direction: column;
-  gap: 15rpx;
+  gap: 18rpx;
   flex: 2;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 24rpx;
+  border-radius: 20rpx;
+  backdrop-filter: blur(10rpx);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .stat-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8rpx 0;
 }
 
 .stat-value {
-  font-size: 32rpx;
+  font-size: 36rpx;
   font-weight: bold;
 }
 
 .stat-label {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* 进度条样式 */
+.ptt-progress {
+  margin-top: 24rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-bar {
+  height: 12rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 10rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.9) 100%);
+  border-radius: 6rpx;
+  transition: width 1s ease-in-out;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-text {
   font-size: 24rpx;
   opacity: 0.8;
+  text-align: right;
+  display: block;
+}
+
+/* 刷新按钮样式 */
+.overview-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.refresh-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 40rpx;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200rpx;
+  height: 60rpx;
+  backdrop-filter: blur(10rpx);
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.98);
+}
+
+.refresh-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+  animation: rotate 2s linear infinite paused;
+}
+
+.refresh-btn:active .refresh-icon {
+  animation-play-state: running;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.refresh-text {
+  font-size: 26rpx;
+  font-weight: 600;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-  gap: 10rpx;
-  margin-bottom: 20rpx;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
 }
+
+/* Web端响应式布局 */
+/* #ifdef H5 */
+@media (min-width: 768px) {
+  .actions {
+    max-width: 800px;
+    margin: 0 auto 24rpx;
+  }
+}
+/* #endif */
 
 .action-btn {
   flex: 1;
-  background: white;
   border-radius: 20rpx;
-  padding: 20rpx 10rpx;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.08);
   border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 140rpx;
+}
+
+/* 按钮波纹效果 */
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.action-btn:active::before {
+  width: 300rpx;
+  height: 300rpx;
+}
+
+.btn-content {
+  padding: 24rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* 次要按钮样式 */
+.action-btn.secondary {
+  background: white;
+  color: #333;
+  border: 2rpx solid #f0f2f5;
+}
+
+.action-btn.secondary:hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+/* 危险按钮样式 */
+.action-btn.danger {
+  background: white;
+  color: #f56565;
+  border: 2rpx solid #feb2b2;
+}
+
+.action-btn.danger:hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 10rpx 30rpx rgba(245, 101, 101, 0.2);
+  background: #fff5f5;
 }
 
 .btn-icon {
-  font-size: 40rpx;
-  margin-bottom: 10rpx;
+  font-size: 44rpx;
+  margin-bottom: 12rpx;
+  display: block;
+  line-height: 1;
 }
 
 .btn-text {
-  font-size: 24rpx;
-  color: #333;
+  font-size: 26rpx;
+  font-weight: 500;
+  display: block;
+  line-height: 1.2;
 }
+
+/* 按钮图标和文本颜色适配 */
+.action-btn.secondary .btn-text {
+  color: #4a5568;
+}
+
+.action-btn.danger .btn-text {
+  color: #e53e3e;
+}
+
+/* Web端特殊交互效果 */
+/* #ifdef H5 */
+.action-btn:hover {
+  transform: translateY(-4rpx);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+/* #endif */
+
+/* 移动端触摸反馈 */
+/* #ifndef H5 */
+.action-btn:active {
+  transform: scale(0.98);
+}
+/* #endif */
 
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20rpx;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.stats-grid.expanded {
+  max-height: 500rpx;
 }
 
 .stat-card {
   background: #f8f9fa;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 24rpx;
   text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.stat-card.highlight {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 2rpx solid rgba(102, 126, 234, 0.2);
+}
+
+.stat-card:hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  font-size: 40rpx;
+  margin-bottom: 12rpx;
+  display: block;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.1));
 }
 
 .stat-number {
-  font-size: 36rpx;
+  font-size: 40rpx;
   font-weight: bold;
   color: #333;
   display: block;
   margin-bottom: 8rpx;
+  line-height: 1.2;
 }
+
+.stat-card.highlight .stat-number {
+  color: #667eea;
+}
+
+.tabs-container {
+  background: white;
+  border-radius: 24rpx;
+  padding: 12rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+/* Web端响应式布局 */
+/* #ifdef H5 */
+@media (min-width: 768px) {
+  .tabs-container {
+    max-width: 800px;
+    margin: 0 auto 24rpx;
+  }
+}
+/* #endif */
 
 .tabs {
   display: flex;
-  background: white;
-  border-radius: 20rpx;
-  padding: 10rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .tab-item {
   flex: 1;
   padding: 20rpx;
   text-align: center;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .tab-item.active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.3);
+}
+
+.tab-item:not(.active):hover {
+  background: #f8f9fa;
+}
+
+.tab-icon {
+  font-size: 32rpx;
+  display: block;
+  margin-bottom: 8rpx;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.1));
 }
 
 .tab-text {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #666;
+  font-size: 26rpx;
+  font-weight: 600;
   transition: color 0.3s ease;
+  line-height: 1.2;
 }
 
 .tab-item.active .tab-text {
   color: white;
 }
 
+.tab-count {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  color: #333;
+  font-size: 20rpx;
+  font-weight: bold;
+  padding: 4rpx 8rpx;
+  border-radius: 10rpx;
+  min-width: 24rpx;
+  text-align: center;
+}
+
+.tab-item.active .tab-count {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4rpx;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2rpx;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tab-item.active .tab-indicator {
+  transform: scaleX(1);
+}
+
 .records-list {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
+  gap: 20rpx;
 }
+
+/* Web端响应式布局 */
+/* #ifdef H5 */
+@media (min-width: 768px) {
+  .records-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+/* #endif */
 
 .record-item {
   display: flex;
   align-items: center;
-  background: #f8f9fa;
-  border-radius: 16rpx;
-  padding: 20rpx;
+  background: white;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  position: relative;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  border: 2rpx solid transparent;
+}
+
+.record-item:hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 前三名特殊样式 */
+.record-item.top-record {
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+.record-item.top-record:nth-child(1) {
+  border-color: rgba(255, 215, 0, 0.4);
+  background: linear-gradient(to right, rgba(255, 215, 0, 0.05), white);
+}
+
+.record-item.top-record:nth-child(2) {
+  border-color: rgba(192, 192, 192, 0.4);
+  background: linear-gradient(to right, rgba(192, 192, 192, 0.05), white);
+}
+
+.record-item.top-record:nth-child(3) {
+  border-color: rgba(205, 127, 50, 0.4);
+  background: linear-gradient(to right, rgba(205, 127, 50, 0.05), white);
 }
 
 .record-rank {
-  width: 50rpx;
-  height: 50rpx;
+  width: 60rpx;
+  height: 60rpx;
   background: #667eea;
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 10rpx rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* 前三名特殊排名样式 */
+.record-rank.rank-first {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  box-shadow: 0 4rpx 15rpx rgba(255, 215, 0, 0.4);
+}
+
+.record-rank.rank-second {
+  background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+  color: #333;
+  box-shadow: 0 4rpx 15rpx rgba(192, 192, 192, 0.4);
+}
+
+.record-rank.rank-third {
+  background: linear-gradient(135deg, #cd7f32, #e8a75d);
+  color: white;
+  box-shadow: 0 4rpx 15rpx rgba(205, 127, 50, 0.4);
+}
   font-size: 26rpx;
   font-weight: bold;
   margin-right: 20rpx;
@@ -806,129 +1372,199 @@ const getRatingClass = (rating: string): string => {
 }
 
 .song-name {
-  font-size: 28rpx;
+  font-size: 30rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 4rpx;
+  margin-bottom: 8rpx;
   display: block;
+  line-height: 1.3;
+}
+
+.song-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
 }
 
 .song-difficulty {
   font-size: 24rpx;
-  margin-bottom: 4rpx;
+  font-weight: 600;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  line-height: 1.2;
+}
+
+.song-constant {
+  font-size: 24rpx;
+  color: #666;
+  background: #f5f5f5;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
 }
 
 .difficulty-pst {
-  color: #4caf50;
+  background: rgba(76, 175, 80, 0.15);
+  color: #2e7d32;
 }
 
 .difficulty-prs {
-  color: #2196f3;
+  background: rgba(33, 150, 243, 0.15);
+  color: #1565c0;
 }
 
 .difficulty-ftr {
-  color: #ff9800;
+  background: rgba(255, 152, 0, 0.15);
+  color: #e65100;
 }
 
 .difficulty-byd {
-  color: #f44336;
+  background: rgba(244, 67, 54, 0.15);
+  color: #c62828;
 }
 
 .difficulty-etr {
-  color: #9c27b0;
+  background: rgba(156, 39, 176, 0.15);
+  color: #7b1fa2;
 }
 
 .record-details {
-  flex: 2;
+  flex: 1;
+  text-align: right;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  margin-right: 20rpx;
+  gap: 8rpx;
 }
 
 .record-score {
-  font-size: 28rpx;
+  font-size: 34rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 4rpx;
+  line-height: 1.2;
+}
+
+.record-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
 }
 
 .record-ptt {
   font-size: 24rpx;
   color: #667eea;
-  margin-bottom: 4rpx;
+  font-weight: 600;
+}
+
+.record-rating-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .record-rating {
   font-size: 24rpx;
-  padding: 2rpx 8rpx;
-  border-radius: 4rpx;
+  font-weight: bold;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  line-height: 1.2;
 }
 
+/* Arcaea风格的评级配色 */
 .rating-pm {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  background: linear-gradient(135deg, #ff3366 0%, #ff6b9d 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(255, 51, 102, 0.3);
 }
 
 .rating-ex-plus {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #ff9a00 0%, #ffc947 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(255, 154, 0, 0.3);
 }
 
 .rating-ex {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(0, 212, 255, 0.3);
 }
 
 .rating-aa {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  color: #333;
+  background: linear-gradient(135deg, #66ff66 0%, #00cc66 100%);
+  color: white;
+  box-shadow: 0 2rpx 8rpx rgba(102, 255, 102, 0.3);
 }
 
 .rating-a {
-  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  background: linear-gradient(135deg, #66ccff 0%, #3399ff 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(102, 204, 255, 0.3);
 }
 
 .rating-b {
-  background: #ffc107;
-  color: #333;
+  background: linear-gradient(135deg, #cc99ff 0%, #9966cc 100%);
+  color: white;
+  box-shadow: 0 2rpx 8rpx rgba(204, 153, 255, 0.3);
 }
 
 .rating-c {
-  background: #ff9800;
+  background: linear-gradient(135deg, #ffcc99 0%, #ff9966 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(255, 204, 153, 0.3);
 }
 
 .rating-d {
-  background: #f44336;
+  background: linear-gradient(135deg, #999999 0%, #666666 100%);
   color: white;
+  box-shadow: 0 2rpx 8rpx rgba(153, 153, 153, 0.3);
 }
 
 .record-actions {
   display: flex;
   flex-direction: column;
-  gap: 10rpx;
+  gap: 12rpx;
+  margin-left: 16rpx;
 }
 
-.action-icon {
-  width: 50rpx;
-  height: 50rpx;
+.action-btn-small {
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24rpx;
   border: none;
-  background: white;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn-small:hover {
+  transform: scale(1.1);
+}
+
+.action-btn-small:active {
+  transform: scale(0.95);
+}
+
+.action-icon {
+  font-size: 28rpx;
+  line-height: 1;
 }
 
 .edit-btn {
+  background: rgba(33, 150, 243, 0.1);
   color: #2196f3;
 }
 
+.edit-btn:hover {
+  background: rgba(33, 150, 243, 0.2);
+}
+
 .delete-btn {
+  background: rgba(244, 67, 54, 0.1);
   color: #f44336;
+}
+
+.delete-btn:hover {
+  background: rgba(244, 67, 54, 0.2);
 }
 
 .empty-state {
@@ -958,4 +1594,181 @@ const getRatingClass = (rating: string): string => {
   font-size: 28rpx;
   border: none;
 }
+
+/* 改进的空状态样式 */
+.empty-illustration {
+  margin-bottom: 40rpx;
+  position: relative;
+}
+
+.empty-circle {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+.empty-circle::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.1); opacity: 0.05; }
+}
+
+.empty-icon {
+  font-size: 70rpx;
+  line-height: 1;
+  z-index: 1;
+}
+
+.empty-content {
+  max-width: 500rpx;
+}
+
+.empty-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  display: block;
+  line-height: 1.3;
+}
+
+.empty-subtitle {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+  display: block;
+  line-height: 1.4;
+}
+
+.empty-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  padding: 24rpx 40rpx;
+}
+
+.empty-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-stat-divider {
+  width: 2rpx;
+  height: 60rpx;
+  background: #e0e0e0;
+  margin: 0 40rpx;
+}
+
+/* 全局过渡动画效果 */
+.container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 卡片入场动画 */
+.card {
+  animation: slideUp 0.6s ease-out backwards;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 列表项入场动画 */
+.record-item {
+  animation: slideInLeft 0.5s ease-out backwards;
+}
+
+.record-item:nth-child(1) { animation-delay: 0.05s; }
+.record-item:nth-child(2) { animation-delay: 0.1s; }
+.record-item:nth-child(3) { animation-delay: 0.15s; }
+.record-item:nth-child(4) { animation-delay: 0.2s; }
+.record-item:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20rpx); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* 悬停效果增强 */
+.record-item:hover .record-score {
+  transform: scale(1.05);
+  color: #667eea;
+}
+
+.record-item:hover .record-rank {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* 排名徽章悬停效果 */
+.record-rank {
+  transition: all 0.3s ease;
+}
+
+/* Web端特殊动画效果 */
+/* #ifdef H5 */
+.record-item {
+  position: relative;
+}
+
+.record-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+  transition: width 0.6s ease;
+}
+
+.record-item:hover::before {
+  width: 100%;
+}
+
+/* 移动端触摸反馈增强 */
+/* #ifndef H5 */
+.record-item:active {
+  transform: scale(0.98);
+  background: #f8f9fa;
+}
+
+.action-btn-small:active {
+  transform: scale(0.96);
+}
+/* #endif */
 </style>

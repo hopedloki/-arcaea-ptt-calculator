@@ -71,38 +71,6 @@
 		"navigationBarBackgroundColor": "#4f46e5",
 		"backgroundColor": "#f5f5f5"
 	},
-	"tabBar": {
-		"color": "#8a8a8a",
-		"selectedColor": "#4f46e5",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"iconPath": "static/tabbar/home.png",
-				"selectedIconPath": "static/tabbar/home-active.png",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/calculator/score-ptt",
-				"iconPath": "static/tabbar/calculator.png",
-				"selectedIconPath": "static/tabbar/calculator-active.png",
-				"text": "计算"
-			},
-			{
-				"pagePath": "pages/best30/best30",
-				"iconPath": "static/tabbar/best30.png",
-				"selectedIconPath": "static/tabbar/best30-active.png",
-				"text": "B30"
-			},
-			{
-				"pagePath": "pages/data/data",
-				"iconPath": "static/tabbar/data.png",
-				"selectedIconPath": "static/tabbar/data-active.png",
-				"text": "数据"
-			}
-		]
-	},
 	"easycom": {
 		"autoscan": true,
 		"custom": {

@@ -5,10 +5,10 @@ import adapter from '@cloudbase/adapter-uni-app'
 cloudbase.useAdapters(adapter,{uni: uni});
 
 // 云开发环境ID，使用时请替换为您的环境ID
-const ENV_ID: string = import.meta.env.VITE_ENV_ID || 'your-env-id';
+const ENV_ID: string = import.meta.env.VITE_ENV_ID || '';
 
 // 检查环境ID是否已配置
-export const isValidEnvId = ENV_ID && ENV_ID !== 'your-env-id';
+export const isValidEnvId = ENV_ID && ENV_ID.trim() !== '';
 
 /**
  * 初始化云开发实例
@@ -18,14 +18,15 @@ export const isValidEnvId = ENV_ID && ENV_ID !== 'your-env-id';
  * @returns {Object} 云开发实例
  */
 export const init = (config: any = {}) => {
+  // 如果环境ID无效，不初始化云开发
+  if (!isValidEnvId) {
+    console.warn('云开发环境ID未配置，跳过初始化');
+    return null;
+  }
+  
   const appConfig = {
     env: config.env || ENV_ID,
-    timeout: config.timeout || 15000,
-    appSign: 'your-app-sign',//凭证描述
-    appSecret: {
-        appAccessKeyId: 1,//凭证版本
-        appAccessKey: 'your-app-secret'//凭证
-    }
+    timeout: config.timeout || 15000
   };
 
   return cloudbase.init(appConfig);
@@ -34,24 +35,18 @@ export const init = (config: any = {}) => {
 /**
  * 默认的云开发实例
  */
-export const app = init();
-
+export const app = isValidEnvId ? init() : null;
 
 /**
  * 云开发认证实例
  */
-export const auth = app.auth();
+export const auth = app ? app.auth() : null;
 
 /**
  * 检查环境配置是否有效
  */
 export const checkEnvironment = () => {
-  if (!isValidEnvId) {
-    const message = '❌ 云开发环境ID未配置\n\n请按以下步骤配置：\n1. 打开 src/utils/cloudbase.ts 文件\n2. 将 ENV_ID 变量的值替换为您的云开发环境ID\n3. 保存文件并重新运行\n\n获取环境ID：https://console.cloud.tencent.com/tcb';
-    console.error(message);
-    return false;
-  }
-  return true;
+  return isValidEnvId;
 };
 
 
@@ -308,7 +303,10 @@ export const ensureLogin = async () => {
     throw new Error('环境ID未配置');
   }
 
-  // const auth = app.auth();
+  // 如果auth为null，说明云开发未初始化
+  if (!auth) {
+    throw new Error('云开发未初始化');
+  }
 
   try {
     // 检查当前登录状态
@@ -324,11 +322,10 @@ export const ensureLogin = async () => {
        await login();
        loginState = await auth.getLoginState();
       return loginState;
-      return false;
     }
   } catch (error) {
     console.error('登录失败:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -338,6 +335,12 @@ export const ensureLogin = async () => {
  */
 export async function initCloudBase() {
   try {
+    // 如果环境未配置，直接返回成功，不初始化云开发
+    if (!checkEnvironment()) {
+      console.log('云开发环境未配置，跳过初始化');
+      return true;
+    }
+    
     await ensureLogin();
     console.log('云开发初始化成功');
     return true;
@@ -352,7 +355,11 @@ export async function initCloudBase() {
  * @returns {Promise}
  */
 export const logout = async () => {
-  // const auth = app.auth();
+  // 如果auth为null，说明云开发未初始化
+  if (!auth) {
+    console.log('云开发未初始化，无需退出登录');
+    return;
+  }
 
   try {
     await auth.signOut();

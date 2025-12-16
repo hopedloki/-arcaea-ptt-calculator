@@ -1,14 +1,18 @@
 {
-    "version": "0.0.1",
-    "configurations": [
+    "version" : "0.0.1",
+    "configurations" : [
         {
-            "app-plus": {
-                "launchtype": "local"
+            "app-plus" : {
+                "launchtype" : "local"
             },
-            "default": {
-                "launchtype": "local"
+            "default" : {
+                "launchtype" : "local"
             },
-            "type": "uniApp"
+            "type" : "uniApp"
+        },
+        {
+            "playground" : "standard",
+            "type" : "uni-app:app-android"
         }
     ]
 }

@@ -1,0 +1,3542 @@
+// Arcaea 歌曲常量数据
+export const songConstants = {
+  "Testify": {
+    "pst": 7.8,
+    "prs": 9.4,
+    "ftr": 10.9,
+    "byd": 12,
+    "etr": null
+  },
+  "Designant.": {
+    "pst": 7.5,
+    "prs": 9.6,
+    "ftr": 10.9,
+    "byd": 11.9,
+    "etr": null
+  },
+  "Tempestissimo": {
+    "pst": 7,
+    "prs": 9.5,
+    "ftr": 10.7,
+    "byd": 11.7,
+    "etr": null
+  },
+  "Arcana Eden": {
+    "pst": 5.5,
+    "prs": 8.7,
+    "ftr": 10.5,
+    "byd": 11.6,
+    "etr": null
+  },
+  "Pentiment": {
+    "pst": 7,
+    "prs": 8.7,
+    "ftr": 10.4,
+    "byd": 11.5,
+    "etr": null
+  },
+  "Aether Crest: Astral": {
+    "pst": 6,
+    "prs": 8.9,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": 11.5
+  },
+  "Lament Rain": {
+    "pst": 6.5,
+    "prs": 8.8,
+    "ftr": 10.6,
+    "byd": 11.4,
+    "etr": null
+  },
+  "Abstruse Dilemma": {
+    "pst": 5.5,
+    "prs": 8.9,
+    "ftr": 11.3,
+    "byd": null,
+    "etr": null
+  },
+  "Arghena": {
+    "pst": 7.5,
+    "prs": 9.6,
+    "ftr": 11.3,
+    "byd": null,
+    "etr": null
+  },
+  "ALTER EGO": {
+    "pst": 6.5,
+    "prs": 9.2,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": 11.3
+  },
+  "Extradimensional Cosmic Phenomenon": {
+    "pst": 6.5,
+    "prs": 8.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": 11.3
+  },
+  "Aegleseeker": {
+    "pst": 5.5,
+    "prs": 9.1,
+    "ftr": 11.2,
+    "byd": null,
+    "etr": null
+  },
+  "Grievous Lady": {
+    "pst": 6.5,
+    "prs": 9.3,
+    "ftr": 11.1,
+    "byd": null,
+    "etr": null
+  },
+  "Fracture Ray": {
+    "pst": 6,
+    "prs": 9.5,
+    "ftr": 11.1,
+    "byd": null,
+    "etr": null
+  },
+  "#1f1e33": {
+    "pst": 5.5,
+    "prs": 9.2,
+    "ftr": 11.1,
+    "byd": null,
+    "etr": null
+  },
+  "World Ender": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10,
+    "byd": 11.1,
+    "etr": null
+  },
+  "SAIKYO STRONGER": {
+    "pst": 5.5,
+    "prs": 9.4,
+    "ftr": 11,
+    "byd": null,
+    "etr": null
+  },
+  "LAMIA": {
+    "pst": 5,
+    "prs": 8.5,
+    "ftr": 11,
+    "byd": null,
+    "etr": null
+  },
+  "Undying Macula": {
+    "pst": 5.5,
+    "prs": 8.7,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": 11
+  },
+  "Misdeed -la bonté de Dieu et l'origine du mal-": {
+    "pst": 5.5,
+    "prs": 8.5,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "Infinite Strife,": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": 10.9,
+    "etr": null
+  },
+  "TEmPTaTiON": {
+    "pst": 5,
+    "prs": 8.2,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "CHAOS": {
+    "pst": 5.5,
+    "prs": 7.5,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "Vulcānus": {
+    "pst": 5.5,
+    "prs": 8.5,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "And Revive The Melody": {
+    "pst": 5.5,
+    "prs": 8.5,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "Breach of Faith": {
+    "pst": 5.5,
+    "prs": 8.4,
+    "ftr": 10.3,
+    "byd": 10.9,
+    "etr": null
+  },
+  "DA'AT -The First Seeker of Souls-": {
+    "pst": 5.5,
+    "prs": 8.4,
+    "ftr": 10.9,
+    "byd": null,
+    "etr": null
+  },
+  "ViRTUS": {
+    "pst": 5.5,
+    "prs": 8.6,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.9
+  },
+  "MEGALOVANIA (Camellia Remix)": {
+    "pst": 5.5,
+    "prs": 8.4,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": 10.9
+  },
+  "We're All Gonna Die": {
+    "pst": 5.5,
+    "prs": 8,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": 10.9
+  },
+  "Welcome, Queen of Fiction.": {
+    "pst": 5,
+    "prs": 8.5,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": 10.9
+  },
+  "Code: Oblivion": {
+    "pst": 5.5,
+    "prs": 8.3,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.9
+  },
+  "Ringed Genesis": {
+    "pst": 5.5,
+    "prs": 8.4,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Dantalion": {
+    "pst": 5,
+    "prs": 8.2,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "BUCHiGiRE Berserker": {
+    "pst": 5,
+    "prs": 8.6,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "ω4": {
+    "pst": 3.5,
+    "prs": 7.8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Divine Light of Myriad": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "GENOCIDER": {
+    "pst": 4.5,
+    "prs": 8.9,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Stasis": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "PRIMITIVE LIGHTS": {
+    "pst": 5.5,
+    "prs": 8.8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Spider's Thread": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "͟͝͞Ⅱ́̕": {
+    "pst": 5,
+    "prs": 8.9,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "TeraVolt": {
+    "pst": 5,
+    "prs": 8.9,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Meta-Mysteria": {
+    "pst": 5,
+    "prs": 7.8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Distorted Fate": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": 10.8
+  },
+  "Désive": {
+    "pst": 5,
+    "prs": 8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.8
+  },
+  "Black MInD": {
+    "pst": 5,
+    "prs": 8,
+    "ftr": 10.8,
+    "byd": null,
+    "etr": null
+  },
+  "Nightmare": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": 10.8
+  },
+  "Lilly": {
+    "pst": 5,
+    "prs": 8.4,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.8
+  },
+  "ANDORXOR": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.8
+  },
+  "MARENYX": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.8
+  },
+  "ouroboros -twin stroke of the end-": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "Cyaegha": {
+    "pst": 5.5,
+    "prs": 8.4,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "World Vanquisher": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "AMAZING MIGHTYYYY!!!!": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "REKKA RESONANCE": {
+    "pst": 5,
+    "prs": 8.9,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "NULL APOPHENIA": {
+    "pst": 4.5,
+    "prs": 8.8,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "KYOREN ROMANCE": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "Inverted World": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.7
+  },
+  "Don't Fight The Music": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": 10.7
+  },
+  "AlterGate": {
+    "pst": 5.5,
+    "prs": 8.7,
+    "ftr": 10.7,
+    "byd": null,
+    "etr": null
+  },
+  "Xterfusion": {
+    "pst": 4.5,
+    "prs": 8.3,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": 10.7
+  },
+  "Axium Crisis": {
+    "pst": 5.5,
+    "prs": 8.5,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "cyanine": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "corps-sans-organes": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "AttraqtiA": {
+    "pst": 4,
+    "prs": 8.3,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Overwhelm": {
+    "pst": 5,
+    "prs": 8.5,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Seclusion": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Live Fast Die Young": {
+    "pst": 4.5,
+    "prs": 8.5,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Good bye, Merry-Go-Round.": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Crimson Throne": {
+    "pst": 4,
+    "prs": 8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Manic Jeer": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "[X]": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "UNKNOWN LEVELS": {
+    "pst": 4,
+    "prs": 8.1,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Back to Basics": {
+    "pst": 5,
+    "prs": 8.7,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "MVURBD": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Dies irae": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.6
+  },
+  "Astral Quantization": {
+    "pst": 5,
+    "prs": 8.1,
+    "ftr": 10.6,
+    "byd": null,
+    "etr": null
+  },
+  "Singularity": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.5,
+    "byd": 10.4,
+    "etr": null
+  },
+  "Halcyon": {
+    "pst": 5.5,
+    "prs": 8.2,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "GLORY：ROAD": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "GIMME DA BLOOD": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Sheriruth (Laur Remix)": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Lightning Screw": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Aurgelmir": {
+    "pst": 4.5,
+    "prs": 8.5,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Chronicle": {
+    "pst": 5,
+    "prs": 8.9,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Lucid Traveler": {
+    "pst": 4.5,
+    "prs": 8.9,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Rise of World": {
+    "pst": 4.5,
+    "prs": 8.1,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Ego Eimi": {
+    "pst": 5.5,
+    "prs": 8.6,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "XTREME": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "eden": {
+    "pst": 4.5,
+    "prs": 8.2,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Wish Upon a Snow": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Aleph-0": {
+    "pst": 5.5,
+    "prs": 8.8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Twilight Concerto": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.5
+  },
+  "10pt8ion": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": 10.5
+  },
+  "Judgement": {
+    "pst": 5.5,
+    "prs": 8.6,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Rain of Conflict in a Radiant Abyss": {
+    "pst": 5,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.5
+  },
+  "Spirit of Dauntless": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "Straight into lights": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.5
+  },
+  "MEGALOVANIA": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": 10.5
+  },
+  "Dull Blade": {
+    "pst": 4.5,
+    "prs": 8,
+    "ftr": 10.5,
+    "byd": null,
+    "etr": null
+  },
+  "BlythE": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": 10.5
+  },
+  "CHAOSBLAST": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": 10.5
+  },
+  "Xxium and Purple haze": {
+    "pst": 2.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": 10.5
+  },
+  "γuarδina": {
+    "pst": 4,
+    "prs": 8,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Garakuta Doll Play": {
+    "pst": 4.5,
+    "prs": 6.5,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Felis": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Climax": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Last Celebration": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Kissing Lucifer": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "PUPA": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "IMPACT": {
+    "pst": 3.5,
+    "prs": 7.8,
+    "ftr": 9.6,
+    "byd": 10.4,
+    "etr": null
+  },
+  "To: Milky Way": {
+    "pst": 5,
+    "prs": 8.9,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Qovat": {
+    "pst": 4.5,
+    "prs": 8.2,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Lethal Voltage": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "MIRINAE": {
+    "pst": 4.5,
+    "prs": 8.3,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Rays of Remnant": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": 10.4,
+    "etr": null
+  },
+  "Placebo♥Battler": {
+    "pst": 5.5,
+    "prs": 8.3,
+    "ftr": 10.4,
+    "byd": null,
+    "etr": null
+  },
+  "Dual Dependency": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": 10.4,
+    "etr": null
+  },
+  "Eternity Break": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.6,
+    "byd": 10.4,
+    "etr": null
+  },
+  "No Way Back": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 8.9,
+    "byd": 10.4,
+    "etr": null
+  },
+  "INCARNATOR₀₀": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.9,
+    "byd": 10.4,
+    "etr": null
+  },
+  "Metallic Punisher": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Ether Strike": {
+    "pst": 5.5,
+    "prs": 8.3,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Tiferet": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Ikazuchi": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "IZANA": {
+    "pst": 5,
+    "prs": 8.3,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "To: Alice Liddell": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Viyella's Tears": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Hiiro Gekka, Kyoushou no Zetsu (nayuta 2017 ver.)": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "99 Glooms": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "ultradiaxon-N3": {
+    "pst": 4.5,
+    "prs": 8.5,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "Dual Doom Deathmatch": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.9,
+    "byd": 10.3,
+    "etr": null
+  },
+  "SUPER AMBULANCE": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "8-EM": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": 10.3,
+    "etr": null
+  },
+  "BREaK! BREaK! BREaK!": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.8,
+    "byd": 10.3,
+    "etr": null
+  },
+  "ROST PAGE GENE": {
+    "pst": 5,
+    "prs": 8.2,
+    "ftr": 10.3,
+    "byd": null,
+    "etr": null
+  },
+  "zephyrlasting": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": 10.3,
+    "etr": null
+  },
+  "Nirv lucE": {
+    "pst": 2.5,
+    "prs": 7,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "αterlβus": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "conflict": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Valhalla:0": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Malicious Mischance": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Löschen": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Quon": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "lastendconductor": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.4,
+    "byd": 10.2,
+    "etr": null
+  },
+  "Redolent Shape": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "NEO WINGS": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Capella": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Magnolia": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Logos": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Renegade": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.6,
+    "byd": 10.2,
+    "etr": null
+  },
+  "Your Best Nightmare": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.9,
+    "byd": 10.2,
+    "etr": null
+  },
+  "Angel's Boundary": {
+    "pst": 5,
+    "prs": 8.5,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "Grandspell": {
+    "pst": 4.5,
+    "prs": 8.4,
+    "ftr": 10.2,
+    "byd": null,
+    "etr": null
+  },
+  "PRAGMATISM": {
+    "pst": 4.5,
+    "prs": 8.6,
+    "ftr": 10.1,
+    "byd": 11.2,
+    "etr": null
+  },
+  "G e n g a o z o": {
+    "pst": 4,
+    "prs": 8.1,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": null
+  },
+  "Medusa": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": null
+  },
+  "Trrricksters!!": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": null
+  },
+  "Kanbu de Tomatte Sugu Tokeru": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10.1,
+    "byd": null,
+    "etr": null
+  },
+  "Gensou no Satellite": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.7,
+    "byd": 10.1,
+    "etr": null
+  },
+  "BlazinG AIR": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.9,
+    "byd": 10.1,
+    "etr": null
+  },
+  "Don't Die": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": 10.1,
+    "etr": null
+  },
+  "OBLIVION": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": 10.1,
+    "etr": null
+  },
+  "INFINITE DIMENSION": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.6,
+    "byd": 10.1,
+    "etr": null
+  },
+  "Sheriruth": {
+    "pst": 5.5,
+    "prs": 7.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Alexandrite": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Scarlet Lance": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Vicious Heroism": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10,
+    "byd": 11.2,
+    "etr": null
+  },
+  "Xanatos": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Oshama Scramble!": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Bamboo": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "HIVEMIND": {
+    "pst": 4,
+    "prs": 8.6,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Free Myself": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Masquerade Legion": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Chromafill": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Third Sun": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": 10,
+    "etr": null
+  },
+  "TRPNO": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "Liar": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 10,
+    "byd": null,
+    "etr": null
+  },
+  "ΛZΛLEΛ": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": 10,
+    "etr": null
+  },
+  "Modelista": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "trappola bewitching": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.9,
+    "byd": 10.6,
+    "etr": null
+  },
+  "Nhelv": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": 10.9,
+    "etr": null
+  },
+  "Heavensdoor": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": 10.8,
+    "etr": null
+  },
+  "Mirzam": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Antagonism": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Arcahv": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Galaxy Friends": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "7thSense": {
+    "pst": 3,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Summer Fireworks of Love": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Trap Crow": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Astra walkthrough": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "MAXRAGE": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "The Survivor (Game Edit)": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "New York Back Raise": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "INTERNET YAMERO": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Devillic Sphere": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Ultimate taste": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Amekagura": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Beautiful Dreamer": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "STARGATE EXTREME": {
+    "pst": 4,
+    "prs": 6,
+    "ftr": 9.3,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Distortion Human": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Hypnotize": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 8.9,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Ashen 6oundary": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Swan Song": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "Shinchoku Doudesuka?": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 8.8,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Tic! Tac! Toe!": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 8.8,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Syriana": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.9,
+    "byd": null,
+    "etr": null
+  },
+  "incomplete one": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 8.8,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Vainspire": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 8.4,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Paradox Palette": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 8.8,
+    "byd": 9.9,
+    "etr": null
+  },
+  "SOUNDWiTCH": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Memory Forest": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Linear Accelerator": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Black Territory": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Corruption": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Heavenly caress": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Einherjar Joker": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": 10.9,
+    "etr": null
+  },
+  "Lost Desire": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Altale": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 9.8,
+    "byd": 10,
+    "etr": null
+  },
+  "Scarlet Cage": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Got hive of Ra": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Xeraphinite": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Far Away Light": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "THE ULTIMACY": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Mazy Metroplex": {
+    "pst": 3,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Ascent": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Haze of Autumn": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "init()": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Macrocosmic Modulation": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Protoflicker": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Defection": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Callima Karma": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Ai Drew": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "FLUFFY FLASH": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "World Fragments III(radio edit)": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Genesis": {
+    "pst": 2,
+    "prs": 5.5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "Hybris (The one who shattered)": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "RGB": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Kanjou no Matenrou ～Arr.Demetori": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "To Furthest Dream": {
+    "pst": 4.5,
+    "prs": 8.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Technicolour": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Nameless Passion": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Ouvertüre": {
+    "pst": 2.5,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "LIVHT MY WΔY": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "MORNINGLOOM": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.8,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Old School Salvage": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "HYPER VISION": {
+    "pst": 4.5,
+    "prs": 7.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "shrink": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Waltz for Lorelei": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.8,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Crimson Quartz": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.8,
+    "byd": 9.8,
+    "etr": null
+  },
+  "LiftOff": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.2,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Ignition": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "yomibito_shirazu": {
+    "pst": 4.5,
+    "prs": 8,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "Won't Back Down": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "U.A.D": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.7,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Miles": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.2,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Scarlet Lunar Empress": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.8,
+    "byd": null,
+    "etr": null
+  },
+  "disintegration": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 8.3,
+    "byd": 9.8,
+    "etr": null
+  },
+  "taboo tears you up 2017": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.4,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Lethaeus": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "The Message": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Sulfur": {
+    "pst": 4,
+    "prs": 6,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Fallensquare": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "DX Choseinou Full Metal Shojo": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "SUPERNOVA": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Dreadnought": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Monochrome Princess": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Filament": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "BATTLE NO.1": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "BLRINK": {
+    "pst": 3.5,
+    "prs": 7.8,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "amygdata": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Black Lotus": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "BADTEK": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Heart Jackin'": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Dazzle hop": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Vandalism": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "AlterAle": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "goldenslaughterer": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "nέο κόsmo": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "μ": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Loveless Dress": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Last | Eternity": {
+    "pst": null,
+    "prs": null,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Let's Rock (Arcaea mix)": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Lost in Abyss": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "SACRIFICE feat. ayame": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "B.B.K.K.B.K.K.": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Hotarubi no Yuki": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Luna Rossa": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Innocence": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.5,
+    "byd": 9.7,
+    "etr": null
+  },
+  "IONOSTREAM": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 8.7,
+    "byd": 9.7,
+    "etr": null
+  },
+  "Awaken In Ruins": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Hailstone": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Last Goodbye": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.2,
+    "byd": 9.7,
+    "etr": null
+  },
+  "Black Mirror on Wall": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.6,
+    "byd": 9.7,
+    "etr": null
+  },
+  "τ (tau)": {
+    "pst": 4.5,
+    "prs": 7.8,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Acheron": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.7,
+    "byd": null,
+    "etr": null
+  },
+  "Particle": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.5,
+    "byd": 9.7,
+    "etr": null
+  },
+  "carmine:scythe": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "LunarOrbit -believe in Espebranch road-": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Astral tale": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Vindication": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "A Wandering Melody of Love": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Avant Raze": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Purple Verse": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.6,
+    "byd": 10.6,
+    "etr": null
+  },
+  "Lazy Addiction": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "ENERGY SYNERGY MATRIX": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.6,
+    "byd": 10.3,
+    "etr": null
+  },
+  "Last": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Heart": {
+    "pst": 1,
+    "prs": 5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Remind Souls (Short Version)": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Stratoliner": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "Alone & Lorn": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.6,
+    "byd": null,
+    "etr": null
+  },
+  "epitaxy": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.6,
+    "byd": 9.6,
+    "etr": null
+  },
+  "See Lights!": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.6,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Factorder": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.6,
+    "byd": 9.6,
+    "etr": null
+  },
+  "DataErr0r": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Cybernecia Catharsis": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Illegal Paradise": {
+    "pst": 2,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "STAGER (ALL STAGE CLEAR)": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "OMAKENO Stroke": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": 10.3,
+    "etr": null
+  },
+  "MAHOROBA": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "ΟΔΥΣΣΕΙΑ": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Evening in Scarlet": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "NULCTRL": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "GIMMICK": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Dynitikós": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Transient Space": {
+    "pst": 2.5,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "felys final remix": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "On And On!! feat. Jenga": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Jingle": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 7.8,
+    "byd": 9.5,
+    "etr": null
+  },
+  "〇、": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "In Vain": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "astral.exe": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "End of The Moonlight": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "SATISFACTION": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 8.5,
+    "byd": 9.5,
+    "etr": null
+  },
+  "Someday": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Viola Illyria": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.5,
+    "byd": null,
+    "etr": null
+  },
+  "Party Vinyl": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.4,
+    "byd": 10.3,
+    "etr": null
+  },
+  "CROSS†SOUL": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Your voice so... feat. Such": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Impure Bird": {
+    "pst": 2,
+    "prs": 5.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Dreamin' Attraction!!": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Red and Blue": {
+    "pst": 4,
+    "prs": 7.8,
+    "ftr": 9.4,
+    "byd": 10.2,
+    "etr": null
+  },
+  "Yosakura Fubuki": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Specta": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Be There": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "VECTOЯ": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "AI[UE]OON": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Equilibrium": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Teriqma": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": 9.7,
+    "etr": null
+  },
+  "CROSS†OVER": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Lapis": {
+    "pst": 2,
+    "prs": 6,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Crystal Gravity": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "with U": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Let you DIVE! (nitro rmx)": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Final Step!": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Sakura Fubuki": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Head BONK ache": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "PICO-Pico-Translation!": {
+    "pst": 2,
+    "prs": 6,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Redraw Colorless World": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "MANTIS (Arcaea Ultra-Bloodrush VIP)": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "DRG": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "Raven's Pride": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "FANTA5Y": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "FURETE-MITAI": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.4,
+    "byd": 9.4,
+    "etr": null
+  },
+  "Death By Glamour": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 7.8,
+    "byd": 9.4,
+    "etr": null
+  },
+  "I want You": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 8.3,
+    "byd": 9.4,
+    "etr": null
+  },
+  "mod": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.4,
+    "byd": null,
+    "etr": null
+  },
+  "GOODTEK (Arcaea Edit)": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Oracle": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Ignotus": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Auxesia": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Syro": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Blaster": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Feels So Right feat. Renko": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Glow": {
+    "pst": 4,
+    "prs": 7.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Can I Friend You on Bassbook? Lol": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Small Cloud Sugar Candy": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "False Embellishment": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Blocked Library": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Lost Emotion feat. nomico": {
+    "pst": 3.5,
+    "prs": 7,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "The Formula": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "HELLOHELL": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 7.5,
+    "byd": 9.3,
+    "etr": null
+  },
+  "Floating World": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.3,
+    "byd": null,
+    "etr": null
+  },
+  "Lost Civilization": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.2,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Anökumene": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.2,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Strongholds": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Rugie": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Phantasia": {
+    "pst": 4,
+    "prs": 5.5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Libertas": {
+    "pst": 3.5,
+    "prs": 5.5,
+    "ftr": 9.2,
+    "byd": 10.5,
+    "etr": null
+  },
+  "Alice à la mode": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Dancin' on a Cat's Paw": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "cocoro*cosmetic": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Used to be": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Leave All Behind": {
+    "pst": 2,
+    "prs": 5.5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Sign of \"10.5km\"": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9.2,
+    "byd": null,
+    "etr": null
+  },
+  "Ladymade Star": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.4,
+    "byd": 9.2,
+    "etr": null
+  },
+  "qualia -ideaesthesia-": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.1,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Essence of Twilight": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Iconoclast": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Journey": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "dropdead": {
+    "pst": 1.5,
+    "prs": 9.5,
+    "ftr": 9.1,
+    "byd": 10.5,
+    "etr": null
+  },
+  "Empire of Winter": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "ReviXy": {
+    "pst": 3,
+    "prs": 7,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "La'qryma of Wasteland": {
+    "pst": 3.5,
+    "prs": 6.5,
+    "ftr": 9.1,
+    "byd": 10,
+    "etr": null
+  },
+  "Faint Light (Arcaea Edit)": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Alice's Suitcase": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Life is PIANO": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Coastal Highway": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Blue Rose": {
+    "pst": 2,
+    "prs": 6,
+    "ftr": 9.1,
+    "byd": null,
+    "etr": null
+  },
+  "Prayer": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.2,
+    "byd": 9.1,
+    "etr": null
+  },
+  "Flyburg and Endroll": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "Kanagawa Cyber Culvert": {
+    "pst": 1,
+    "prs": 5.5,
+    "ftr": 9,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Jump": {
+    "pst": 4,
+    "prs": 6,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "Turbocharger": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "Galactic Love": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "Lawless Point": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "Primeval Texture": {
+    "pst": 3,
+    "prs": 7.5,
+    "ftr": 9,
+    "byd": null,
+    "etr": null
+  },
+  "memoryfactory.lzh": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Flashback": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Chronostasis": {
+    "pst": 3.5,
+    "prs": 7.5,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Evoltex (poppi'n mix)": {
+    "pst": 2,
+    "prs": 7,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Maze No.9": {
+    "pst": 3,
+    "prs": 3.5,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "MERLIN": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 8.9,
+    "byd": 9.4,
+    "etr": null
+  },
+  "Chelsea": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Give Me a Nightmare": {
+    "pst": 3.5,
+    "prs": 5.5,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Lights of Muse": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.9,
+    "byd": null,
+    "etr": null
+  },
+  "Surrender": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "next to you": {
+    "pst": 4.5,
+    "prs": 7,
+    "ftr": 8.8,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Solitary Dream": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "Antithese": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.8,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Vivid Theory": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "Cosmica": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "Dialnote": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "CYCLES": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "Cosmo Pop Funclub": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "Hidden Rainbows of Epicurus": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 7.5,
+    "byd": 8.8,
+    "etr": null
+  },
+  "Saint or Sinner": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.8,
+    "byd": null,
+    "etr": null
+  },
+  "cry of viyella": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Call My Name feat. Yukacco": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Grimheart": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Senkyou": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Beside You": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Paper Witch": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Tsuki ni Murakumo, Hana ni Kaze": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "WAIT FOR DAWN": {
+    "pst": 2.5,
+    "prs": 7.8,
+    "ftr": 8.7,
+    "byd": null,
+    "etr": null
+  },
+  "Heartache": {
+    "pst": 1.5,
+    "prs": 4.5,
+    "ftr": 7.5,
+    "byd": 8.7,
+    "etr": null
+  },
+  "Wake in Hour": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 7.5,
+    "byd": 8.7,
+    "etr": null
+  },
+  "Silent Rush": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 8.6,
+    "byd": null,
+    "etr": null
+  },
+  "FREEF4LL": {
+    "pst": 4,
+    "prs": 7,
+    "ftr": 8.6,
+    "byd": 9.8,
+    "etr": null
+  },
+  "Gekka (Short Version)": {
+    "pst": 4,
+    "prs": 6.5,
+    "ftr": 8.6,
+    "byd": null,
+    "etr": null
+  },
+  "April showers": {
+    "pst": 2,
+    "prs": 5.5,
+    "ftr": 8.6,
+    "byd": null,
+    "etr": null
+  },
+  "enchanted love": {
+    "pst": 2,
+    "prs": 4.5,
+    "ftr": 8.6,
+    "byd": null,
+    "etr": null
+  },
+  "Babaroque": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "Dandelion": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "Harutopia ~Utopia of Spring~": {
+    "pst": 1,
+    "prs": 4.5,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "Reinvent": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "DDD": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "Altair (feat. *spiLa*)": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "syūten": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8.5,
+    "byd": null,
+    "etr": null
+  },
+  "Snow White": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 8.4,
+    "byd": 9.7,
+    "etr": null
+  },
+  "Lumia": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.4,
+    "byd": 9.5,
+    "etr": null
+  },
+  "REconstruction": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.4,
+    "byd": null,
+    "etr": null
+  },
+  "Moonheart": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.4,
+    "byd": 9.7,
+    "etr": null
+  },
+  "Rabbit In The Black Room": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.4,
+    "byd": null,
+    "etr": null
+  },
+  "Purgatorium": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.4,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Eccentric Tale": {
+    "pst": 2,
+    "prs": 5.5,
+    "ftr": 8.4,
+    "byd": null,
+    "etr": null
+  },
+  "INTERNET OVERDOSE": {
+    "pst": 3,
+    "prs": 6.5,
+    "ftr": 8.4,
+    "byd": null,
+    "etr": null
+  },
+  "Shades of Light in a Transcendent Realm": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.3,
+    "byd": 9.1,
+    "etr": null
+  },
+  "Bookmaker (2D Version)": {
+    "pst": 4.5,
+    "prs": 6.5,
+    "ftr": 8.3,
+    "byd": 10,
+    "etr": null
+  },
+  "Dot to Dot feat. shully": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.3,
+    "byd": null,
+    "etr": null
+  },
+  "Tie me down gently": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 8.3,
+    "byd": null,
+    "etr": null
+  },
+  "Oblivia": {
+    "pst": 3.5,
+    "prs": 5,
+    "ftr": 8.3,
+    "byd": 9.7,
+    "etr": null
+  },
+  "Ävril -Flicka i krans-": {
+    "pst": 3,
+    "prs": 6,
+    "ftr": 8.3,
+    "byd": null,
+    "etr": null
+  },
+  "san skia": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 8.3,
+    "byd": null,
+    "etr": null
+  },
+  "Dematerialized": {
+    "pst": 1.5,
+    "prs": 4.5,
+    "ftr": 7.5,
+    "byd": 8.3,
+    "etr": null
+  },
+  "Lucifer": {
+    "pst": 3.5,
+    "prs": 5.5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "One Last Drive": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "Hall of Mirrors": {
+    "pst": 3,
+    "prs": 5.5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "1F√": {
+    "pst": 2.5,
+    "prs": 6.5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "blue comet": {
+    "pst": 3.5,
+    "prs": 5,
+    "ftr": 8.2,
+    "byd": null,
+    "etr": null
+  },
+  "I've heard it said": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 8.1,
+    "byd": null,
+    "etr": null
+  },
+  "Hikari": {
+    "pst": 2.5,
+    "prs": 6,
+    "ftr": 8.1,
+    "byd": null,
+    "etr": null
+  },
+  "Diode": {
+    "pst": 2.5,
+    "prs": 5.5,
+    "ftr": 8.1,
+    "byd": null,
+    "etr": null
+  },
+  "Bullet Waiting for Me (James Landino remix)": {
+    "pst": 2.5,
+    "prs": 4.5,
+    "ftr": 8.1,
+    "byd": null,
+    "etr": null
+  },
+  "Relentless": {
+    "pst": 4.5,
+    "prs": 6.5,
+    "ftr": 8,
+    "byd": null,
+    "etr": null
+  },
+  "world.execute(me);": {
+    "pst": 3.5,
+    "prs": 5,
+    "ftr": 8,
+    "byd": null,
+    "etr": null
+  },
+  "Prism": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 8,
+    "byd": null,
+    "etr": null
+  },
+  "Rise": {
+    "pst": 2.5,
+    "prs": 4,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Dement ~after legend~": {
+    "pst": 3.5,
+    "prs": 6,
+    "ftr": 7.8,
+    "byd": 9.9,
+    "etr": null
+  },
+  "Infinity Heaven": {
+    "pst": 1.5,
+    "prs": 5.5,
+    "ftr": 7.8,
+    "byd": 9.6,
+    "etr": null
+  },
+  "Brand new world": {
+    "pst": 2,
+    "prs": 4,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Paradise": {
+    "pst": 1,
+    "prs": 4,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Clotho and stargazer": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 7.8,
+    "byd": 8.8,
+    "etr": null
+  },
+  "Moonlight of Sand Castle": {
+    "pst": 1.5,
+    "prs": 5,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Romance Wars": {
+    "pst": 1,
+    "prs": 4,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Dream goes on": {
+    "pst": 1.5,
+    "prs": 5,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "inkar-usi": {
+    "pst": 2,
+    "prs": 4,
+    "ftr": 7.8,
+    "byd": 9.4,
+    "etr": null
+  },
+  "Suomi": {
+    "pst": 2,
+    "prs": 5,
+    "ftr": 7.8,
+    "byd": 8.9,
+    "etr": null
+  },
+  "First Snow": {
+    "pst": 2.5,
+    "prs": 4.5,
+    "ftr": 7.8,
+    "byd": null,
+    "etr": null
+  },
+  "Sayonara Hatsukoi": {
+    "pst": 1.5,
+    "prs": 4.5,
+    "ftr": 7,
+    "byd": 8.5,
+    "etr": null
+  },
+  "Fairytale": {
+    "pst": 1,
+    "prs": 3.5,
+    "ftr": 7,
+    "byd": 9.5,
+    "etr": null
+  },
+  "Vexaria": {
+    "pst": 2.5,
+    "prs": 5,
+    "ftr": 7,
+    "byd": 9,
+    "etr": null
+  },
+  "Blossoms": {
+    "pst": 1,
+    "prs": 4,
+    "ftr": 7,
+    "byd": null,
+    "etr": null
+  }
+};
+
+// 将歌曲数据转换为数组格式
+export function getSongsData() {
+  return Object.keys(songConstants).map(name => {
+    return {
+      name,
+      artist: '', // 歌曲常量文件中没有艺术家信息，留空
+      ...songConstants[name]
+    }
+  })
+}

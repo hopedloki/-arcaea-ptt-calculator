@@ -46,22 +46,14 @@ export function loadSongsData(): SongData[] {
  * @returns Promise<SongData[]>
  */
 export async function fetchSongsFromAPI(): Promise<SongData[]> {
-  return new Promise((resolve, reject) => {
-    uni.request({
-      url: 'https://api.example.com/arcaea/songs', // 替换为实际的API地址
-      method: 'GET',
-      success: (res) => {
-        if (res.statusCode === 200 && res.data && Array.isArray(res.data)) {
-          resolve(res.data)
-        } else {
-          reject(new Error('API返回数据格式错误'))
-        }
-      },
-      fail: (err) => {
-        reject(new Error('API请求失败: ' + err.errMsg))
-      }
-    })
-  })
+  try {
+    // 直接导入歌曲常量数据
+    const { getSongsData } = await import('@/utils/song-constants.js')
+    const songsData = getSongsData()
+    return songsData
+  } catch (err) {
+    throw new Error('加载歌曲数据失败: ' + err)
+  }
 }
 
 /**
@@ -172,15 +164,67 @@ export function initializeSongsDatabase(): void {
     const songsData = loadSongsData()
     
     if (songsData.length === 0) {
-      const defaultSongs = initializeDefaultSongsData()
-      saveSongsData(defaultSongs)
-      console.log('已初始化默认歌曲数据')
+      // 尝试加载完整的歌曲数据
+      loadCompleteSongsData().then(songs => {
+        if (songs.length > 0) {
+          saveSongsData(songs)
+          console.log('已加载完整歌曲数据，共', songs.length, '首歌曲')
+        } else {
+          // 如果加载失败，使用默认数据
+          const defaultSongs = initializeDefaultSongsData()
+          saveSongsData(defaultSongs)
+          console.log('已初始化默认歌曲数据')
+        }
+      }).catch(err => {
+        console.error('加载完整歌曲数据失败:', err)
+        const defaultSongs = initializeDefaultSongsData()
+        saveSongsData(defaultSongs)
+      })
     }
   } catch (e) {
     console.error('初始化歌曲数据库失败', e)
     const defaultSongs = initializeDefaultSongsData()
     saveSongsData(defaultSongs)
   }
+}
+
+/**
+ * 加载完整的歌曲数据
+ * 从内置的JSON文件加载
+ */
+async function loadCompleteSongsData(): Promise<SongData[]> {
+  return new Promise((resolve, reject) => {
+    // 在UniApp中，使用uni.request加载静态资源
+    uni.request({
+      url: '/static/song-constants.json', // 从static目录加载
+      method: 'GET',
+      success: (res) => {
+        if (res.statusCode === 200 && res.data) {
+          try {
+            const songConstants = res.data as Record<string, any>
+            const songsArray = Object.keys(songConstants).map(name => {
+              const songData: SongData = {
+                name,
+                artist: '', // 歌曲常量文件中没有艺术家信息，留空
+                ...songConstants[name]
+              }
+              return songData
+            })
+            resolve(songsArray)
+          } catch (err) {
+            console.error('解析歌曲数据失败', err)
+            reject(err)
+          }
+        } else {
+          reject(new Error('加载歌曲数据失败，状态码: ' + res.statusCode))
+        }
+      },
+      fail: (err) => {
+        console.error('请求歌曲数据失败', err)
+        reject(err)
+      }
+    })
+  })
 }
 
 /**

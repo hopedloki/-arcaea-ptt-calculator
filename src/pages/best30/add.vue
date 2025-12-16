@@ -171,6 +171,12 @@ onMounted(() => {
   if (recentSong) {
     selectedSong.value = recentSong
   }
+  
+  // 监听歌曲选择事件
+  uni.$on('songSelected', (song: any) => {
+    selectedSong.value = song
+    calculatePttAndRating() // 重新计算PTT和评级
+  })
 })
 
 // 加载要编辑的成绩
@@ -247,10 +253,8 @@ const calculatePttAndRating = () => {
 const calculatePtt = (score: number, constant: number): number => {
   if (score >= 10000000) {
     return constant + 2.0
-  } else if (score >= 9900000) {
-    return constant + 1.5 + (score - 9900000) / 100000
   } else if (score >= 9800000) {
-    return constant + 1.0 + (score - 9800000) / 400000
+    return constant + 1.0 + (score - 9800000) / 200000
   } else {
     return constant + Math.max(0, (score - 9500000) / 300000)
   }

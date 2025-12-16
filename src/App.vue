@@ -5,7 +5,7 @@ import { initCloudBase, checkEnvironment } from "./utils/cloudbase";
 onLaunch(async () => {
   console.log("App Launch");
 
-  // 检查云开发环境配置
+  // 只有在配置了云开发环境时才初始化
   if (checkEnvironment()) {
     try {
       // 初始化云开发
@@ -18,9 +18,8 @@ onLaunch(async () => {
     } catch (error) {
       console.error("云开发初始化异常:", error);
     }
-  } else {
-    console.warn("云开发环境ID未配置，请在 src/utils/cloudbase.ts 中配置");
   }
+  // 如果没有配置云开发环境，静默跳过，不影响应用主要功能
 });
 
 onShow(() => {

@@ -89,6 +89,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { loadSongsData, initializeSongsDatabase } from '@/utils/songs-database'
+// 直接导入歌曲常量数据
+import { getSongsData } from '@/utils/song-constants.js'
 
 // 页面来源
 const fromPage = ref('')
@@ -171,99 +174,48 @@ onMounted(() => {
     fromPage.value = options.from
   }
   
-  loadSongsData()
+  loadSongs()
 })
 
 // 加载歌曲数据
-const loadSongsData = () => {
-  // 这里应该从本地存储或API加载歌曲数据
-  // 为演示目的，先使用一些示例数据
-  const exampleSongs = [
-    {
-      name: 'Testify',
-      artist: 'Neko Hacker',
-      pst: 7.8,
-      prs: 9.4,
-      ftr: 10.9,
-      byd: 12.0,
-      etr: null
-    },
-    {
-      name: 'Fracture Ray',
-      artist: 'xi',
-      pst: 5.0,
-      prs: 7.0,
-      ftr: 9.8,
-      byd: 11.2,
-      etr: null
-    },
-    {
-      name: 'Ringed Genesis',
-      artist: 'ARForest',
-      pst: 4.0,
-      prs: 6.0,
-      ftr: 8.8,
-      byd: 10.5,
-      etr: null
-    },
-    {
-      name: 'Grievous Lady',
-      artist: 'Laur',
-      pst: 5.5,
-      prs: 7.5,
-      ftr: 9.9,
-      byd: 11.1,
-      etr: null
-    },
-    {
-      name: 'Harutopia ~Utopia of Spring~',
-      artist: 'ARForest',
-      pst: 3.0,
-      prs: 5.0,
-      ftr: 7.5,
-      byd: 9.5,
-      etr: null
-    }
-  ]
-  
-  // 尝试从本地存储加载
+const loadSongs = () => {
+  // 从本地存储加载歌曲数据
   try {
-    const localSongs = uni.getStorageSync('songs_data')
+    const localSongs = loadSongsData()
+    
     if (localSongs && localSongs.length > 0) {
       songsData.value = localSongs
+      console.log('从本地存储加载歌曲数据，共', localSongs.length, '首歌曲')
     } else {
-      songsData.value = exampleSongs
-      uni.setStorageSync('songs_data', exampleSongs)
+      // 本地没有数据，直接加载完整歌曲数据
+      console.log('本地没有数据，直接加载完整歌曲数据')
+      loadCompleteSongsData()
     }
   } catch (e) {
     console.error('加载歌曲数据失败', e)
-    songsData.value = exampleSongs
+    loadCompleteSongsData()
   }
-  
-  // 如果是实际应用，可以尝试从API加载
-  // loadSongsFromAPI()
 }
 
-// 从API加载歌曲数据
-const loadSongsFromAPI = () => {
-  // 这里应该实现从API加载歌曲数据的逻辑
-  // 可以使用uni.request或者其他HTTP库
-  /*
-  uni.request({
-    url: 'https://api.example.com/arcaea/songs',
-    method: 'GET',
-    success: (res) => {
-      if (res.data && Array.isArray(res.data)) {
-        songsData.value = res.data
-        uni.setStorageSync('songs_data', res.data)
-      }
-    },
-    fail: (err) => {
-      console.error('从API加载歌曲数据失败', err)
+// 加载完整的歌曲数据
+const loadCompleteSongsData = () => {
+  // 直接使用静态导入的歌曲常量数据
+  try {
+    const songsArray = getSongsData()
+    songsData.value = songsArray
+    // 保存到本地存储
+    try {
+      uni.setStorageSync('songs_data', songsArray)
+      console.log('加载完整歌曲数据成功，共', songsArray.length, '首歌曲')
+    } catch (storageErr) {
+      console.error('存储数据失败:', storageErr)
     }
-  })
-  */
+  } catch (e) {
+    console.error('加载歌曲常量失败:', e)
+  }
 }
+
+
 
 // 搜索输入变化
 const onSearchInput = () => {
