@@ -1360,7 +1360,6 @@ const getRatingClass = (rating: string): string => {
   background: linear-gradient(135deg, #cd7f32, #e8a75d);
   color: white;
   box-shadow: 0 4rpx 15rpx rgba(205, 127, 50, 0.4);
-}
   font-size: 26rpx;
   font-weight: bold;
   margin-right: 20rpx;
