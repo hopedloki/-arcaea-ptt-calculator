@@ -780,7 +780,7 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端特殊样式 */
-/* #ifdef H5 */
+// #ifdef H5
 @media (min-width: 768px) {
   .overview-card {
     max-width: 800px;
@@ -788,7 +788,7 @@ const getRatingClass = (rating: string): string => {
     border-radius: 24rpx;
   }
 }
-/* #endif */
+// #endif
 
 /* 添加动态背景效果 */
 .overview-card::before {
@@ -843,9 +843,9 @@ const getRatingClass = (rating: string): string => {
   line-height: 1.1;
   text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.2);
   /* 添加响应式字体大小 */
-  /* #ifdef H5 */
+  // #ifdef H5
   font-size: 3.5rem;
-  /* #endif */
+  // #endif
 }
 
 .label {
@@ -1001,14 +1001,14 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端响应式布局 */
-/* #ifdef H5 */
+// #ifdef H5
 @media (min-width: 768px) {
   .actions {
     max-width: 800px;
     margin: 0 auto 24rpx;
   }
 }
-/* #endif */
+// #endif
 
 .action-btn {
   flex: 1;
@@ -1107,7 +1107,7 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端特殊交互效果 */
-/* #ifdef H5 */
+// #ifdef H5
 .action-btn:hover {
   transform: translateY(-4rpx);
 }
@@ -1115,14 +1115,14 @@ const getRatingClass = (rating: string): string => {
 .action-btn:active {
   transform: translateY(0);
 }
-/* #endif */
+// #endif
 
 /* 移动端触摸反馈 */
-/* #ifndef H5 */
+// #ifndef H5
 .action-btn:active {
   transform: scale(0.98);
 }
-/* #endif */
+// #endif
 
 .stats-grid {
   display: grid;
@@ -1186,14 +1186,14 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端响应式布局 */
-/* #ifdef H5 */
+// #ifdef H5
 @media (min-width: 768px) {
   .tabs-container {
     max-width: 800px;
     margin: 0 auto 24rpx;
   }
 }
-/* #endif */
+// #endif
 
 .tabs {
   display: flex;
@@ -1281,14 +1281,14 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端响应式布局 */
-/* #ifdef H5 */
+// #ifdef H5
 @media (min-width: 768px) {
   .records-list {
     max-width: 800px;
     margin: 0 auto;
   }
 }
-/* #endif */
+// #endif
 
 .record-item {
   display: flex;
@@ -1739,7 +1739,7 @@ const getRatingClass = (rating: string): string => {
 }
 
 /* Web端特殊动画效果 */
-/* #ifdef H5 */
+// #ifdef H5
 .record-item {
   position: relative;
 }
@@ -1758,9 +1758,10 @@ const getRatingClass = (rating: string): string => {
 .record-item:hover::before {
   width: 100%;
 }
+// #endif
 
 /* 移动端触摸反馈增强 */
-/* #ifndef H5 */
+// #ifndef H5
 .record-item:active {
   transform: scale(0.98);
   background: #f8f9fa;
@@ -1769,5 +1770,5 @@ const getRatingClass = (rating: string): string => {
 .action-btn-small:active {
   transform: scale(0.96);
 }
-/* #endif */
+// #endif
 </style>

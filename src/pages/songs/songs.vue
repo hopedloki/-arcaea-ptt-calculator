@@ -184,8 +184,14 @@ const loadSongs = () => {
     const localSongs = loadSongsData()
     
     if (localSongs && localSongs.length > 0) {
-      songsData.value = localSongs
-      console.log('从本地存储加载歌曲数据，共', localSongs.length, '首歌曲')
+      // 检查本地存储的歌曲数量是否完整（应该有500+首）
+      if (localSongs.length < 400) {
+        console.log('本地存储的歌曲数据不完整，只有', localSongs.length, '首，重新加载完整数据')
+        loadCompleteSongsData()
+      } else {
+        songsData.value = localSongs
+        console.log('从本地存储加载歌曲数据，共', localSongs.length, '首歌曲')
+      }
     } else {
       // 本地没有数据，直接加载完整歌曲数据
       console.log('本地没有数据，直接加载完整歌曲数据')

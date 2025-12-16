@@ -163,8 +163,12 @@ export function initializeSongsDatabase(): void {
   try {
     const songsData = loadSongsData()
     
-    if (songsData.length === 0) {
-      // 尝试加载完整的歌曲数据
+    if (songsData.length === 0 || songsData.length < 400) {
+      // 如果本地没有数据或者数据不完整（少于400首），尝试加载完整的歌曲数据
+      if (songsData.length > 0 && songsData.length < 400) {
+        console.log('检测到本地歌曲数据不完整，仅', songsData.length, '首，重新加载完整数据')
+      }
+      
       loadCompleteSongsData().then(songs => {
         if (songs.length > 0) {
           saveSongsData(songs)
@@ -190,41 +194,18 @@ export function initializeSongsDatabase(): void {
 
 /**
  * 加载完整的歌曲数据
- * 从内置的JSON文件加载
+ * 从内置的歌曲常量文件加载
  */
 async function loadCompleteSongsData(): Promise<SongData[]> {
-  return new Promise((resolve, reject) => {
-    // 在UniApp中，使用uni.request加载静态资源
-    uni.request({
-      url: '/static/song-constants.json', // 从static目录加载
-      method: 'GET',
-      success: (res) => {
-        if (res.statusCode === 200 && res.data) {
-          try {
-            const songConstants = res.data as Record<string, any>
-            const songsArray = Object.keys(songConstants).map(name => {
-              const songData: SongData = {
-                name,
-                artist: '', // 歌曲常量文件中没有艺术家信息，留空
-                ...songConstants[name]
-              }
-              return songData
-            })
-            resolve(songsArray)
-          } catch (err) {
-            console.error('解析歌曲数据失败', err)
-            reject(err)
-          }
-        } else {
-          reject(new Error('加载歌曲数据失败，状态码: ' + res.statusCode))
-        }
-      },
-      fail: (err) => {
-        console.error('请求歌曲数据失败', err)
-        reject(err)
-      }
-    })
-  })
+  try {
+    // 直接导入歌曲常量数据
+    const { getSongsData } = await import('@/utils/song-constants.js')
+    const songsArray = getSongsData()
+    return songsArray
+  } catch (err) {
+    console.error('加载歌曲数据失败:', err)
+    throw err
+  }
 }
 
 /**

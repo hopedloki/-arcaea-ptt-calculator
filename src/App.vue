@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { initCloudBase, checkEnvironment } from "./utils/cloudbase";
+import { initializeSongsDatabase } from "./utils/songs-database";
 
 onLaunch(async () => {
   console.log("App Launch");
+
+  // 初始化歌曲数据库
+  try {
+    initializeSongsDatabase();
+  } catch (error) {
+    console.error("歌曲数据库初始化异常:", error);
+  }
 
   // 只有在配置了云开发环境时才初始化
   if (checkEnvironment()) {
