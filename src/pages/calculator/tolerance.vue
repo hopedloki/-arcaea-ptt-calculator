@@ -645,8 +645,13 @@ onMounted(() => {
   uni.$on('songSelected', (selectedSongData: any) => {
     selectedSong.value = selectedSongData
     
+    console.log('收到歌曲选择事件:', selectedSongData)
+    
     // 自动填充物量信息
     if (selectedSongData.name && selectedSongData.difficulty) {
+      const songId = songIdMap[selectedSongData.name]
+      console.log(`歌曲ID映射: "${selectedSongData.name}" -> "${songId}"`)
+      
       const notesCount = getNotesBySongName(
         selectedSongData.name, 
         selectedSongData.difficulty, 
@@ -658,6 +663,7 @@ onMounted(() => {
         console.log(`自动填充物量: ${selectedSongData.name} (${selectedSongData.difficulty}) = ${notesCount}`)
       } else {
         console.log(`未找到歌曲物量信息: ${selectedSongData.name} (${selectedSongData.difficulty})`)
+        console.log('可用的歌曲ID列表:', Object.keys(songIdMap).slice(0, 10))
       }
     }
   })
