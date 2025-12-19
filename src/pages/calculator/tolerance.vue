@@ -556,6 +556,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { onPageShow } from '@dcloudio/uni-app'
 
 // 容错模式
 const mode = ref<'rating' | 'score' | 'ptt'>('rating')
@@ -642,6 +643,23 @@ onMounted(() => {
   uni.$on('songSelected', (selectedSongData: any) => {
     selectedSong.value = selectedSongData
   })
+})
+
+
+
+// 页面显示时检查是否有新选择的歌曲
+onPageShow(() => {
+  // 检查是否有新选择的歌曲
+  const recentSong = uni.getStorageSync('recent_song')
+  if (recentSong) {
+    // 检查是否与当前选中的歌曲不同
+    if (!selectedSong.value.name || 
+        selectedSong.value.name !== recentSong.name || 
+        selectedSong.value.difficulty !== recentSong.difficulty) {
+      selectedSong.value = recentSong
+      console.log('页面显示时更新了选中的歌曲:', recentSong)
+    }
+  }
 })
 
 // 页面卸载时移除事件监听
