@@ -302,24 +302,33 @@ const selectSongWithDifficulty = (song: any, difficulty: string) => {
 
 // 返回来源页面
 const navigateBackToSource = (selectedSong: any) => {
+  // 保存到本地存储，确保页面返回时可以获取到最新数据
+  uni.setStorageSync('recent_song', selectedSong)
+  
   if (fromPage.value === 'calculator') {
     // 返回到计算器页面，并传递选中的歌曲信息
     uni.navigateBack()
     
-    // 使用事件通知父页面
-    uni.$emit('songSelected', selectedSong)
+    // 使用延时确保页面已经显示后再触发事件
+    setTimeout(() => {
+      uni.$emit('songSelected', selectedSong)
+    }, 100)
   } else if (fromPage.value === 'tolerance') {
     // 返回到容错计算页面
     uni.navigateBack()
     
-    // 使用事件通知父页面
-    uni.$emit('songSelected', selectedSong)
+    // 使用延时确保页面已经显示后再触发事件
+    setTimeout(() => {
+      uni.$emit('songSelected', selectedSong)
+    }, 100)
   } else if (fromPage.value === 'add') {
     // 返回到添加成绩页面
     uni.navigateBack()
     
-    // 使用事件通知父页面
-    uni.$emit('songSelected', selectedSong)
+    // 使用延时确保页面已经显示后再触发事件
+    setTimeout(() => {
+      uni.$emit('songSelected', selectedSong)
+    }, 100)
   } else {
     // 默认返回上一页
     uni.navigateBack()

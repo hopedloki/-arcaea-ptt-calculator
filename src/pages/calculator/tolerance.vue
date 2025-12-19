@@ -557,6 +557,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { onPageShow } from '@dcloudio/uni-app'
+import { getNotesBySongName } from '@/utils/songs-database'
+import { songIdMap } from '@/utils/song-id-map'
 
 // 容错模式
 const mode = ref<'rating' | 'score' | 'ptt'>('rating')
@@ -642,6 +644,22 @@ onMounted(() => {
   // 监听歌曲选择事件
   uni.$on('songSelected', (selectedSongData: any) => {
     selectedSong.value = selectedSongData
+    
+    // 自动填充物量信息
+    if (selectedSongData.name && selectedSongData.difficulty) {
+      const notesCount = getNotesBySongName(
+        selectedSongData.name, 
+        selectedSongData.difficulty, 
+        songIdMap
+      )
+      
+      if (notesCount) {
+        totalNotes.value = notesCount.toString()
+        console.log(`自动填充物量: ${selectedSongData.name} (${selectedSongData.difficulty}) = ${notesCount}`)
+      } else {
+        console.log(`未找到歌曲物量信息: ${selectedSongData.name} (${selectedSongData.difficulty})`)
+      }
+    }
   })
 })
 
@@ -658,6 +676,20 @@ onPageShow(() => {
         selectedSong.value.difficulty !== recentSong.difficulty) {
       selectedSong.value = recentSong
       console.log('页面显示时更新了选中的歌曲:', recentSong)
+      
+      // 自动填充物量信息
+      if (recentSong.name && recentSong.difficulty) {
+        const notesCount = getNotesBySongName(
+          recentSong.name, 
+          recentSong.difficulty, 
+          songIdMap
+        )
+        
+        if (notesCount) {
+          totalNotes.value = notesCount.toString()
+          console.log(`自动填充物量: ${recentSong.name} (${recentSong.difficulty}) = ${notesCount}`)
+        }
+      }
     }
   }
 })

@@ -2,6 +2,7 @@
  * Arcaea歌曲数据库工具
  * 用于管理歌曲数据和定数信息
  */
+import { getNotesCount, getAllNotesCount } from './song-notes-data'
 
 /**
  * 歌曲数据结构
@@ -14,6 +15,12 @@ export interface SongData {
   ftr?: number | null
   byd?: number | null
   etr?: number | null
+  // 添加物量字段
+  pstNotes?: number | null
+  prsNotes?: number | null
+  ftrNotes?: number | null
+  bydNotes?: number | null
+  etrNotes?: number | null
 }
 
 /**
@@ -39,6 +46,44 @@ export function loadSongsData(): SongData[] {
     console.error('加载歌曲数据失败', e)
     return []
   }
+}
+
+/**
+ * 将物量信息添加到歌曲数据中
+ * @param songs 歌曲数据数组
+ * @param songIdMap 歌曲ID映射表，用于匹配物量数据
+ * @returns 添加了物量信息的歌曲数据数组
+ */
+export function addNotesToSongsData(songs: SongData[], songIdMap: Record<string, string>): SongData[] {
+  return songs.map(song => {
+    const songId = songIdMap[song.name]
+    if (!songId) return song
+    
+    const allNotes = getAllNotesCount(songId)
+    
+    return {
+      ...song,
+      pstNotes: allNotes[0],
+      prsNotes: allNotes[1],
+      ftrNotes: allNotes[2],
+      bydNotes: allNotes[3],
+      etrNotes: allNotes[4]
+    }
+  })
+}
+
+/**
+ * 根据歌曲名称获取物量信息
+ * @param songName 歌曲名称
+ * @param difficulty 难度
+ * @param songIdMap 歌曲ID映射表
+ * @returns 物量数量
+ */
+export function getNotesBySongName(songName: string, difficulty: string, songIdMap: Record<string, string>): number | null {
+  const songId = songIdMap[songName]
+  if (!songId) return null
+  
+  return getNotesCount(songId, difficulty)
 }
 
 /**
