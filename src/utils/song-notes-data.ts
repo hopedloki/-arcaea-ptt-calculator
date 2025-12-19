@@ -6,6 +6,11 @@
 // 物量数据映射表，格式为：[歌曲ID: [PST物量, PRS物量, FTR物量, BYD物量, ETR物量]]
 const chartNotesData: Record<string, (number | null)[]> = {
   // 由于完整数据量很大，这里只列出部分示例，实际使用时需要导入完整数据
+  "testify": [1001, 1225, 1766, 2221, null],
+  "designant": [1064, 1262, 1623, 1935, null],
+  "tempestissimo": [965, 1275, 1746, 2044, null],
+  "arcanaeden": [734, 1020, 1541, 1896, null],
+  "pentiment": [920, 1196, 1669, 2006, null],
   "sayonarahatsukoi": [205, 305, 666, null, 728],
   "lostcivilization": [462, 690, 986, 1061, null],
   "goodtek": [449, 632, 968, 1103, null],

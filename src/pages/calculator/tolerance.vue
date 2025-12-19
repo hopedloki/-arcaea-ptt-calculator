@@ -685,6 +685,10 @@ onPageShow(() => {
       
       // 自动填充物量信息
       if (recentSong.name && recentSong.difficulty) {
+        const songId = songIdMap[recentSong.name]
+        console.log(`歌曲ID映射: "${recentSong.name}" -> "${songId}"`)
+        console.log('songIdMap中的前10个:', Object.keys(songIdMap).slice(0, 10))
+        
         const notesCount = getNotesBySongName(
           recentSong.name, 
           recentSong.difficulty, 
@@ -694,6 +698,9 @@ onPageShow(() => {
         if (notesCount) {
           totalNotes.value = notesCount.toString()
           console.log(`自动填充物量: ${recentSong.name} (${recentSong.difficulty}) = ${notesCount}`)
+        } else {
+          console.log(`未找到歌曲物量信息: ${recentSong.name} (${recentSong.difficulty})`)
+          console.log('检查songIdMap:', recentSong.name in songIdMap)
         }
       }
     }
