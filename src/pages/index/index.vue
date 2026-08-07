@@ -158,11 +158,6 @@ const recentScores = computed(() => {
   return Array.isArray(records) ? records.slice(0, 3) : []
 })
 
-// 刷新数据 — 重新从本地存储加载所有 PTT 数据
-const refreshData = () => {
-  pttStore.initStore()
-}
-
 // 记录变更回调 — B30 添加/编辑后触发重新加载
 const handleRecordAdded = () => {
   pttStore.initStore()

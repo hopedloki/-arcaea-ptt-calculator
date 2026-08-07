@@ -4,7 +4,7 @@
  * 这是对原有song-notes-data.ts的重构，使用新的数据结构
  */
 
-import { loadSongsData, SongData } from '@/data'
+import { loadSongsData, type SongData } from '@/data'
 
 /**
  * 缓存的歌曲数据

@@ -21,7 +21,7 @@ export async function loadPackData(): Promise<PackData[]> {
 
   try {
     // 静态导入JSON数据
-    cachedPackData = packlistData as PackData[]
+    cachedPackData = (packlistData as unknown) as PackData[]
     return cachedPackData
   } catch (error) {
     // #ifdef dev

@@ -1,12 +1,5 @@
 <template>
   <view class="container">
-    <!-- Web版引导横幅 -->
-    <view class="web-guide-banner" @click="showWebGuide">
-      <text class="guide-icon">🌐</text>
-      <text class="guide-text">云端同步功能已迁移至 Web 版</text>
-      <text class="guide-arrow">›</text>
-    </view>
-
     <!-- PTT概览 -->
     <view class="card overview-card">
       <view class="ptt-overview">
@@ -97,7 +90,8 @@
     <!-- 选项卡 -->
     <view class="tabs-container">
       <view class="tabs">
-        <view 
+        <view
+          v-if="!OFFLINE_MODE"
           class="tab-item" 
           :class="{ active: activeTab === 'best30' }"
           @click="switchTab('best30')"
@@ -117,7 +111,16 @@
           <view class="tab-count">{{ recentRecords.length }}</view>
           <view class="tab-indicator"></view>
         </view>
-
+        <view 
+          class="tab-item" 
+          :class="{ active: activeTab === 'cloud' }"
+          @click="switchTab('cloud')"
+        >
+          <text class="tab-icon">☁️</text>
+          <text class="tab-text">云端记录</text>
+          <view class="tab-count">{{ cloudRecords.length }}</view>
+          <view class="tab-indicator"></view>
+        </view>
       </view>
     </view>
 
@@ -125,7 +128,7 @@
     <view class="card records-card">
       <view class="card-header">
         <text class="card-title">
-          {{ activeTab === 'best30' ? 'B30记录' : '最近记录' }} ({{ currentRecords.length }})
+          {{ activeTab === 'best30' ? 'B30记录' : activeTab === 'cloud' ? '云端记录' : '最近记录' }} ({{ currentRecords.length }})
         </text>
       </view>
       
@@ -176,17 +179,19 @@
       <view class="empty-state" v-else>
         <view class="empty-illustration">
           <view class="empty-circle">
-            <text class="empty-icon">{{ activeTab === 'best30' ? '🏆' : '📊' }}</text>
+            <text class="empty-icon">{{ activeTab === 'best30' ? '🏆' : activeTab === 'cloud' ? '☁️' : '📊' }}</text>
           </view>
         </view>
         <view class="empty-content">
           <text class="empty-title">
-            {{ activeTab === 'best30' ? '还没有B30记录' : '还没有最近成绩' }}
+            {{ activeTab === 'best30' ? '还没有B30记录' : activeTab === 'cloud' ? '还没有云端记录' : '还没有最近成绩' }}
           </text>
           <text class="empty-subtitle">
             {{ activeTab === 'best30' 
               ? '开始记录您的最佳成绩，构建您的B30列表' 
-              : '记录您最近的游戏成绩，追踪PTT变化' }}
+              : activeTab === 'cloud'
+                ? '上传成绩到云端后，可以在这里查看历史记录'
+                : '记录您最近的游戏成绩，追踪PTT变化' }}
           </text>
           <view class="empty-stats">
             <view class="empty-stat-item">
@@ -214,18 +219,23 @@
 <script setup lang="ts">
 /**
  * 数据管理页
- * 集中管理 B30 记录、最近成绩的查看/编辑/删除
- * 提供数据导出（JSON文件）和数据导入（本地文件）功能
- * 支持两个选项卡切换：B30记录、最近记录
+ * 集中管理 B30 记录、最近成绩、云端记录的查看/编辑/删除
+ * 提供数据导出（JSON文件/云端上传）和数据导入（本地文件/云端同步）功能
+ * 支持三个选项卡切换：B30记录、最近记录、云端记录
+ * 依赖 authStore 进行云端数据的拉取和上传
  */
 import { ref, computed, onMounted } from 'vue'
-import { getDifficultyText, getDifficultyClass, getRatingClass, getPTTProgress, getPTTProgressText, getMaxPtt } from '../../utils/helpers'
-import { getStorage, setStorage, removeStorage } from '../../services/storage'
-import { showSuccess, showError, showConfirm, showLoading, hideLoading } from '../../services/toast'
-import { STORAGE_KEYS } from '../../constants'
+import { authStore } from '@/stores/authStore'
+import { getDifficultyText, getDifficultyClass, getRatingClass, getPTTProgress, getPTTProgressText } from '../../utils/helpers'
+import { getStorage, setStorage } from '../../services/storage'
+import { showSuccess, showError, showLoading, hideLoading } from '../../services/toast'
+import { fetchCloudRecords as cloudFetchRecords, uploadCloudRecords } from '../../services/cloud-service'
+import { STORAGE_KEYS, OFFLINE_MODE } from '../../constants'
 import { isOnline } from '../../services/network'
 import { pttStore } from '../../stores/pttStore'
 import type { Best30Record } from '../../types'
+
+// authStore and pttStore are directly imported
 
 // PTT 概览数据 — 从 pttStore 单一数据源获取（加 .value 解包嵌套 ref）
 const currentPTT = computed(() => pttStore.currentPTT.value)
@@ -240,13 +250,18 @@ const recentRecords = ref<Best30Record[]>([])
 const songsCount = ref(0)
 
 // 当前选中的选项卡
-const activeTab = ref<'best30' | 'recent'>('best30')
+const activeTab = ref<'best30' | 'recent' | 'cloud'>('best30')
 
 // 统计区域展开/折叠状态
 const statsExpanded = ref(true)
 
+// 云端记录和加载状态
+const cloudRecords = ref<Best30Record[]>([])
+const cloudLoading = ref(false)
+
 // 当前显示的记录列表 — 根据 activeTab 动态计算
 const currentRecords = computed(() => {
+  if (activeTab.value === 'cloud') return cloudRecords.value
   return activeTab.value === 'best30' ? best30Records.value : recentRecords.value
 })
 
@@ -287,7 +302,6 @@ const toggleStatsView = () => {
 
 // 格式化日期为简短显示（MM-DD HH:mm）
 const formatDate = (date: Date): string => {
-  const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
   const hours = String(date.getHours()).padStart(2, '0')
@@ -316,14 +330,37 @@ const refreshPTT = () => {
   }
 }
 
-// 切换选项卡
-const switchTab = (tab: 'best30' | 'recent') => {
+// 切换选项卡 — 切换到云端记录时自动拉取数据
+const switchTab = (tab: 'best30' | 'recent' | 'cloud') => {
+  if (tab === 'cloud' && OFFLINE_MODE) {
+    showError('离线版不支持云端记录')
+    return
+  }
   activeTab.value = tab
+  if (tab === 'cloud') {
+    if (!isOnline.value) {
+      showError('当前无网络连接，无法加载云端记录')
+      return
+    }
+    fetchCloudRecords()
+  }
 }
 
-// 导出全部数据 — 直接导出为JSON文件
+// 导出全部数据 — 弹出双选项菜单（本地JSON / 云端上传）
 const exportAllData = () => {
-  exportAsJson()
+  const items = OFFLINE_MODE || !isOnline.value
+    ? ['导出为JSON文件（下载到本地）']
+    : ['导出为JSON文件（下载到本地）', '云端上传至MySQL数据库']
+  uni.showActionSheet({
+    itemList: items,
+    success: (res) => {
+      if (res.tapIndex === 0) {
+        exportAsJson()
+      } else if (res.tapIndex === 1) {
+        uploadToCloud()
+      }
+    }
+  })
 }
 
 // 导出为JSON文件 — H5端下载文件，非H5端复制到剪贴板
@@ -386,9 +423,93 @@ const exportAsJson = () => {
   }
 }
 
-// 导入数据 — 直接从本地JSON文件导入
+// 上传 B30 记录到云端 — 需先登录
+const uploadToCloud = async () => {
+  if (OFFLINE_MODE) {
+    showError('离线版不支持云端存储')
+    return
+  }
+  if (!authStore.state.isLoggedIn) {
+    uni.showModal({
+      title: '需要登录',
+      content: '请先登录后再上传成绩到云端',
+      confirmText: '去登录',
+      success: (res) => {
+        if (res.confirm) {
+          uni.navigateTo({ url: '/pages/login/login' })
+        }
+      }
+    })
+    return
+  }
+
+  const recordsToUpload = best30Records.value.map((r) => ({
+    songName: r.songName,
+    difficulty: r.difficulty,
+    constant: r.constant,
+    score: r.score,
+    ptt: r.ptt,
+    rating: r.rating,
+    pureCount: r.pureCount,
+    farCount: r.farCount,
+    lostCount: r.lostCount,
+    remark: r.remark,
+    recordTime: r.timestamp || Date.now()
+  }))
+
+  // 检查缺失定数的记录
+  const missingConstant = recordsToUpload.filter(r => !r.constant || r.constant <= 0)
+  if (missingConstant.length > 0) {
+    const names = missingConstant.map(r => `${r.songName}(${r.difficulty})`).join('、')
+    uni.showModal({
+      title: '定数缺失',
+      content: `以下记录定数缺失: ${names}\n\n将继续上传，由服务端尝试自动补全。`,
+      showCancel: false
+    })
+  }
+
+  if (recordsToUpload.length === 0) {
+    showError('没有可上传的记录')
+    return
+  }
+
+  uni.showModal({
+    title: '确认上传',
+    content: `将上传 ${recordsToUpload.length} 条B30记录到云端，是否继续？`,
+    success: async (res) => {
+      if (!res.confirm) return
+
+      showLoading('上传中...')
+      try {
+        const totalPtt = recordsToUpload.reduce((sum, r) => sum + (r.ptt || 0), 0)
+        const currentPtt = recordsToUpload.length > 0 ? parseFloat((totalPtt / recordsToUpload.length).toFixed(2)) : 0
+
+        await uploadCloudRecords(Number(authStore.state.userId), recordsToUpload, currentPtt)
+        hideLoading()
+        showSuccess('上传成功')
+      } catch (e) {
+        hideLoading()
+        showError('网络异常，上传失败')
+      }
+    }
+  })
+}
+
+// 导入数据 — 弹出双选项菜单（本地文件 / 云端同步）
 const importData = () => {
-  importFromLocal()
+  const items = OFFLINE_MODE || !isOnline.value
+    ? ['本地导入（从JSON文件）']
+    : ['本地导入（从JSON文件）', '云端同步（从MySQL数据库）']
+  uni.showActionSheet({
+    itemList: items,
+    success: (res) => {
+      if (res.tapIndex === 0) {
+        importFromLocal()
+      } else if (res.tapIndex === 1) {
+        syncFromCloud()
+      }
+    }
+  })
 }
 
 // 从本地JSON文件导入 — H5端 FileReader 读取，非H5端 uni.chooseFile
@@ -417,6 +538,7 @@ const importFromLocal = () => {
   // #endif
 
   // #ifndef H5
+  // @dcloudio/types 的 chooseFile 选项类型与小程序端实际 API 不一致，这里按实际用法断言
   uni.chooseFile({
     count: 1,
     type: 'file',
@@ -428,8 +550,9 @@ const importFromLocal = () => {
         fileManager.readFile({
           filePath: tempFilePaths[0],
           encoding: 'utf8',
-          success: (readRes: { data: string }) => {
-            processImportData(readRes.data)
+          success: (readRes) => {
+            const content = typeof readRes.data === 'string' ? readRes.data : ''
+            processImportData(content)
           },
           fail: (err) => {
             // #ifdef dev
@@ -461,8 +584,47 @@ const importFromLocal = () => {
         }
       })
     }
-  })
+  } as any)
   // #endif
+}
+
+// 从云端同步记录到本地 — 需先登录
+const syncFromCloud = () => {
+  if (OFFLINE_MODE) {
+    showError('离线版不支持云端存储')
+    return
+  }
+  if (!authStore.state.isLoggedIn) {
+    uni.showModal({
+      title: '需要登录',
+      content: '请先登录后再从云端同步数据',
+      confirmText: '去登录',
+      success: (res) => {
+        if (res.confirm) {
+          uni.navigateTo({ url: '/pages/login/login' })
+        }
+      }
+    })
+    return
+  }
+
+  uni.showModal({
+    title: '云端同步',
+    content: '将从云端拉取已上传的历史记录到本地，是否继续？',
+    success: async (res) => {
+      if (!res.confirm) return
+      await fetchCloudRecords()
+      // 将云端记录同步到本地存储
+      if (cloudRecords.value.length > 0) {
+        best30Records.value = cloudRecords.value
+        setStorage(STORAGE_KEYS.BEST30_RECORDS, cloudRecords.value)
+        refreshPTT()
+        showSuccess(`已同步 ${cloudRecords.value.length} 条记录`)
+      } else {
+        showError('云端没有可同步的记录')
+      }
+    }
+  })
 }
 
 // 解析导入的 JSON 数据 — 兼容完整导出格式和旧版 B30 格式
@@ -499,6 +661,27 @@ const processImportData = (jsonStr: string) => {
     console.error('解析数据失败', e)
     // #endif
     showError('数据格式不正确')
+  }
+}
+
+//   从云端拉取历史记录
+const fetchCloudRecords = async () => {
+  if (!authStore.state.isLoggedIn) {
+    cloudRecords.value = []
+    return
+  }
+
+  cloudLoading.value = true
+  try {
+    const records = await cloudFetchRecords(Number(authStore.state.userId))
+    cloudRecords.value = records.map((r) => ({
+      ...r,
+      cloudId: r.id
+    }))
+  } catch (e) {
+    showError('拉取失败，请检查网络')
+  } finally {
+    cloudLoading.value = false
   }
 }
 
@@ -544,8 +727,6 @@ const goToBest30 = () => {
 
 // 编辑记录
 const editRecord = (index: number) => {
-  const record = currentRecords.value[index]
-  
   if (activeTab.value === 'best30') {
     // 编辑B30记录
     uni.navigateTo({
@@ -590,30 +771,6 @@ const deleteRecord = (index: number) => {
             // #endif
           showError('删除失败')
         }
-      }
-    }
-  })
-}
-
-async function manualSyncSongs() {
-  showWebGuide()
-}
-
-// 显示 Web 版引导弹窗
-const showWebGuide = () => {
-  uni.showModal({
-    title: '云端功能说明',
-    content: '云端成绩同步、数据备份等功能已迁移至 Web 版。请使用浏览器访问 hopeddev.online，注册账号后即可使用完整功能。\n\n本地版保留全部离线计算功能，数据存储于本地设备。',
-    confirmText: '复制链接',
-    cancelText: '知道了',
-    success: (res) => {
-      if (res.confirm) {
-        uni.setClipboardData({
-          data: 'https://hopeddev.online',
-          success: () => {
-            uni.showToast({ title: '链接已复制', icon: 'success' })
-          }
-        })
       }
     }
   })
@@ -1605,32 +1762,4 @@ const getRankClass = (index: number): string => {
   transform: scale(0.96);
 }
 // #endif
-
-.web-guide-banner {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  border: 2rpx solid #90caf9;
-  border-radius: 16rpx;
-  padding: 20rpx 24rpx;
-  margin-bottom: 20rpx;
-  gap: 12rpx;
-}
-
-.guide-icon {
-  font-size: 32rpx;
-}
-
-.guide-text {
-  flex: 1;
-  font-size: 26rpx;
-  color: #1565c0;
-  font-weight: 500;
-}
-
-.guide-arrow {
-  font-size: 32rpx;
-  color: #1565c0;
-  font-weight: bold;
-}
 </style>

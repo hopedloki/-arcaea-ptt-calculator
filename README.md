@@ -46,25 +46,11 @@
 
 ### 5. 数据管理
 
-支持成绩数据的本地导入导出：
+支持成绩数据的导入导出：
 
 - **数据导出**：将 B30 成绩记录导出为 JSON 文件备份
 - **数据导入**：从备份文件恢复成绩数据
 - **跨平台兼容**：H5 和 App 端均支持导入导出功能
-
-## Web 版（推荐）
-
-本应用为离线本地版，专注提供 PTT 计算、B30 管理等核心离线功能。
-
-**如需云端同步、数据备份、跨设备访问、PTT 历史记录等完整功能，请访问 Web 版：**
-
-> **[hopeddev.online](https://hopeddev.online)**
-
-Web 版提供：
-- 云端成绩同步 — 数据安全存储于云端
-- 数据云端备份 — 换设备不丢数据
-- 跨设备访问 — 手机/电脑/平板随时随地使用
-- PTT 历史记录 — 追踪你的成长轨迹
 
 ## 部署指南
 
@@ -72,7 +58,7 @@ Web 版提供：
 
 如果您只是想使用这个应用，请直接下载 Release 页面的 APK 安装包：
 
-1. 访问项目的 [Release 页面](https://github.com/hopedloki/arcaea-ptt-calculator/releases)
+1. 访问项目的 [Release 页面](https://github.com/hopedloki/-arcaea-ptt-calculator/releases)
 2. 下载最新版本的 APK 文件
 3. 在 Android 设备上安装 APK
 
@@ -89,7 +75,7 @@ Web 版提供：
 
 ```bash
 # 克隆项目
-git clone https://github.com/hopedloki/arcaea-ptt-calculator.git
+git clone https://github.com/hopedloki/-arcaea-ptt-calculator.git
 cd arcaea-ptt-calculator
 
 # 安装依赖

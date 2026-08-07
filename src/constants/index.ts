@@ -1,3 +1,6 @@
+/** 离线版构建标志：VITE_OFFLINE=true 时启用（无云端存储/在线歌曲更新，其余功能全保留） */
+export const OFFLINE_MODE = import.meta.env.VITE_OFFLINE === 'true'
+
 /** 难度代码 → 显示文本 */
 export const DIFFICULTY_TEXT: Record<string, string> = {
   pst: 'Past',
@@ -18,6 +21,7 @@ export const DIFFICULTY_CLASS: Record<string, string> = {
 
 /** 评级 → CSS 类名 */
 export const RATING_CLASS: Record<string, string> = {
+  'PM': 'rating-pm',
   'EX+': 'rating-ex-plus',
   'EX': 'rating-ex',
   'AA': 'rating-aa',
@@ -27,14 +31,15 @@ export const RATING_CLASS: Record<string, string> = {
   'D': 'rating-d'
 }
 
-/** 评级阈值（从高到低） */
+/** 评级阈值（从高到低，Arcaea 官方口径） */
 export const RATING_THRESHOLDS: Array<{ label: string; min: number }> = [
+  { label: 'PM', min: 10000000 },
   { label: 'EX+', min: 9900000 },
   { label: 'EX', min: 9800000 },
   { label: 'AA', min: 9500000 },
-  { label: 'A', min: 9000000 },
-  { label: 'B', min: 8000000 },
-  { label: 'C', min: 7000000 },
+  { label: 'A', min: 9200000 },
+  { label: 'B', min: 8900000 },
+  { label: 'C', min: 8600000 },
   { label: 'D', min: 0 }
 ]
 
@@ -59,6 +64,11 @@ export const STORAGE_KEYS = {
   RECENT_SONG: 'arcaea_recent_song',
   SONGS_DATA: 'arcaea_songs_data',
   SONGS_CACHE_TIME: 'arcaea_songs_cache_time',
+  TOKEN: 'app_token',
+  USER_ID: 'app_userId',
+  USERNAME: 'app_username',
+  NICKNAME: 'app_nickname',
+  ROLE: 'app_role',
   SELECTED_SONG_ADD: 'selected_song_for_add',
   SELECTED_SONG_CALC: 'selected_song_for_calculator',
   /** 数据同步相关 key */

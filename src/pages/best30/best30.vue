@@ -195,11 +195,12 @@
  */
 import { ref, computed, onMounted } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
-import { getDifficultyText, getDifficultyClass, getRatingClass, getRating, getPTTProgress, getPTTProgressText } from '../../utils/helpers'
-import { calculatePtt } from '../../utils/ptt-calculator'
+import { getDifficultyText, getDifficultyClass, getRatingClass, getPTTProgress, getPTTProgressText } from '../../utils/helpers'
 import { getStorage, setStorage } from '../../services/storage'
-import { showSuccess, showError, showConfirm } from '../../services/toast'
-import { STORAGE_KEYS } from '../../constants'
+import { showSuccess, showError, showConfirm, showLoading, hideLoading } from '../../services/toast'
+import { fetchCloudRecords, uploadCloudRecords } from '../../services/cloud-service'
+import { STORAGE_KEYS, OFFLINE_MODE } from '../../constants'
+import { isOnline } from '../../services/network'
 import { pttStore } from '../../stores/pttStore'
 import type { Best30Record } from '../../types'
 
@@ -325,9 +326,21 @@ const goToData = () => {
   })
 }
 
-// 导入数据 — 直接执行本地 JSON 文件导入
+// ​导入数据入口：弹出操作菜单让用户选择"本地导入（JSON 文件）"或"云端同步（MySQL 数据库）"
 const importData = () => {
-  importFromLocalFile()
+  const items = OFFLINE_MODE || !isOnline.value
+    ? ['本地导入（从JSON文件）']
+    : ['本地导入（从JSON文件）', '云端同步（从MySQL数据库）']
+  uni.showActionSheet({
+    itemList: items,
+    success: (res) => {
+      if (res.tapIndex === 0) {
+        importFromLocalFile()
+      } else if (res.tapIndex === 1) {
+        syncFromCloud()
+      }
+    }
+  })
 }
 
 // ​让用户选择一个本地 JSON 文件导入 B30 记录（H5 用 DOM input，小程序用 uni.chooseFile）
@@ -345,7 +358,7 @@ const importFromLocalFile = () => {
         try {
           const jsonStr = event.target?.result as string
           processBest30Import(jsonStr)
-        } catch (err) {
+        } catch {
           showError('读取文件失败')
         }
       }
@@ -356,18 +369,19 @@ const importFromLocalFile = () => {
   // #endif
   
   // #ifndef H5
+  // @dcloudio/types 的 chooseFile 选项类型与小程序端实际 API 不一致，这里按实际用法断言
   uni.chooseFile({
     count: 1,
     type: 'file',
-    success: (res) => {
+    success: (res: any) => {
       if (res.tempFiles && res.tempFiles.length > 0) {
         const file = res.tempFiles[0]
         const reader = new FileReader()
         reader.onload = (e) => {
           try {
-            const data = JSON.parse(e.target.result as string)
+            const data = JSON.parse((e.target as FileReader).result as string)
             processBest30Json(data)
-          } catch (err) {
+          } catch {
             showError('解析数据失败')
           }
         }
@@ -375,10 +389,10 @@ const importFromLocalFile = () => {
         reader.readAsText(file, 'utf8')
       }
     },
-    fail: (err) => {
+    fail: () => {
       showError('选择文件失败')
     }
-  })
+  } as any)
   // #endif
 }
 
@@ -462,9 +476,58 @@ const processBest30Json = (data: Record<string, unknown>) => {
   showError('数据格式不正确')
 }
 
-// 导出数据 — 直接导出为 JSON 文件
+// ​从云端 MySQL 数据库拉取当前用户的历史 B30 记录到本地，需要登录态
+const syncFromCloud = async () => {
+  if (OFFLINE_MODE) {
+    showError('离线版不支持云端存储')
+    return
+  }
+  const token = getStorage(STORAGE_KEYS.TOKEN)
+  const userId = getStorage(STORAGE_KEYS.USER_ID)
+  if (!token || !userId) {
+    const confirmed = await showConfirm('需要登录', '请先登录后再从云端同步数据')
+    if (confirmed) {
+      uni.navigateTo({ url: '/pages/login/login' })
+    }
+    return
+  }
+
+  const confirmed = await showConfirm('云端同步', '将从云端拉取已上传的历史记录到本地，是否继续？')
+  if (!confirmed) return
+
+  showLoading('拉取中...')
+  try {
+    const records = await fetchCloudRecords(Number(userId))
+    hideLoading()
+    if (records.length > 0) {
+      best30Records.value = records
+      saveBest30Records()
+      recalculatePTTOverview()
+      showSuccess(`已同步 ${records.length} 条记录`)
+    } else {
+      showError('云端没有可同步的记录')
+    }
+  } catch (e) {
+    hideLoading()
+    showError('网络异常，拉取失败')
+  }
+}
+
+// ​导出数据入口：弹出操作菜单让用户选择"导出为 JSON 文件"或"云端上传至数据库"
 const exportData = () => {
-  exportAsJson()
+  const items = OFFLINE_MODE || !isOnline.value
+    ? ['导出为JSON文件（下载到本地）']
+    : ['导出为JSON文件（下载到本地）', '云端上传至MySQL数据库']
+  uni.showActionSheet({
+    itemList: items,
+    success: (res) => {
+      if (res.tapIndex === 0) {
+        exportAsJson()
+      } else if (res.tapIndex === 1) {
+        uploadToCloud()
+      }
+    }
+  })
 }
 
 // ​将 B30 记录和 PTT 概览按统一结构导出为 JSON 文件（H5 触发下载，小程序写入本地文件系统）
@@ -533,6 +596,65 @@ const exportAsJson = () => {
   }
 }
 
+// ​将当前所有 B30 记录和 PTT 数据上传到后端 MySQL 数据库持久化，需要登录态，上传前检测定数缺失
+const uploadToCloud = () => {
+  if (OFFLINE_MODE) {
+    showError('离线版不支持云端存储')
+    return
+  }
+  const token = getStorage(STORAGE_KEYS.TOKEN)
+  const userId = getStorage(STORAGE_KEYS.USER_ID)
+  if (!token || !userId) {
+    showConfirm('需要登录', '请先登录后再上传成绩到云端').then((confirmed) => {
+      if (confirmed) {
+        uni.navigateTo({ url: '/pages/login/login' })
+      }
+    })
+    return
+  }
+
+  const recordsToUpload = best30Records.value.map((r: Best30Record) => ({
+    songName: r.songName,
+    difficulty: r.difficulty,
+    constant: r.constant,
+    score: r.score,
+    ptt: r.ptt,
+    rating: r.rating,
+    pureCount: r.pureCount,
+    farCount: r.farCount,
+    lostCount: r.lostCount,
+    remark: r.remark,
+    recordTime: r.timestamp || Date.now()
+  }))
+
+  const missingConstant = recordsToUpload.filter(r => !r.constant || r.constant <= 0)
+  if (missingConstant.length > 0) {
+    const names = missingConstant.map(r => `${r.songName}(${r.difficulty})`).join('、')
+    showConfirm('定数缺失', `以下记录定数缺失: ${names}\n\n将继续上传，由服务端尝试自动补全。`).then(() => {})
+  }
+
+  if (recordsToUpload.length === 0) {
+    showError('没有可上传的记录')
+    return
+  }
+
+  showConfirm('确认上传', `将上传 ${recordsToUpload.length} 条B30记录到云端，是否继续？`).then(async (confirmed) => {
+    if (!confirmed) return
+    showLoading('上传中...')
+    const totalPtt = recordsToUpload.reduce((sum, r) => sum + (r.ptt || 0), 0)
+    const currentPtt = recordsToUpload.length > 0 ? parseFloat((totalPtt / recordsToUpload.length).toFixed(2)) : 0
+    
+    try {
+      await uploadCloudRecords(Number(userId), recordsToUpload, currentPtt)
+      hideLoading()
+      showSuccess('上传成功')
+    } catch (e) {
+      hideLoading()
+      showError('网络异常，上传失败')
+    }
+  })
+}
+
 const showClearDialog = () => {
   showConfirm('确认清空', '确定要清空所有B30记录吗？此操作不可恢复！').then((confirmed) => {
     if (confirmed) {
@@ -563,26 +685,6 @@ const saveBest30Records = () => {
     console.error('保存B30记录失败', e)
     // #endif
   }
-}
-
-// 引导用户使用 Web 版云端功能
-const showWebGuide = () => {
-  uni.showModal({
-    title: '云端功能说明',
-    content: '云端成绩同步、数据备份等功能已迁移至 Web 版。请使用浏览器访问 hopeddev.online，注册账号后即可使用完整功能。\n\n本地版保留全部离线计算功能，数据存储于本地设备。',
-    confirmText: '复制链接',
-    cancelText: '知道了',
-    success: (res) => {
-      if (res.confirm) {
-        uni.setClipboardData({
-          data: 'https://hopeddev.online',
-          success: () => {
-            uni.showToast({ title: '链接已复制', icon: 'success' })
-          }
-        })
-      }
-    }
-  })
 }
 
 // ​根据筛选后的索引定位原始记录，跳转到 add 编辑页

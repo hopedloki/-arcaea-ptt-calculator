@@ -8,6 +8,7 @@ import { ref, watch } from 'vue'
 import type { Best30Record, PttData } from '../types'
 import { STORAGE_KEYS } from '../constants'
 import { calculatePtt } from '../utils/ptt-calculator'
+import { getRating } from '../utils/helpers'
 import { getStorage, setStorage } from '../services/storage'
 
 // 本地存储键名
@@ -15,16 +16,9 @@ const STORAGE_KEY_BEST30 = STORAGE_KEYS.BEST30_RECORDS
 const STORAGE_KEY_RECENT = STORAGE_KEYS.RECENT_SCORES
 const STORAGE_KEY_PTT = STORAGE_KEYS.PTT_DATA
 
-// 根据分数判定Arcaea评级（PM, EX+, EX, AA, A, B, C, D）
+// 根据分数判定 Arcaea 评级（统一走 helpers.getRating，阈值来自 constants.RATING_THRESHOLDS）
 function calculateRating(score: number): string {
-  if (score >= 10000000) return 'PM'
-  if (score >= 9800000) return 'EX+'
-  if (score >= 9500000) return 'EX'
-  if (score >= 9000000) return 'AA'
-  if (score >= 8000000) return 'A'
-  if (score >= 7000000) return 'B'
-  if (score >= 6000000) return 'C'
-  return 'D'
+  return getRating(score)
 }
 
 // 状态

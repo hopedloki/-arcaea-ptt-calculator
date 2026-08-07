@@ -56,6 +56,7 @@ export interface SimpleSongData {
   id: string
   name: string
   artist?: string
+  bpm?: string
   pack: string
   dl: boolean
   alias: string[]
@@ -186,11 +187,44 @@ export type RatingType = 'PM' | 'EX+' | 'EX' | 'AA' | 'A' | 'B' | 'C' | 'D'
 
 /**
  * 歌曲选择回传数据
+ * 存储于 RECENT_SONG / SELECTED_SONG_*，由 songs.vue 构建，
+ * 含所选难度、定数及物量等附加字段。
  */
 export interface SongSelectedData {
   name: string
-  difficulty: DifficultyType
+  difficulty: string
   constant: number
+  artist?: string
+  id?: string
+  pack?: string
+  dl?: boolean
+  pstNotes?: number | null
+  prsNotes?: number | null
+  ftrNotes?: number | null
+  bydNotes?: number | null
+  etrNotes?: number | null
+}
+
+/**
+ * 容错计算结果展示视图（评级/分数/PTT 三种模式的字段并集，字段均可选）
+ */
+export interface ToleranceResultView {
+  canAchieve?: boolean
+  currentScore?: number
+  minScore?: number
+  maxScore?: number
+  targetScore?: number
+  scoreGap?: number
+  currentPtt?: number
+  targetPtt?: number
+  pttGap?: number
+  maxFarCount?: number
+  maxLostCount?: number
+  tolerableFar?: number
+  tolerableLost?: number
+  remainingNotes?: number
+  theoreticalMaxScore?: number
+  theoreticalMaxPtt?: number
 }
 
 // ==================== 数据统计类型 ====================
@@ -227,26 +261,4 @@ export interface PttState {
   best30Records: Best30Record[]
   recentRecords: Best30Record[]
   pttData: PttData | null
-}
-
-// 导出所有类型
-export type {
-  SongData,
-  SimpleSongData,
-  PackData,
-  ChartData,
-  SongVersion,
-  Best30Record,
-  PttData,
-  RatingOption,
-  RatingToleranceResult,
-  ScoreToleranceResult,
-  AppData,
-  PttCalculationResult,
-  DifficultyType,
-  RatingType,
-  SongSelectedData,
-  DataStatistics,
-  DataValidationResult,
-  PttState
 }

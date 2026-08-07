@@ -3,6 +3,8 @@
  * 提供评级容错、分数容错和PTT容错的计算能力
  */
 
+import { RATING_THRESHOLDS } from '../constants'
+
 /**
  * 评级选项
  */
@@ -81,32 +83,24 @@ export interface ToleranceParams {
 function calculatePttFromScore(score: number, constant: number): number {
   if (score >= 10000000) {
     return constant + 2.0
-  } else if (score >= 9900000) {
-    return constant + 1.5 + (score - 9900000) / 100000
   } else if (score >= 9800000) {
-    return constant + 1.0 + (score - 9800000) / 400000
-  } else {
-    return constant + Math.max(0, (score - 9500000) / 300000)
+    return constant + 1.0 + (score - 9800000) / 200000
   }
+  return Math.max(0, constant + (score - 9500000) / 300000)
 }
 
 /**
- * 计算目标 PTT 所需的最低分数
+ * 计算目标 PTT 所需的最低分数（与 ptt-calculator.calculateScore 保持同一分段公式）
  */
 function calculateScoreFromTargetPtt(targetPtt: number, constant: number): number {
-  const targetPttAboveConstant = targetPtt - constant
+  const offset = targetPtt - constant
 
-  if (targetPttAboveConstant >= 2.0) {
+  if (offset >= 2.0) {
     return 10000000
-  } else if (targetPttAboveConstant >= 1.5) {
-    return Math.floor(9900000 + (targetPttAboveConstant - 1.5) * 100000)
-  } else if (targetPttAboveConstant >= 1.0) {
-    return Math.floor(9800000 + (targetPttAboveConstant - 1.0) * 400000)
-  } else if (targetPttAboveConstant >= 0) {
-    return Math.floor(9500000 + targetPttAboveConstant * 300000)
-  } else {
-    return Math.floor(9500000 + targetPttAboveConstant * 300000)
+  } else if (offset >= 1.0) {
+    return Math.floor(9800000 + (offset - 1.0) * 200000)
   }
+  return Math.max(0, Math.floor(9500000 + offset * 300000))
 }
 
 /**
@@ -116,56 +110,6 @@ function calcCurrentScore(params: ToleranceParams): number {
   const baseScorePerNote = 10000000 / params.notes
   const baseScore = params.pure * baseScorePerNote + params.far * (baseScorePerNote / 2)
   return Math.floor(baseScore + params.bigPure)
-}
-
-/**
- * 辅助：计算能否达成目标及容错数
- */
-function calcTolerance(
-  currentScore: number,
-  targetScore: number,
-  baseScorePerNote: number,
-  params: ToleranceParams
-) {
-  const scoreGap = currentScore - targetScore
-  const remainingNotes = params.notes - params.pure - params.far - params.lost
-
-  if (scoreGap >= 0) {
-    // 已达成，计算容错空间
-    const maxAdditionalFar = Math.floor(scoreGap / (baseScorePerNote / 2))
-    const maxAdditionalLost = Math.floor((scoreGap - maxAdditionalFar * (baseScorePerNote / 2)) / baseScorePerNote)
-    const finalMaxLost = Math.min(maxAdditionalLost, remainingNotes)
-    const remainingScore = scoreGap - finalMaxLost * baseScorePerNote
-    const additionalFar = Math.floor(remainingScore / (baseScorePerNote / 2))
-    return {
-      tolerableFar: params.far + additionalFar,
-      tolerableLost: finalMaxLost,
-      canAchieve: true,
-    }
-  }
-
-  // 未达成目标
-  const neededScore = -scoreGap
-  const maxPossibleScore = currentScore + remainingNotes * baseScorePerNote
-
-  if (maxPossibleScore < targetScore) {
-    const theoreticalMaxScore = currentScore + remainingNotes * baseScorePerNote + remainingNotes
-    return {
-      tolerableFar: params.far,
-      tolerableLost: params.lost,
-      canAchieve: false,
-      remainingNotes,
-      theoreticalMaxScore,
-    }
-  }
-
-  const neededPureCount = Math.ceil(neededScore / baseScorePerNote)
-  const remainingAfterNeededPure = remainingNotes - neededPureCount
-  return {
-    tolerableFar: params.far + remainingAfterNeededPure,
-    tolerableLost: params.lost + Math.floor(remainingAfterNeededPure / 2),
-    canAchieve: false,
-  }
 }
 
 /**
@@ -492,15 +436,9 @@ export function calculateRatingToleranceFromTheoretical(
 }
 
 /**
- * 评级选项列表
+ * 评级选项列表（Phase 3：由 constants 的 RATING_THRESHOLDS 单一来源派生）
  */
-export const RATING_OPTIONS: RatingOption[] = [
-  { name: 'PM', minScore: 10000000 },
-  { name: 'EX+', minScore: 9900000 },
-  { name: 'EX', minScore: 9800000 },
-  { name: 'AA', minScore: 9500000 },
-  { name: 'A', minScore: 9200000 },
-  { name: 'B', minScore: 8900000 },
-  { name: 'C', minScore: 8600000 },
-  { name: 'D', minScore: 0 },
-]
+export const RATING_OPTIONS: RatingOption[] = RATING_THRESHOLDS.map(t => ({
+  name: t.label,
+  minScore: t.min
+}))

@@ -4,8 +4,9 @@
  */
 
 export * from './ptt-calculator'
-// tolerance-calculator 中的 calculateRatingTolerance/calculateScoreTolerance 与 ptt-calculator 同名冲突，
-// 需直接从 './tolerance-calculator' 导入特定函数（如 calculateRatingToleranceFromTheoretical）
+// Phase 3：容错计算已收敛到 tolerance-calculator 单一实现，
+// 与 ptt-calculator 不再有同名冲突，统一从入口导出
+export * from './tolerance-calculator'
 export * from './data-manager'
 
 // 按指定格式格式化日期（占位符：YYYY/MM/DD/HH/mm/ss）

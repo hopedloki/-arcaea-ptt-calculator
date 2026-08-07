@@ -84,11 +84,12 @@ export function importJsonFile(): Promise<string> {
     // #endif
 
     // #ifndef H5
+    // @dcloudio/types 的 chooseFile 选项类型与小程序端实际 API 不一致，这里按实际用法断言
     uni.chooseFile({
       count: 1,
       type: 'file',
       extension: ['.json'],
-      success: (res) => {
+      success: (res: any) => {
         const tempFilePath = res.tempFilePaths?.[0]
         if (!tempFilePath) {
           reject(new Error('未选择文件'))
@@ -108,7 +109,7 @@ export function importJsonFile(): Promise<string> {
         })
       },
       fail: () => reject(new Error('选择文件失败')),
-    })
+    } as any)
     // #endif
   })
 }

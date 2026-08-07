@@ -367,14 +367,14 @@
           <view class="result-icon">📊</view>
           <view class="result-content">
             <text class="result-label">{{ toleranceMode === 'current' ? '当前分数' : '理论满分' }}</text>
-            <text class="result-value">{{ result.currentScore.toLocaleString() }}</text>
+            <text class="result-value">{{ (result.currentScore ?? 0).toLocaleString() }}</text>
           </view>
         </view>
         <view class="result-item">
           <view class="result-icon">🎯</view>
           <view class="result-content">
             <text class="result-label">目标分数</text>
-            <text class="result-value">{{ result.minScore.toLocaleString() }}</text>
+            <text class="result-value">{{ (result.minScore ?? 0).toLocaleString() }}</text>
           </view>
         </view>
         <view class="result-item highlight" v-if="result.canAchieve && (toleranceMode === 'current' || toleranceDisplayMode === 'far')">
@@ -414,7 +414,7 @@
           <view class="result-content">
             <text class="result-label">理论最高分</text>
             <text class="result-value warning-text">
-              {{ Math.round(result.theoreticalMaxScore).toLocaleString() }}分
+              {{ Math.round(result.theoreticalMaxScore ?? 0).toLocaleString() }}分
             </text>
           </view>
         </view>
@@ -433,21 +433,21 @@
           <view class="result-icon">🎯</view>
           <view class="result-content">
             <text class="result-label">目标分数</text>
-            <text class="result-value">{{ result.targetScore.toLocaleString() }}</text>
+            <text class="result-value">{{ (result.targetScore ?? 0).toLocaleString() }}</text>
           </view>
         </view>
         <view class="result-item">
           <view class="result-icon">📊</view>
           <view class="result-content">
             <text class="result-label">{{ toleranceMode === 'current' ? '当前分数' : '理论满分' }}</text>
-            <text class="result-value">{{ result.currentScore.toLocaleString() }}</text>
+            <text class="result-value">{{ (result.currentScore ?? 0).toLocaleString() }}</text>
           </view>
         </view>
         <view class="result-item highlight">
           <view class="result-icon">📈</view>
           <view class="result-content">
             <text class="result-label">{{ toleranceMode === 'current' ? '差距' : '误差范围' }}</text>
-            <text class="result-value highlight">{{ Math.abs(result.scoreGap).toLocaleString() }}</text>
+            <text class="result-value highlight">{{ Math.abs(result.scoreGap ?? 0).toLocaleString() }}</text>
           </view>
         </view>
         <view class="result-item highlight" v-if="result.canAchieve && (toleranceMode === 'current' || toleranceDisplayMode === 'far')">
@@ -487,7 +487,7 @@
           <view class="result-content">
             <text class="result-label">理论最高分</text>
             <text class="result-value warning-text">
-              {{ Math.round(result.theoreticalMaxScore).toLocaleString() }}分
+              {{ Math.round(result.theoreticalMaxScore ?? 0).toLocaleString() }}分
             </text>
           </view>
         </view>
@@ -506,21 +506,21 @@
           <view class="result-icon">⭐</view>
           <view class="result-content">
             <text class="result-label">目标PTT</text>
-            <text class="result-value">{{ result.targetPtt.toFixed(2) }}</text>
+            <text class="result-value">{{ (result.targetPtt ?? 0).toFixed(2) }}</text>
           </view>
         </view>
         <view class="result-item">
           <view class="result-icon">📊</view>
           <view class="result-content">
             <text class="result-label">{{ toleranceMode === 'current' ? '当前PTT' : '理论最大PTT' }}</text>
-            <text class="result-value">{{ result.currentPtt.toFixed(2) }}</text>
+            <text class="result-value">{{ (result.currentPtt ?? 0).toFixed(2) }}</text>
           </view>
         </view>
         <view class="result-item highlight">
           <view class="result-icon">📈</view>
           <view class="result-content">
             <text class="result-label">{{ toleranceMode === 'current' ? 'PTT差距' : 'PTT误差' }}</text>
-            <text class="result-value highlight">{{ Math.abs(result.pttGap).toFixed(2) }}</text>
+            <text class="result-value highlight">{{ Math.abs(result.pttGap ?? 0).toFixed(2) }}</text>
           </view>
         </view>
         <view class="result-item highlight" v-if="result.canAchieve && (toleranceMode === 'current' || toleranceDisplayMode === 'far')">
@@ -560,7 +560,7 @@
           <view class="result-content">
             <text class="result-label">理论最高分</text>
             <text class="result-value warning-text">
-              {{ Math.round(result.theoreticalMaxScore).toLocaleString() }}分
+              {{ Math.round(result.theoreticalMaxScore ?? 0).toLocaleString() }}分
             </text>
           </view>
         </view>
@@ -619,6 +619,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { onPageShow, onLoad } from '@dcloudio/uni-app'
 import { STORAGE_KEYS } from '@/constants'
 import { getRatingClass, getDifficultyClass, getDifficultyText } from '@/utils/helpers'
+import { RATING_OPTIONS } from '@/utils/tolerance-calculator'
+import type { SongSelectedData, ToleranceResultView } from '@/types'
 
 // 容错模式：评级容错 / 分数容错 / PTT容错
 const mode = ref<'rating' | 'score' | 'ptt'>('rating')
@@ -629,20 +631,11 @@ const toleranceMode = ref<'current' | 'theoretical'>('current')
 // 基于理论值时的显示方式：显示可容错Far数 / 显示可容错Lost数
 const toleranceDisplayMode = ref<'far' | 'lost'>('far')
 
-// 当前选中的歌曲信息
-const selectedSong = ref<Record<string, unknown>>({})
+// 当前选中的歌曲信息（由 songs.vue 构建并存入 RECENT_SONG）
+const selectedSong = ref<SongSelectedData>({ name: '', difficulty: '', constant: 0 })
 
-// 评级容错的目标评级选项
-const ratingOptions = [
-  { name: 'PM', minScore: 10000000 },
-  { name: 'EX+', minScore: 9900000 },
-  { name: 'EX', minScore: 9800000 },
-  { name: 'AA', minScore: 9500000 },
-  { name: 'A', minScore: 9200000 },
-  { name: 'B', minScore: 8900000 },
-  { name: 'C', minScore: 8600000 },
-  { name: 'D', minScore: 0 }
-]
+// 评级容错的目标评级选项（Phase 3：收敛到 constants 单一来源派生）
+const ratingOptions = RATING_OPTIONS
 const ratingIndex = ref(1) // 默认选择EX+
 
 // 用户输入的判定数量和谱面参数
@@ -655,8 +648,8 @@ const targetScore = ref('')
 const currentPure = ref('')
 const targetPtt = ref('')
 
-// 计算结果的响应式对象
-const result = ref<Record<string, unknown> | null>(null)
+// 计算结果的响应式对象（评级/分数/PTT 三种模式的字段并集）
+const result = ref<ToleranceResultView | null>(null)
 
 // 是否满足计算条件 — 校验所选歌曲、输入模式和必填字段
 const canCalculate = computed(() => {
@@ -701,11 +694,8 @@ onMounted(() => {
   }
 
   // 监听歌曲选择事件
-  uni.$on('songSelected', (selectedSongData: Record<string, unknown>) => {
+  uni.$on('songSelected', (selectedSongData: SongSelectedData) => {
     selectedSong.value = selectedSongData
-    // #ifdef dev
-    console.log('收到歌曲选择事件:', selectedSongData)
-    // #endif
   })
 })
 
@@ -719,17 +709,14 @@ onLoad((options: Record<string, string> | undefined) => {
     // 获取物量
     const difficulty = recentSong.difficulty
     if (difficulty) {
-      const notesKey = `${difficulty}Notes`
+      const notesKey = `${difficulty}Notes` as keyof SongSelectedData
       const notes = recentSong[notesKey]
-      if (notes && notes > 0) {
+      if (typeof notes === 'number' && notes > 0) {
         totalNotes.value = notes.toString()
         // 自动填写Pure数量为物量
         pureCount.value = notes.toString()
       }
     }
-    // #ifdef dev
-    console.log('从 recent_song 加载歌曲:', recentSong.name)
-    // #endif
     return
   }
   
@@ -755,9 +742,6 @@ onLoad((options: Record<string, string> | undefined) => {
       if (notes && notes > 0) {
         totalNotes.value = notes.toString()
         pureCount.value = notes.toString()
-        // #ifdef dev
-        console.log(`从歌曲详情加载: ${song.name} [${difficulty.toUpperCase()}] 物量: ${notes}`)
-        // #endif
       }
     }
   } else if (options && options.from === 'songs') {
@@ -782,9 +766,6 @@ onLoad((options: Record<string, string> | undefined) => {
       if (notes && notes > 0) {
         totalNotes.value = notes.toString()
         pureCount.value = notes.toString()
-        // #ifdef dev
-        console.log(`从歌曲列表加载: ${song.name} [${difficulty.toUpperCase()}] 物量: ${notes}`)
-        // #endif
       }
     }
   }
@@ -815,9 +796,6 @@ onPageShow(() => {
         }
       }
       
-      // #ifdef dev
-      console.log('页面显示时更新了选中的歌曲:', recentSong)
-      // #endif
     }
   }
 })
@@ -1280,11 +1258,6 @@ const calculateTheoreticalTolerance = (notes: number) => {
       canAchieve: true
     }
   }
-}
-
-// 格式化分数范围
-const formatScoreRange = (min: number, max: number) => {
-  return `${min.toLocaleString()} - ${max.toLocaleString()}`
 }
 
 </script>

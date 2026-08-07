@@ -1,3 +1,5 @@
+import { getEncryptedToken, removeStorage } from './storage'
+import { STORAGE_KEYS } from '../constants'
 import { showError } from './toast'
 import { checkNetworkSync } from './network'
 
@@ -12,6 +14,10 @@ if (import.meta.env.PROD && !BASE_URL) {
 
 interface RequestOptions {
   showError?: boolean
+}
+
+function getToken(): string {
+  return getEncryptedToken()
 }
 
 export function request<T = any>(url: string, method: 'GET' | 'POST' = 'GET', data?: any, options: RequestOptions = {}): Promise<T> {
@@ -30,7 +36,8 @@ export function request<T = any>(url: string, method: 'GET' | 'POST' = 'GET', da
       data,
       timeout: TIMEOUT,
       header: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...(getToken() ? { 'Authorization': `Bearer ${getToken()}` } : {})
       },
       success(res: any) {
         const { statusCode, data: resData } = res
@@ -43,6 +50,7 @@ export function request<T = any>(url: string, method: 'GET' | 'POST' = 'GET', da
             reject({ code, msg, data: innerData })
           }
         } else if (statusCode === 401) {
+          removeStorage(STORAGE_KEYS.TOKEN)
           if (shouldShowError) showError('登录已失效，请重新登录')
           reject({ code: 401, msg: '未授权' })
         } else {

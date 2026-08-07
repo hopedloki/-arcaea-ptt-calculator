@@ -47,17 +47,17 @@
 								<view class="tolerance-item">
 									<text class="tolerance-grade ex-plus">EX+</text>
 									<text
-										class="tolerance-count">{{ calculateMaxFar(parseInt(chart.note), 'ex+') }}</text>
+										class="tolerance-count">{{ calculateMaxFar(chart.note, 'ex+') }}</text>
 								</view>
 								<view class="tolerance-item">
 									<text class="tolerance-grade ex">EX</text>
 									<text
-										class="tolerance-count">{{ calculateMaxFar(parseInt(chart.note), 'ex') }}</text>
+										class="tolerance-count">{{ calculateMaxFar(chart.note, 'ex') }}</text>
 								</view>
 								<view class="tolerance-item">
 									<text class="tolerance-grade aa">AA</text>
 									<text
-										class="tolerance-count">{{ calculateMaxFar(parseInt(chart.note), 'aa') }}</text>
+										class="tolerance-count">{{ calculateMaxFar(chart.note, 'aa') }}</text>
 								</view>
 							</view>
 						</view>
@@ -92,7 +92,7 @@
 	const songData = ref<SimpleSongData | null>(null)
 
 	// 页面加载 — 根据路由参数 songId 从本地存储查找对应歌曲
-	onLoad((options : { songId?: string }) => {
+	onLoad((options) => {
 		if (options && options.songId) {
 			loadSongDetail(options.songId)
 		}
@@ -107,9 +107,6 @@
 				const song = songsData.find((s : SimpleSongData) => s.id === songId)
 				if (song) {
 					songData.value = song
-					// #ifdef dev
-					console.log('加载歌曲详情:', song)
-					// #endif
 				} else {
 					uni.showToast({
 						title: '歌曲不存在',
@@ -149,15 +146,15 @@
 		} else {
 			// 如果是SimpleSongData格式，手动构建charts信息
 			difficulties.forEach(diff => {
-				const constant = songAny[diff]
+				const constant = songAny[diff as keyof SimpleSongData] as number | undefined
 				const notesKey = `${diff}Notes`
-				const notes = songAny[notesKey]
+				const notes = songAny[notesKey as keyof SimpleSongData] as number | undefined
 
 				if (constant !== null && constant !== undefined) {
 					result[diff] = {
-						difficulty: diff,
-						constant: constant,
-						note: notes || 0
+						difficulty: diff as ChartData['difficulty'],
+						constant: constant as number,
+						note: notes ?? 0
 					}
 				}
 			})

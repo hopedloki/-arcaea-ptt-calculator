@@ -285,15 +285,13 @@ export async function createBackup(includeSongs: boolean = true): Promise<string
       throw new Error('创建备份失败')
     }
     
-    // #ifdef H5
-    // H5环境下返回一个提示信息，因为文件已经通过下载处理
-    return '备份文件已开始下载'
-    // #endif
-    
-    // #ifndef H5
-    // 非H5环境下返回文件路径
+    // H5 环境下返回提示信息（文件已通过下载处理）；非 H5 环境返回文件路径
+    // 用运行时判断替代条件编译，避免 vue-tsc 报不可达代码
+    const isH5 = typeof window !== 'undefined' && typeof document !== 'undefined'
+    if (isH5) {
+      return '备份文件已开始下载'
+    }
     return `${uni.env.USER_DATA_PATH}/${fileName}`
-    // #endif
   } catch (e) {
     // #ifdef dev
     console.error('创建备份失败', e)
@@ -414,7 +412,7 @@ export function getDataStatistics(): {
  * 验证数据完整性
  * @returns 验证结果
  */
-export function validateDataIntegrity(): {
+export function validateDataIntegrity(songsData?: unknown): {
   isValid: boolean,
   issues: string[]
 } {
@@ -445,9 +443,9 @@ export function validateDataIntegrity(): {
       issues.push('PTT数据格式不正确')
     }
 
-    // 验证歌曲数据
-    const songsData = uni.getStorageSync(STORAGE_KEYS.SONGS_DATA) || []
-    if (!Array.isArray(songsData)) {
+    // 验证歌曲数据（传入时校验传入值，否则读取本地存储）
+    const songs = songsData !== undefined ? songsData : (uni.getStorageSync(STORAGE_KEYS.SONGS_DATA) || [])
+    if (!Array.isArray(songs)) {
       issues.push('歌曲数据格式不正确')
     }
     

@@ -6,7 +6,7 @@
         <image class="icon" src="/static/logo.png" mode="aspectFit" />
       </view>
       <text class="app-name">Arcaea PTT计算器</text>
-      <text class="app-version">版本 1.9.0</text>
+      <text class="app-version">版本 1.0.0</text>
       <text class="app-desc">专为Arcaea玩家设计的PTT计算和管理工具</text>
     </view>
 
@@ -43,6 +43,18 @@
       </view>
     </view>
 
+    <!-- 离线版说明（仅离线构建显示） -->
+    <view class="card offline-card" v-if="OFFLINE_MODE">
+      <view class="card-header">
+        <text class="card-title">离线版说明</text>
+      </view>
+      <view class="offline-content">
+        <text class="offline-text">本版本为离线版：PTT 计算、B30 管理、容错计算、歌曲库与数据导入导出全部可用，数据仅保存在本地。</text>
+        <text class="offline-text">如需云端存储、跨设备同步与最新歌曲数据，请使用在线版。</text>
+        <button class="feedback-btn" @click="openOnlineVersion">访问在线版</button>
+      </view>
+    </view>
+
     <!-- PTT计算公式 -->
     <view class="card formula-card">
       <view class="card-header">
@@ -54,16 +66,12 @@
           <text class="formula-result">定数 + 2.0</text>
         </view>
         <view class="formula-item">
-          <text class="formula-condition">9,900,000-9,999,999分</text>
-          <text class="formula-result">定数 + 1.5 + (得分-9,900,000)/100,000</text>
+          <text class="formula-condition">9,800,000 ~ 9,999,999分</text>
+          <text class="formula-result">定数 + 1.0 + (得分-9,800,000)/200,000</text>
         </view>
         <view class="formula-item">
-          <text class="formula-condition">9,800,000-9,899,999分</text>
-          <text class="formula-result">定数 + 1.0 + (得分-9,800,000)/400,000</text>
-        </view>
-        <view class="formula-item">
-          <text class="formula-condition">≤9,800,000分</text>
-          <text class="formula-result">定数 + (得分-9,500,000)/300,000</text>
+          <text class="formula-condition">低于 9,800,000分</text>
+          <text class="formula-result">定数 + (得分-9,500,000)/300,000（下限0）</text>
         </view>
       </view>
     </view>
@@ -90,35 +98,6 @@
           <text class="info-label">许可证</text>
           <text class="info-value">MIT</text>
         </view>
-      </view>
-    </view>
-
-    <!-- Web版引导 -->
-    <view class="card web-card">
-      <view class="card-header">
-        <text class="card-title">Web版</text>
-      </view>
-      <view class="web-content">
-        <text class="web-desc">需要云端同步、数据备份、跨设备访问等完整功能？</text>
-        <view class="web-features">
-          <view class="web-feature-item">
-            <text class="web-feature-icon">☁️</text>
-            <text class="web-feature-text">云端成绩同步</text>
-          </view>
-          <view class="web-feature-item">
-            <text class="web-feature-icon">💾</text>
-            <text class="web-feature-text">数据云端备份</text>
-          </view>
-          <view class="web-feature-item">
-            <text class="web-feature-icon">📱</text>
-            <text class="web-feature-text">跨设备访问</text>
-          </view>
-          <view class="web-feature-item">
-            <text class="web-feature-icon">📈</text>
-            <text class="web-feature-text">PTT历史记录</text>
-          </view>
-        </view>
-        <button class="web-btn" @click="openWebVersion">访问 Web 版</button>
       </view>
     </view>
 
@@ -167,6 +146,27 @@
  * 用于向用户介绍应用的完整功能和参数
  */
 
+import { OFFLINE_MODE } from '../../constants'
+
+// 打开在线版（H5 新标签页，非 H5 复制链接）
+const openOnlineVersion = () => {
+  // #ifdef H5
+  window.open('https://hopedev.online', '_blank')
+  // #endif
+
+  // #ifndef H5
+  uni.setClipboardData({
+    data: 'https://hopedev.online',
+    success: () => {
+      uni.showToast({
+        title: '链接已复制到剪贴板',
+        icon: 'success'
+      })
+    }
+  })
+  // #endif
+}
+
 // 打开原始项目仓库 — H5端直接新标签页打开，非H5端复制链接到剪贴板
 const openOriginalRepo = () => {
   // #ifdef H5
@@ -206,25 +206,6 @@ const openGitHub = () => {
       }
     }
   })
-}
-
-// 打开 Web 版 — H5 端新标签页打开，非 H5 端复制链接
-const openWebVersion = () => {
-  // #ifdef H5
-  window.open('https://hopeddev.online', '_blank')
-  // #endif
-  
-  // #ifndef H5
-  uni.setClipboardData({
-    data: 'https://hopeddev.online',
-    success: () => {
-      uni.showToast({
-        title: '链接已复制，请在浏览器中打开',
-        icon: 'success'
-      })
-    }
-  })
-  // #endif
 }
 
 // 复制联系邮箱到剪贴板
@@ -310,6 +291,19 @@ const copyEmail = () => {
   display: flex;
   flex-direction: column;
   gap: 20rpx;
+}
+
+.offline-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.offline-text {
+  display: block;
 }
 
 .feature-item {
@@ -459,61 +453,5 @@ const copyEmail = () => {
   font-size: 24rpx;
   color: #999;
   display: block;
-}
-
-.web-card {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-  border: 2rpx solid rgba(102, 126, 234, 0.2);
-}
-
-.web-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.web-desc {
-  font-size: 28rpx;
-  color: #333;
-  line-height: 1.6;
-  font-weight: 500;
-}
-
-.web-features {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16rpx;
-}
-
-.web-feature-item {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 12rpx;
-  padding: 16rpx;
-  gap: 12rpx;
-}
-
-.web-feature-icon {
-  font-size: 28rpx;
-}
-
-.web-feature-text {
-  font-size: 24rpx;
-  color: #555;
-}
-
-.web-btn {
-  width: 100%;
-  height: 80rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 40rpx;
-  font-size: 28rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  margin-top: 8rpx;
 }
 </style>

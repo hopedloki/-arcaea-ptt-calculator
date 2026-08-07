@@ -133,7 +133,7 @@ import { onPageShow } from '@dcloudio/uni-app'
 import { getRating, getRatingClass, getDifficultyText } from '../../utils/helpers'
 import { calculatePtt } from '../../utils/ptt-calculator'
 import { getStorage, setStorage, removeStorage } from '../../services/storage'
-import { showSuccess, showError, showConfirm, showLoading, hideLoading } from '../../services/toast'
+import { showSuccess, showError, showConfirm } from '../../services/toast'
 import { STORAGE_KEYS } from '../../constants'
 import { pttStore } from '../../stores/pttStore'
 import type { Best30Record } from '../../types'
@@ -168,8 +168,8 @@ const canSave = computed(() => {
 onMounted(() => {
   // 获取页面参数
   const pages = getCurrentPages()
-  const currentPage = pages[pages.length - 1]
-  const options = currentPage.options as any
+  const currentPage = pages[pages.length - 1] as any
+  const options = currentPage?.options
   
   // 获取编辑参数
   if (options && options.edit !== undefined) {
@@ -212,10 +212,6 @@ onPageShow(() => {
     
     // 重新计算PTT和评级
     calculatePttAndRating() 
-    
-    // #ifdef dev
-    console.log('页面显示时更新了选中的歌曲:', selectedSongForAdd)
-    // #endif
   }
   
   // 获取可能的歌曲选择

@@ -10,24 +10,6 @@ import { getStorage } from '../services/storage'
 import { STORAGE_KEYS } from '../constants'
 
 /**
- * 歌曲数据结构（兼容旧版接口）
- */
-export interface SongData {
-  name: string
-  artist?: string
-  pst?: number | null
-  prs?: number | null
-  ftr?: number | null
-  byd?: number | null
-  etr?: number | null
-  pstNotes?: number | null
-  prsNotes?: number | null
-  ftrNotes?: number | null
-  bydNotes?: number | null
-  etrNotes?: number | null
-}
-
-/**
  * 缓存的歌曲数据
  */
 let cachedSongsData: SimpleSongData[] | null = null
@@ -36,7 +18,7 @@ let cachedSongsData: SimpleSongData[] | null = null
  * 保存歌曲数据到本地存储
  * @param songs 歌曲数据数组
  */
-export function saveSongsData(songs: SongData[]): void {
+export function saveSongsData(songs: SimpleSongData[]): void {
   try {
     uni.setStorageSync(STORAGE_KEYS.SONGS_DATA, songs)
   } catch (e) {
@@ -50,7 +32,7 @@ export function saveSongsData(songs: SongData[]): void {
  * 从本地存储加载歌曲数据
  * @returns 歌曲数据数组
  */
-export function loadSongsDataFromStorage(): SongData[] {
+export function loadSongsDataFromStorage(): SimpleSongData[] {
   try {
     return uni.getStorageSync(STORAGE_KEYS.SONGS_DATA) || []
   } catch (e) {
@@ -65,7 +47,7 @@ export function loadSongsDataFromStorage(): SongData[] {
  * 从数据库加载完整的歌曲数据（异步）
  * @returns Promise<SongData[]>
  */
-export async function loadCachedSongs(): Promise<SongData[]> {
+export async function loadCachedSongs(): Promise<SimpleSongData[]> {
   try {
     const stored = getStorage(STORAGE_KEYS.SONGS_DATA, [])
     if (stored && stored.length > 0) {
@@ -88,7 +70,7 @@ export async function loadCachedSongs(): Promise<SongData[]> {
  * @param keyword 搜索关键词
  * @returns Promise<SongData[]>
  */
-export async function searchSongs(keyword: string): Promise<SongData[]> {
+export async function searchSongs(keyword: string): Promise<SimpleSongData[]> {
   try {
     const songsData = await loadCachedSongs()
     const lowerKeyword = keyword.toLowerCase()
@@ -127,7 +109,7 @@ export async function filterSongsByDifficulty(
   difficulty: 'pst' | 'prs' | 'ftr' | 'byd' | 'etr',
   minConstant?: number,
   maxConstant?: number
-): Promise<SongData[]> {
+): Promise<SimpleSongData[]> {
   try {
     const songsData = await loadCachedSongs()
     
@@ -153,7 +135,7 @@ export async function filterSongsByDifficulty(
  * @param packName 曲包名称
  * @returns Promise<SongData[]>
  */
-export async function filterSongsByPack(packName: string): Promise<SongData[]> {
+export async function filterSongsByPack(packName: string): Promise<SimpleSongData[]> {
   try {
     const songsData = await loadCachedSongs()
     return songsData.filter(song => song.pack === packName)
@@ -170,7 +152,7 @@ export async function filterSongsByPack(packName: string): Promise<SongData[]> {
  * @param songName 歌曲名称
  * @returns Promise<SongData | null>
  */
-export async function getSongByName(songName: string): Promise<SongData | null> {
+export async function getSongByName(songName: string): Promise<SimpleSongData | null> {
   try {
     const songsData = await loadCachedSongs()
     return songsData.find(song => song.name === songName) || null
@@ -191,7 +173,9 @@ export async function getSongByName(songName: string): Promise<SongData | null> 
 export async function getSongConstant(songName: string, difficulty: string): Promise<number | null> {
   try {
     const song = await getSongByName(songName)
-    return song ? song[difficulty as keyof SongData] as number | null : null
+    if (!song) return null
+    const constant = song[difficulty.toLowerCase() as keyof SimpleSongData]
+    return typeof constant === 'number' ? constant : null
   } catch (error) {
     // #ifdef dev
     console.error('获取歌曲定数失败:', error)

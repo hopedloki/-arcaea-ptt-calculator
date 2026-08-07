@@ -110,7 +110,7 @@ import type { SimpleSongData } from '../../types'
 const fromPage = ref('')
 
 // 页面加载 — 获取 from 参数确定来源页面
-onLoad((options: { from?: string }) => {
+	onLoad((options) => {
   if (options && options.from) {
     fromPage.value = options.from
     // #ifdef dev
@@ -152,7 +152,7 @@ const generateConstantRangeOptions = () => {
   songs.forEach(song => {
     const difficulties = ['pst', 'prs', 'ftr', 'byd', 'etr']
     difficulties.forEach(diff => {
-      const constant = song[diff]
+      const constant = song[diff as keyof SimpleSongData] as number | undefined
       if (constant !== null && constant !== undefined) {
         constantSet.add(constant)
       }
@@ -160,7 +160,7 @@ const generateConstantRangeOptions = () => {
   })
 
   // 生成选项
-  const options = [{ name: '全部定数', value: null }]
+  const options: Array<{ name: string; value: number | null }> = [{ name: '全部定数', value: null }]
   const constants = Array.from(constantSet).sort((a, b) => a - b)
   constants.forEach(constant => {
     options.push({ name: constant.toFixed(1), value: constant })
@@ -206,7 +206,7 @@ const filteredSongs = computed(() => {
     filtered = filtered.filter(song => {
       const difficulties = ['pst', 'prs', 'ftr', 'byd', 'etr']
       return difficulties.some(diff => {
-        const constant = song[diff]
+        const constant = song[diff as keyof SimpleSongData] as number | undefined
         return constant !== null &&
                constant !== undefined &&
                Math.abs(constant - selectedConstant) < 0.001
@@ -283,7 +283,7 @@ const resetFilters = () => {
 
 // 获取歌曲的可用难度映射（过滤掉不存在定数的难度）
 const getAvailableDifficulties = (song: SimpleSongData) => {
-  const difficulties = {
+  const difficulties: Record<string, { name: string; constant: number | undefined }> = {
     pst: { name: 'PST', constant: song.pst },
     prs: { name: 'PRS', constant: song.prs },
     ftr: { name: 'FTR', constant: song.ftr },
@@ -303,7 +303,7 @@ const getAvailableDifficulties = (song: SimpleSongData) => {
 }
 
 // 将定数转换为 Arcaea 游戏内显示的等级（如 8.7→"8+"、8.5→"8"）
-const getConstantLevel = (constant: number): string => {
+const getConstantLevel = (constant: number | null | undefined): string => {
   if (constant === null || constant === undefined || constant <= 0) return '-'
   const intPart = Math.floor(constant)
   const decimal10 = Math.round((constant - intPart) * 10) // 取小数点后第一位×10，避免浮点精度问题
@@ -332,7 +332,7 @@ const getConstantLevel = (constant: number): string => {
 
 // 获取指定难度对应的物量
 const getNotesCount = (song: SimpleSongData, difficulty: string) => {
-  const notesMap: Record<string, string> = {
+  const notesMap: Record<string, number | undefined> = {
     pst: song.pstNotes,
     prs: song.prsNotes,
     ftr: song.ftrNotes,
@@ -340,7 +340,7 @@ const getNotesCount = (song: SimpleSongData, difficulty: string) => {
     etr: song.etrNotes
   }
   const notes = notesMap[difficulty]
-  return notes && notes > 0 ? notes : null
+  return notes !== undefined && notes > 0 ? notes : null
 }
 
 // 点击歌曲名称 — 跳转到歌曲详情页
@@ -358,7 +358,7 @@ const selectSongWithDifficulty = (song: SimpleSongData, difficulty: string) => {
     name: song.name,
     artist: song.artist,
     difficulty: difficulty,
-    constant: song[difficulty],
+    constant: song[difficulty as keyof SimpleSongData] as number | undefined,
     // 物量信息
     pstNotes: song.pstNotes || null,
     prsNotes: song.prsNotes || null,

@@ -334,13 +334,12 @@
  */
 import { ref, computed, onMounted } from 'vue'
 import { onPageShow } from '@dcloudio/uni-app'
-import { navigateTo } from '../../utils'
 import { getRating, getRatingClass, getDifficultyClass, getDifficultyText } from '../../utils/helpers'
 import { calculatePtt } from '../../utils/ptt-calculator'
 import { getStorage, setStorage } from '../../services/storage'
-import { showSuccess, showError, showConfirm, showLoading, hideLoading } from '../../services/toast'
+import { showSuccess, showError, showConfirm } from '../../services/toast'
 import { STORAGE_KEYS } from '../../constants'
-import type { SimpleSongData, PttCalculationResult, Best30Record } from '../../types'
+import type { PttCalculationResult, Best30Record, SongSelectedData } from '../../types'
 
 // 转换模式：成绩→PTT 或 PTT→成绩
 const mode = ref<'scoreToPtt' | 'pttToScore'>('scoreToPtt')
@@ -349,7 +348,7 @@ const mode = ref<'scoreToPtt' | 'pttToScore'>('scoreToPtt')
 const inputMode = ref<'song' | 'manual'>('song')
 
 // 从歌曲列表选中的歌曲信息
-const selectedSong = ref<SimpleSongData | null>(null)
+const selectedSong = ref<SongSelectedData | null>(null)
 
 // 手动输入模式下的歌曲名称和定数
 const manualSongName = ref('')
@@ -366,7 +365,7 @@ const result = ref<PttCalculationResult | null>(null)
 // 跨页面通信统一走 storage 单通道，由 onPageShow 读取，不再监听 uni.$emit 事件
 onMounted(() => {
   // 从存储中获取最近使用的歌曲
-  const recentSong = getStorage<SimpleSongData>(STORAGE_KEYS.RECENT_SONG)
+  const recentSong = getStorage<SongSelectedData>(STORAGE_KEYS.RECENT_SONG)
   if (recentSong) {
     selectedSong.value = recentSong
   }
@@ -375,28 +374,22 @@ onMounted(() => {
 // 页面显示 — 检查是否有从歌曲列表页返回的选曲信息
 onPageShow(() => {
   // 优先检查来自歌曲列表的选择（针对 calculator 来源）
-  const selectedSongForCalculator = getStorage<SimpleSongData>(STORAGE_KEYS.SELECTED_SONG_CALC)
+  const selectedSongForCalculator = getStorage<SongSelectedData>(STORAGE_KEYS.SELECTED_SONG_CALC)
   if (selectedSongForCalculator && selectedSongForCalculator.name) {
     selectedSong.value = selectedSongForCalculator
     // 清除临时存储
     uni.removeStorageSync(STORAGE_KEYS.SELECTED_SONG_CALC)
-    // #ifdef dev
-    console.log('从歌曲列表返回更新了选中的歌曲:', selectedSongForCalculator)
-    // #endif
     return
   }
 
   // 检查是否有新选择的歌曲
-  const recentSong = getStorage<SimpleSongData>(STORAGE_KEYS.RECENT_SONG)
+  const recentSong = getStorage<SongSelectedData>(STORAGE_KEYS.RECENT_SONG)
   if (recentSong && recentSong.name) {
     // 检查是否与当前选中的歌曲不同
     if (!selectedSong.value?.name ||
         selectedSong.value?.name !== recentSong.name ||
         selectedSong.value?.difficulty !== recentSong.difficulty) {
       selectedSong.value = recentSong
-    // #ifdef dev
-    console.log('页面显示时更新了选中的歌曲:', recentSong)
-    // #endif
     }
   }
 })
@@ -593,7 +586,10 @@ const saveToBest30 = () => {
   if (inputMode.value === 'song' && !selectedSong.value?.name) return
   if (inputMode.value === 'manual' && !manualConstant.value) return
 
-  let record = {
+  const record: Best30Record = {
+    songName: '',
+    difficulty: '',
+    constant: 0,
     score: result.value.score,
     ptt: result.value.ptt,
     rating: result.value.rating,
@@ -602,13 +598,13 @@ const saveToBest30 = () => {
 
   // 根据输入模式设置歌曲信息
   if (inputMode.value === 'song') {
-    record.songName = selectedSong.value?.name
-    record.difficulty = selectedSong.value?.difficulty
-    record.constant = selectedSong.value?.constant
+    record.songName = selectedSong.value?.name || ''
+    record.difficulty = selectedSong.value?.difficulty || ''
+    record.constant = selectedSong.value?.constant ?? 0
   } else {
     record.songName = manualSongName.value || '手动输入'
     record.difficulty = 'manual'
-    record.constant = parseFloat(manualConstant.value)
+    record.constant = parseFloat(manualConstant.value) || 0
   }
   
   try {
