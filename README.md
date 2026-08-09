@@ -6,7 +6,7 @@
 
 如需**云端存储、跨设备同步与最新歌曲数据**，请访问云端版：
 
-**[https://hopedev.online](https://hopedev.online)**
+**[https://hopeddev.online](https://hopeddev.online)**
 
 ## 本仓库内容
 

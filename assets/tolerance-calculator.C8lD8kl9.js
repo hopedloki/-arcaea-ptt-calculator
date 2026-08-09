@@ -1,0 +1,1 @@
+import{aa as a}from"./index-D5XBSmBJ.js";function o(a,o){const t=1e7+a-o.minScore,n=1e7/a,e=5e6/a,m=Math.floor(t/e),r=t-m*e,c=Math.floor(r/n);return{canAchieve:m>=0,maxFarCount:Math.max(0,m),maxLostCount:Math.max(0,Math.floor(c))}}const t=a.map(a=>({name:a.label,minScore:a.min}));export{t as R,o as c};
